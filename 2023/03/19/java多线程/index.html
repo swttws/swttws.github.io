@@ -16,14 +16,14 @@
   <meta name="author" content="swt">
   <meta name="keywords" content="">
   
-    <meta name="description" content="一、概念1、进程：（1）运行的程序，例如使用QQ，就启动一个进程，操作系统为该进程分配内存空间；（2）进程是程序的一次执行过程，是动态过程； 2、线程（1）线程有进程创建，是进程实体；（2）一个进程可以拥有多个线程； 3、并发同一时刻，多个任务交替执行，单核CPU实现任务就是并发； 4、并行同一时刻，多个任务同时执行，多核CPU可以实现并行； 5、线程执行机制（1）主线程结束，其他子线程还在运行，">
+    <meta name="description" content="一、概念1、进程：（1）运行的程序，例如使用QQ，就启动一个进程，操作系统为该进程分配内存空间；（2）进程是程序的一次执行过程，是动态过程；   2、线程（1）线程有进程创建，是进程实体；（2）一个进程可以拥有多个线程； 3、并发同一时刻，多个任务交替执行，单核CPU实现任务就是并发； 4、并行同一时刻，多个任务同时执行，多核CPU可以实现并行； 5、线程执行机制（1）主线程结束，其他子线程还在运">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java多线程">
 <meta property="og:url" content="http://example.com/2023/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/index.html">
 <meta property="og:site_name" content="SWT博客">
-<meta property="og:description" content="一、概念1、进程：（1）运行的程序，例如使用QQ，就启动一个进程，操作系统为该进程分配内存空间；（2）进程是程序的一次执行过程，是动态过程； 2、线程（1）线程有进程创建，是进程实体；（2）一个进程可以拥有多个线程； 3、并发同一时刻，多个任务交替执行，单核CPU实现任务就是并发； 4、并行同一时刻，多个任务同时执行，多核CPU可以实现并行； 5、线程执行机制（1）主线程结束，其他子线程还在运行，">
+<meta property="og:description" content="一、概念1、进程：（1）运行的程序，例如使用QQ，就启动一个进程，操作系统为该进程分配内存空间；（2）进程是程序的一次执行过程，是动态过程；   2、线程（1）线程有进程创建，是进程实体；（2）一个进程可以拥有多个线程； 3、并发同一时刻，多个任务交替执行，单核CPU实现任务就是并发； 4、并行同一时刻，多个任务同时执行，多核CPU可以实现并行； 5、线程执行机制（1）主线程结束，其他子线程还在运">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/jpeg/29496365/1663502108860-029182f5-a632-4594-8d5d-a95489a2cf49.jpeg">
+<meta property="og:image" content="http://example.com/2023/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/1.jpeg">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/jpeg/29496365/1663502442484-8da0e273-e153-4005-919c-94d056a9d2c6.jpeg">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/jpeg/29496365/1663510202959-81b17f93-e80b-475b-8f79-3d32945b8f2f.jpeg">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/jpeg/29496365/1675921004476-191fe4bf-a9fd-456d-b3b2-ce8711101ad1.jpeg">
@@ -113,10 +113,10 @@
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/webp/29496365/1677058717485-4eabee00-7b40-417b-9950-774107d7f9d1.webp#averageHue=%23f5ede2&clientId=udc49f82a-3194-4&from=paste&id=uaef38460&originHeight=950&originWidth=1775&originalType=url&ratio=1.5&rotation=0&showTitle=false&status=done&style=none&taskId=ud3b50550-cb0e-4d9b-a849-d08269145b1&title=">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/webp/29496365/1677058730044-52d6f0ed-8896-4a49-86dc-51d8c17aa13e.webp#averageHue=%23f1efed&clientId=udc49f82a-3194-4&from=paste&id=uad13c6ba&originHeight=950&originWidth=1718&originalType=url&ratio=1.5&rotation=0&showTitle=false&status=done&style=none&taskId=u2bfe8877-080b-4587-b1c3-1ca2543e36a&title=">
 <meta property="article:published_time" content="2023-03-19T03:59:11.000Z">
-<meta property="article:modified_time" content="2023-03-19T04:00:20.763Z">
+<meta property="article:modified_time" content="2023-03-19T16:17:09.534Z">
 <meta property="article:author" content="swt">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2022/jpeg/29496365/1663502108860-029182f5-a632-4594-8d5d-a95489a2cf49.jpeg">
+<meta name="twitter:image" content="http://example.com/2023/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/1.jpeg">
   
   
   
@@ -363,7 +363,9 @@
             
               <div class="markdown-body">
                 
-                <h2 id="一、概念"><a href="#一、概念" class="headerlink" title="一、概念"></a>一、概念</h2><h4 id="1、进程："><a href="#1、进程：" class="headerlink" title="1、进程："></a>1、进程：</h4><p>（1）运行的程序，例如使用QQ，就启动一个进程，操作系统为该进程分配内存空间；<br>（2）进程是程序的一次执行过程，是动态过程；<br><img src="https://cdn.nlark.com/yuque/0/2022/jpeg/29496365/1663502108860-029182f5-a632-4594-8d5d-a95489a2cf49.jpeg" srcset="/img/loading.gif" lazyload></p>
+                <h2 id="一、概念"><a href="#一、概念" class="headerlink" title="一、概念"></a>一、概念</h2><h4 id="1、进程："><a href="#1、进程：" class="headerlink" title="1、进程："></a>1、进程：</h4><p>（1）运行的程序，例如使用QQ，就启动一个进程，操作系统为该进程分配内存空间；<br>（2）进程是程序的一次执行过程，是动态过程；</p>
+<img src="/2023/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/1.jpeg" srcset="/img/loading.gif" lazyload class="" title="java线程">
+
 <h4 id="2、线程"><a href="#2、线程" class="headerlink" title="2、线程"></a>2、线程</h4><p>（1）线程有进程创建，是进程实体；<br>（2）一个进程可以拥有多个线程；<br><img src="https://cdn.nlark.com/yuque/0/2022/jpeg/29496365/1663502442484-8da0e273-e153-4005-919c-94d056a9d2c6.jpeg" srcset="/img/loading.gif" lazyload></p>
 <h4 id="3、并发"><a href="#3、并发" class="headerlink" title="3、并发"></a>3、并发</h4><p>同一时刻，多个任务交替执行，单核CPU实现任务就是并发；</p>
 <h4 id="4、并行"><a href="#4、并行" class="headerlink" title="4、并行"></a>4、并行</h4><p>同一时刻，多个任务同时执行，多核CPU可以实现并行；</p>
