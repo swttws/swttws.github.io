@@ -16,21 +16,21 @@
   <meta name="author" content="swt">
   <meta name="keywords" content="">
   
-    <meta name="description" content="一、概念1、进程：（1）运行的程序，例如使用QQ，就启动一个进程，操作系统为该进程分配内存空间；（2）进程是程序的一次执行过程，是动态过程；   2、线程（1）线程有进程创建，是进程实体；（2）一个进程可以拥有多个线程； 3、并发同一时刻，多个任务交替执行，单核CPU实现任务就是并发； 4、并行同一时刻，多个任务同时执行，多核CPU可以实现并行； 5、线程执行机制（1）主线程结束，其他子线程还在运">
+    <meta name="description" content="一、概念1、进程：（1）运行的程序，例如使用QQ，就启动一个进程，操作系统为该进程分配内存空间；（2）进程是程序的一次执行过程，是动态过程；   2、线程（1）线程有进程创建，是进程实体；（2）一个进程可以拥有多个线程；   3、并发同一时刻，多个任务交替执行，单核CPU实现任务就是并发； 4、并行同一时刻，多个任务同时执行，多核CPU可以实现并行； 5、线程执行机制（1）主线程结束，其他子线程还">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java多线程">
 <meta property="og:url" content="http://example.com/2023/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/index.html">
 <meta property="og:site_name" content="SWT博客">
-<meta property="og:description" content="一、概念1、进程：（1）运行的程序，例如使用QQ，就启动一个进程，操作系统为该进程分配内存空间；（2）进程是程序的一次执行过程，是动态过程；   2、线程（1）线程有进程创建，是进程实体；（2）一个进程可以拥有多个线程； 3、并发同一时刻，多个任务交替执行，单核CPU实现任务就是并发； 4、并行同一时刻，多个任务同时执行，多核CPU可以实现并行； 5、线程执行机制（1）主线程结束，其他子线程还在运">
+<meta property="og:description" content="一、概念1、进程：（1）运行的程序，例如使用QQ，就启动一个进程，操作系统为该进程分配内存空间；（2）进程是程序的一次执行过程，是动态过程；   2、线程（1）线程有进程创建，是进程实体；（2）一个进程可以拥有多个线程；   3、并发同一时刻，多个任务交替执行，单核CPU实现任务就是并发； 4、并行同一时刻，多个任务同时执行，多核CPU可以实现并行； 5、线程执行机制（1）主线程结束，其他子线程还">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2023/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/1.jpeg">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/jpeg/29496365/1663502442484-8da0e273-e153-4005-919c-94d056a9d2c6.jpeg">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/jpeg/29496365/1663510202959-81b17f93-e80b-475b-8f79-3d32945b8f2f.jpeg">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/jpeg/29496365/1675921004476-191fe4bf-a9fd-456d-b3b2-ce8711101ad1.jpeg">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/29496365/1668933231131-9e69bc0b-feb2-4d2b-aacd-8f135f185e12.png#averageHue=%232b2b2b&clientId=u8c8a5ee7-839c-4&from=paste&height=264&id=u6d50ab56&name=image.png&originHeight=396&originWidth=910&originalType=binary&ratio=1&rotation=0&showTitle=false&size=59271&status=done&style=none&taskId=ue4d16cbf-5695-485e-8a6c-306d464d026&title=&width=606.6666666666666">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/29496365/1663511217989-0a8f9a0d-f8e0-44b5-a514-cd43cbb58efd.png#averageHue=%23fbfaf9&clientId=u48bda465-906f-4&from=paste&height=426&id=u723e9e47&name=image.png&originHeight=639&originWidth=1065&originalType=binary&ratio=1&rotation=0&showTitle=false&size=96955&status=done&style=none&taskId=u712867e4-1c94-412e-9315-95342ba1041&title=&width=710">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/29496365/1663511247004-8f806ac2-c60f-4a3a-bc2d-044bb11984c5.png#averageHue=%23fcfbfa&clientId=u48bda465-906f-4&from=paste&height=246&id=u3f9dbdce&name=image.png&originHeight=369&originWidth=1140&originalType=binary&ratio=1&rotation=0&showTitle=false&size=44539&status=done&style=none&taskId=u094b05e5-5c49-4004-b0f1-609511aa80a&title=&width=760">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/29496365/1663511271789-b3b372af-64f1-42ef-bcd8-17f86744965f.png#averageHue=%23fcfbf6&clientId=u48bda465-906f-4&from=paste&height=60&id=uef1dd131&name=image.png&originHeight=90&originWidth=1038&originalType=binary&ratio=1&rotation=0&showTitle=false&size=8310&status=done&style=none&taskId=uceb0a19b-f029-4589-aa50-64f9ab29a23&title=&width=692">
+<meta property="og:image" content="http://example.com/2023/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/2.jpeg">
+<meta property="og:image" content="http://example.com/2023/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/3.jpeg">
+<meta property="og:image" content="http://example.com/2023/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/4.jpeg">
+<meta property="og:image" content="http://example.com/2023/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/5.png">
+<meta property="og:image" content="http://example.com/2023/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/6.png">
+<meta property="og:image" content="http://example.com/2023/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/7.png">
+<meta property="og:image" content="http://example.com/2023/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/8.png">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/jpeg/29496365/1675926364932-6eacf187-9efa-4710-bf45-445546682238.jpeg">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/jpeg/29496365/1676267502535-9309d534-a412-430c-b201-642bc2e27446.jpeg">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/jpeg/29496365/1675920420437-7282ca5d-d62d-4a3f-a13a-53265fc34c67.jpeg">
@@ -113,7 +113,7 @@
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/webp/29496365/1677058717485-4eabee00-7b40-417b-9950-774107d7f9d1.webp#averageHue=%23f5ede2&clientId=udc49f82a-3194-4&from=paste&id=uaef38460&originHeight=950&originWidth=1775&originalType=url&ratio=1.5&rotation=0&showTitle=false&status=done&style=none&taskId=ud3b50550-cb0e-4d9b-a849-d08269145b1&title=">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/webp/29496365/1677058730044-52d6f0ed-8896-4a49-86dc-51d8c17aa13e.webp#averageHue=%23f1efed&clientId=udc49f82a-3194-4&from=paste&id=uad13c6ba&originHeight=950&originWidth=1718&originalType=url&ratio=1.5&rotation=0&showTitle=false&status=done&style=none&taskId=u2bfe8877-080b-4587-b1c3-1ca2543e36a&title=">
 <meta property="article:published_time" content="2023-03-19T03:59:11.000Z">
-<meta property="article:modified_time" content="2023-03-19T16:17:09.534Z">
+<meta property="article:modified_time" content="2023-03-19T16:37:58.274Z">
 <meta property="article:author" content="swt">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2023/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/1.jpeg">
@@ -366,11 +366,24 @@
                 <h2 id="一、概念"><a href="#一、概念" class="headerlink" title="一、概念"></a>一、概念</h2><h4 id="1、进程："><a href="#1、进程：" class="headerlink" title="1、进程："></a>1、进程：</h4><p>（1）运行的程序，例如使用QQ，就启动一个进程，操作系统为该进程分配内存空间；<br>（2）进程是程序的一次执行过程，是动态过程；</p>
 <img src="/2023/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/1.jpeg" srcset="/img/loading.gif" lazyload class="" title="java线程">
 
-<h4 id="2、线程"><a href="#2、线程" class="headerlink" title="2、线程"></a>2、线程</h4><p>（1）线程有进程创建，是进程实体；<br>（2）一个进程可以拥有多个线程；<br><img src="https://cdn.nlark.com/yuque/0/2022/jpeg/29496365/1663502442484-8da0e273-e153-4005-919c-94d056a9d2c6.jpeg" srcset="/img/loading.gif" lazyload></p>
+<h4 id="2、线程"><a href="#2、线程" class="headerlink" title="2、线程"></a>2、线程</h4><p>（1）线程有进程创建，是进程实体；<br>（2）一个进程可以拥有多个线程；</p>
+<img src="/2023/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/2.jpeg" srcset="/img/loading.gif" lazyload class="" title="java线程">
+
 <h4 id="3、并发"><a href="#3、并发" class="headerlink" title="3、并发"></a>3、并发</h4><p>同一时刻，多个任务交替执行，单核CPU实现任务就是并发；</p>
 <h4 id="4、并行"><a href="#4、并行" class="headerlink" title="4、并行"></a>4、并行</h4><p>同一时刻，多个任务同时执行，多核CPU可以实现并行；</p>
-<h4 id="5、线程执行机制"><a href="#5、线程执行机制" class="headerlink" title="5、线程执行机制"></a>5、线程执行机制</h4><p>（1）主线程结束，其他子线程还在运行，进程就会继续存活；<br>（2）所有线程挂掉，进程才会挂掉；<br>（3）run()方法为一个普通方法，并不会真正启动线程，会等run执行完毕后才会继续执行下面代码；<br>（4）start（）方法才会启动线程；<br><img src="https://cdn.nlark.com/yuque/0/2022/jpeg/29496365/1663510202959-81b17f93-e80b-475b-8f79-3d32945b8f2f.jpeg" srcset="/img/loading.gif" lazyload></p>
-<h4 id="6、线程启动"><a href="#6、线程启动" class="headerlink" title="6、线程启动"></a>6、线程启动</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/jpeg/29496365/1675921004476-191fe4bf-a9fd-456d-b3b2-ce8711101ad1.jpeg" srcset="/img/loading.gif" lazyload><br>（1）执行start（）方法<br>同时执行两个线程，一个执行start的线程，一个执行run的线程<br><img src="https://cdn.nlark.com/yuque/0/2022/png/29496365/1668933231131-9e69bc0b-feb2-4d2b-aacd-8f135f185e12.png#averageHue=%232b2b2b&clientId=u8c8a5ee7-839c-4&from=paste&height=264&id=u6d50ab56&name=image.png&originHeight=396&originWidth=910&originalType=binary&ratio=1&rotation=0&showTitle=false&size=59271&status=done&style=none&taskId=ue4d16cbf-5695-485e-8a6c-306d464d026&title=&width=606.6666666666666" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2022/png/29496365/1663511217989-0a8f9a0d-f8e0-44b5-a514-cd43cbb58efd.png#averageHue=%23fbfaf9&clientId=u48bda465-906f-4&from=paste&height=426&id=u723e9e47&name=image.png&originHeight=639&originWidth=1065&originalType=binary&ratio=1&rotation=0&showTitle=false&size=96955&status=done&style=none&taskId=u712867e4-1c94-412e-9315-95342ba1041&title=&width=710" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2022/png/29496365/1663511247004-8f806ac2-c60f-4a3a-bc2d-044bb11984c5.png#averageHue=%23fcfbfa&clientId=u48bda465-906f-4&from=paste&height=246&id=u3f9dbdce&name=image.png&originHeight=369&originWidth=1140&originalType=binary&ratio=1&rotation=0&showTitle=false&size=44539&status=done&style=none&taskId=u094b05e5-5c49-4004-b0f1-609511aa80a&title=&width=760" srcset="/img/loading.gif" lazyload alt="image.png"><br>（2）本地方法，JVM调用，底层为c&#x2F;c++实现，真正实现多线程<br><img src="https://cdn.nlark.com/yuque/0/2022/png/29496365/1663511271789-b3b372af-64f1-42ef-bcd8-17f86744965f.png#averageHue=%23fcfbf6&clientId=u48bda465-906f-4&from=paste&height=60&id=uef1dd131&name=image.png&originHeight=90&originWidth=1038&originalType=binary&ratio=1&rotation=0&showTitle=false&size=8310&status=done&style=none&taskId=uceb0a19b-f029-4589-aa50-64f9ab29a23&title=&width=692" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h4 id="5、线程执行机制"><a href="#5、线程执行机制" class="headerlink" title="5、线程执行机制"></a>5、线程执行机制</h4><p>（1）主线程结束，其他子线程还在运行，进程就会继续存活；<br>（2）所有线程挂掉，进程才会挂掉；<br>（3）run()方法为一个普通方法，并不会真正启动线程，会等run执行完毕后才会继续执行下面代码；<br>（4）start（）方法才会启动线程；</p>
+<img src="/2023/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/3.jpeg" srcset="/img/loading.gif" lazyload class="" title="java线程">
+
+<h4 id="6、线程启动"><a href="#6、线程启动" class="headerlink" title="6、线程启动"></a>6、线程启动</h4><img src="/2023/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/4.jpeg" srcset="/img/loading.gif" lazyload class="" title="java线程">
+<p>（1）执行start（）方法<br>同时执行两个线程，一个执行start的线程，一个执行run的线程</p>
+<img src="/2023/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/5.png" srcset="/img/loading.gif" lazyload class="" title="java线程">
+<img src="/2023/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/6.png" srcset="/img/loading.gif" lazyload class="" title="java线程">
+
+
+<img src="/2023/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/7.png" srcset="/img/loading.gif" lazyload class="" title="java线程">
+<p>（2）本地方法，JVM调用，底层为c&#x2F;c++实现，真正实现多线程</p>
+<img src="/2023/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/8.png" srcset="/img/loading.gif" lazyload class="" title="java线程">
+
 <h4 id="7、线程终止唤醒阻塞状态线程"><a href="#7、线程终止唤醒阻塞状态线程" class="headerlink" title="7、线程终止唤醒阻塞状态线程"></a>7、线程终止唤醒阻塞状态线程</h4><p>（1）interrupt：设置共享变量为true，唤醒阻塞线程<br><img src="https://cdn.nlark.com/yuque/0/2023/jpeg/29496365/1675926364932-6eacf187-9efa-4710-bf45-445546682238.jpeg" srcset="/img/loading.gif" lazyload></p>
 <h4 id="8、join方法"><a href="#8、join方法" class="headerlink" title="8、join方法"></a>8、join方法</h4><p><img src="https://cdn.nlark.com/yuque/0/2023/jpeg/29496365/1676267502535-9309d534-a412-430c-b201-642bc2e27446.jpeg" srcset="/img/loading.gif" lazyload></p>
 <h2 id="二、Thread线程常用方法"><a href="#二、Thread线程常用方法" class="headerlink" title="二、Thread线程常用方法"></a>二、Thread线程常用方法</h2><p>1、join（）方法：线程插队，线程一旦插队成功，肯定先执行完插入的线程的所有任务；<br>2、yield：让出CPU，让其他1线程执行，礼让时间不确定，不一定礼让成功<br>3、守护线程：当所有的用户线程结束，守护线程就会结束；<br>例：垃圾回收机制</p>
