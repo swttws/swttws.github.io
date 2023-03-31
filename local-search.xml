@@ -8,7 +8,7 @@
     <link href="/2023/03/31/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     <url>/2023/03/31/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
     
-    <content type="html"><![CDATA[<h4 id="1、工作模型"><a href="#1、工作模型" class="headerlink" title="1、工作模型"></a><strong>1、工作模型</strong></h4><p>①vhost：实现资源的隔离和权限的监控，不同的vhost可以有相同的队列交换机;</p><p>②Broke：消息代理服务</p><img src="/2023/03/31/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/1.png" class="" title="图片1">]]></content>
+    <content type="html"><![CDATA[<h3 id="1、工作模型"><a href="#1、工作模型" class="headerlink" title="1、工作模型"></a>1、工作模型</h3><p>①vhost：实现资源的隔离和权限的监控，不同的vhost可以有相同的队列交换机;</p><p>②Broke：消息代理服务</p><img src="/2023/03/31/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/1.png" class="" title="图片1"><h3 id="2、直连交换机（Direct）"><a href="#2、直连交换机（Direct）" class="headerlink" title="2、直连交换机（Direct）"></a>2、直连交换机（Direct）</h3><p>①一个队列通过一个具体的routingKey绑定交换机；</p><p>②主要用于循环分发任务给工作者，负载均衡是在消费者之间</p><img src="/2023/03/31/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/2.png" class="" title="图片1"><h3 id="3、扇形交换机"><a href="#3、扇形交换机" class="headerlink" title="3、扇形交换机"></a>3、扇形交换机</h3><p>①消息发送给扇形交换机，扇形交换机广播给所有与之绑定的队列；</p><p>②使用场景</p><ul><li>大规模多用户在线游戏可以使用它来处理排行榜更新等全局事件</li><li>体育新闻网站可以用它来近乎实时地将比分更新分发给移动客户端</li><li>分发系统使用它来广播各种状态和配置更新</li><li>在群聊的时候，它被用来分发消息给参与群聊的用户。</li></ul><img src="/2023/03/31/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/3.png" class="" title="图片1"><h3 id="4、主题交换机"><a href="#4、主题交换机" class="headerlink" title="4、主题交换机"></a>4、主题交换机</h3><p>①交换机与队列绑定的路由键可以使用通配符，当一个问题涉及到那些想要有针对性的选择需要接收消息的 多消费者&#x2F;多应用的时候，主题交换机都可以被列入考虑范围；</p><p>②路由匹配规则</p><p>（1）#代表匹配0个或多个规则</p><p>（2）*匹配一个单词</p><p>（3）单词之间用 . 分开</p><p>③适用于一些根据业务场景和消息类型过滤消息的场景</p><img src="/2023/03/31/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/4.png" class="" title="图片1">]]></content>
     
     
     
@@ -35,19 +35,6 @@
     <url>/2023/03/18/java%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E7%BB%84%E5%8D%B7/</url>
     
     <content type="html"><![CDATA[<p>遗传算法</p>]]></content>
-    
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>first-blog</title>
-    <link href="/2023/03/17/first-blog/"/>
-    <url>/2023/03/17/first-blog/</url>
-    
-    <content type="html"><![CDATA[<img src="/2023/03/17/first-blog/2021022816402.png" class="" title="目录结构">]]></content>
     
     
     
