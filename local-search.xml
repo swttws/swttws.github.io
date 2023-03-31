@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>RabbitMQ学习笔记</title>
+    <link href="/2023/03/31/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    <url>/2023/03/31/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    
+    <content type="html"><![CDATA[<h4 id="1、工作模型"><a href="#1、工作模型" class="headerlink" title="1、工作模型"></a><strong>1、工作模型</strong></h4><p>①vhost：实现资源的隔离和权限的监控，不同的vhost可以有相同的队列交换机;</p><p>②Broke：消息代理服务</p><img src="/2023/03/31/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/1.png" class="" title="图片1">]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>java多线程</title>
     <link href="/2023/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
     <url>/2023/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/</url>
