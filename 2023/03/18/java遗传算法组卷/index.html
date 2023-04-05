@@ -16,21 +16,32 @@
   <meta name="author" content="swt">
   <meta name="keywords" content="">
   
-    <meta name="description" content="遗传算法">
+    <meta name="description" content="一、遗传算法介绍1、概念 遗传算法是模拟达尔文的生物进化论的自然选择和遗传学机理的生物进化过程的计算模型，是一种随机搜索全局最优解的方法。它模拟自然选择和遗传中发生的复制、交叉、变异等现象。一个种群通过随机选择、变异。交叉。复制，不断产生适应度更大的个体（适应度越大，被选择的概率越大），最终得到一群最适应环境的个体。  2、执行流程（1）编码 遗传算法里，优化问题的解被称为个体，基因串代表一个个体">
 <meta property="og:type" content="article">
-<meta property="og:title" content="java遗传算法组卷">
+<meta property="og:title" content="Java遗传算法组卷">
 <meta property="og:url" content="http://example.com/2023/03/18/java%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E7%BB%84%E5%8D%B7/index.html">
 <meta property="og:site_name" content="SWT博客">
-<meta property="og:description" content="遗传算法">
+<meta property="og:description" content="一、遗传算法介绍1、概念 遗传算法是模拟达尔文的生物进化论的自然选择和遗传学机理的生物进化过程的计算模型，是一种随机搜索全局最优解的方法。它模拟自然选择和遗传中发生的复制、交叉、变异等现象。一个种群通过随机选择、变异。交叉。复制，不断产生适应度更大的个体（适应度越大，被选择的概率越大），最终得到一群最适应环境的个体。  2、执行流程（1）编码 遗传算法里，优化问题的解被称为个体，基因串代表一个个体">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/03/18/java%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E7%BB%84%E5%8D%B7/1.png">
+<meta property="og:image" content="http://example.com/2023/03/18/java%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E7%BB%84%E5%8D%B7/2.png">
+<meta property="og:image" content="http://example.com/2023/03/18/java%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E7%BB%84%E5%8D%B7/3.png">
+<meta property="og:image" content="http://example.com/2023/03/18/java%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E7%BB%84%E5%8D%B7/5.png">
+<meta property="og:image" content="http://example.com/2023/03/18/java%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E7%BB%84%E5%8D%B7/4.png">
+<meta property="og:image" content="http://example.com/2023/03/18/java%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E7%BB%84%E5%8D%B7/6.png">
+<meta property="og:image" content="http://example.com/2023/03/18/java%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E7%BB%84%E5%8D%B7/7.png">
+<meta property="og:image" content="http://example.com/2023/03/18/java%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E7%BB%84%E5%8D%B7/8.png">
+<meta property="og:image" content="http://example.com/2023/03/18/java%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E7%BB%84%E5%8D%B7/9.png">
+<meta property="og:image" content="http://example.com/2023/03/18/java%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E7%BB%84%E5%8D%B7/10.png">
 <meta property="article:published_time" content="2023-03-18T02:45:29.000Z">
-<meta property="article:modified_time" content="2023-03-18T12:25:05.836Z">
+<meta property="article:modified_time" content="2023-04-05T11:03:38.289Z">
 <meta property="article:author" content="swt">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2023/03/18/java%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E7%BB%84%E5%8D%B7/1.png">
   
   
   
-  <title>java遗传算法组卷 - SWT博客</title>
+  <title>Java遗传算法组卷 - SWT博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -196,7 +207,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="java遗传算法组卷"></span>
+            <span id="subtitle" data-typed-text="Java遗传算法组卷"></span>
           
         </div>
 
@@ -219,7 +230,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4 字
+          1.3k 字
         
       </span>
     
@@ -230,7 +241,7 @@
         
         
         
-          1 分钟
+          11 分钟
         
       </span>
     
@@ -268,13 +279,61 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">java遗传算法组卷</h1>
+            <h1 style="display: none">Java遗传算法组卷</h1>
             
             
               <div class="markdown-body">
                 
-                <p>遗传算法</p>
+                <h3 id="一、遗传算法介绍"><a href="#一、遗传算法介绍" class="headerlink" title="一、遗传算法介绍"></a>一、遗传算法介绍</h3><h4 id="1、概念"><a href="#1、概念" class="headerlink" title="1、概念"></a>1、概念</h4><blockquote>
+<p>遗传算法是模拟达尔文的生物进化论的自然选择和遗传学机理的生物进化过程的计算模型，是一种随机搜索全局最优解的方法。它模拟自然选择和遗传中发生的<u><strong>复制、交叉、变异</strong></u>等现象。一个种群通过随机选择、变异。交叉。复制，不断产生适应度更大的个体（适应度越大，被选择的概率越大），最终得到一群最适应环境的个体。</p>
+</blockquote>
+<h4 id="2、执行流程"><a href="#2、执行流程" class="headerlink" title="2、执行流程"></a>2、执行流程</h4><h5 id="（1）编码"><a href="#（1）编码" class="headerlink" title="（1）编码"></a>（1）编码</h5><blockquote>
+<p>遗传算法里，优化问题的解被称为个体，基因串代表一个个体。基因串一般被表达为简单的字符串或数字符串，不过也有其他的依赖于特殊问题的表示方法适用；一个基因串可表示如下：</p>
+<img src="/2023/03/18/java%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E7%BB%84%E5%8D%B7/1.png" srcset="/img/loading.gif" lazyload class="" title="遗传算法">
+</blockquote>
+<h5 id="（2）初始胡种群"><a href="#（2）初始胡种群" class="headerlink" title="（2）初始胡种群"></a>（2）初始胡种群</h5><blockquote>
+<p>种群可以看作是个体的集合。初始化种群主要是随机生成一定数量的个体组合为种群；这个初始化的过程我们可以进行干预，以提高初始化种群的质量。每个个体对应一个适应度数值。种群如下图：</p>
+<img src="/2023/03/18/java%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E7%BB%84%E5%8D%B7/2.png" srcset="/img/loading.gif" lazyload class="" title="遗传算法">
+</blockquote>
+<h5 id="（3）进化"><a href="#（3）进化" class="headerlink" title="（3）进化"></a>（3）进化</h5><blockquote>
+<p>进化流程包括：评估适应性函数，根据适应度选择个体，并进行交叉，变异，复制。如下图：</p>
+<img src="/2023/03/18/java%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E7%BB%84%E5%8D%B7/3.png" srcset="/img/loading.gif" lazyload class="" title="遗传算法">
+</blockquote>
+<h3 id="二、遗传算法组卷"><a href="#二、遗传算法组卷" class="headerlink" title="二、遗传算法组卷"></a>二、遗传算法组卷</h3><h4 id="1、试卷编码"><a href="#1、试卷编码" class="headerlink" title="1、试卷编码"></a>1、试卷编码</h4><blockquote>
+<p>（1）题库组卷中，一份试卷代表一个个体，多份试卷组合为一个种群，在种群中，不断进化获取最优解，最终获取适应度最高的试卷，即为最优解；</p>
+<img src="/2023/03/18/java%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E7%BB%84%E5%8D%B7/5.png" srcset="/img/loading.gif" lazyload class="" title="遗传算法">
 
+<p>（2）个体由基因型表示，试卷主要包括单选题（8道），多选题（2道），判断题（2道），大题（2道），我们以题目的题号（主键id）当做基因型的编号，如下图：</p>
+<img src="/2023/03/18/java%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E7%BB%84%E5%8D%B7/4.png" srcset="/img/loading.gif" lazyload class="" title="遗传算法">
+</blockquote>
+<h4 id="2、初始化种群"><a href="#2、初始化种群" class="headerlink" title="2、初始化种群"></a>2、初始化种群</h4><blockquote>
+<p>（1）试卷难度我们分为简单，中等，难（数据库中题目难度分为三个等级1，2，3）。在题库中选择题目时，按照我们规定的题型比例选取题目。在初始化时，我们进行干预，适当提高种群的适应度。</p>
+<p>（2）用户选择简单，初始化种群时，选择难度&#x3D;1的题目进行组合；用户选择中等，选择难度&#x3D;1或难度&#x3D;2的题目进行组合；用户选择困难，选择难度&#x3D;2的题目进行组合，如下图:</p>
+<img src="/2023/03/18/java%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E7%BB%84%E5%8D%B7/6.png" srcset="/img/loading.gif" lazyload class="" title="遗传算法">
+</blockquote>
+<h4 id="3、终止条件"><a href="#3、终止条件" class="headerlink" title="3、终止条件"></a>3、终止条件</h4><blockquote>
+<p>（1）题库组卷中，根据用户选择的难度，对应不同的期望度（目标值），试卷的适应度不断趋近这个期望度。</p>
+<p>（2）当试卷适应度&gt;&#x3D;目标期望值，终止寻找，找到最优解；当进化的代数超过我们指定的最大进化数，终止寻找；当试卷适应度已经达到最大适应度，终止寻找</p>
+</blockquote>
+<h4 id="4、适应度函数计算"><a href="#4、适应度函数计算" class="headerlink" title="4、适应度函数计算"></a>4、适应度函数计算</h4><blockquote>
+<p>（1）试卷难度计算公式：题目分值*难度 &#x2F; 总分；</p>
+<p>（2）试卷知识点覆盖率：不同知识点数 &#x2F; 题目总数；</p>
+<p>（3）试卷的适应度，需要考虑到整体试卷的难度以及试卷知识点的覆盖率，N知识点分布权重，M为难度系数所占权重，公式如下：</p>
+<p>适应度&#x3D;不同知识点数 &#x2F; 题目总数<em>N+题目分值</em>难度 &#x2F; 总分*M</p>
+</blockquote>
+<h4 id="5、交叉"><a href="#5、交叉" class="headerlink" title="5、交叉"></a>5、交叉</h4><blockquote>
+<p>（1）在种群中，随机选择两个适应度较高的个体进行交叉（不一定选择到适应度最高的个体），进行基因交换，获取新个体。</p>
+<p>（2）个体选择采用轮盘赌算法，适应度越大的个体，被选中的概率越大（但也不一定被选中），轮盘赌算法如下图：</p>
+<img src="/2023/03/18/java%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E7%BB%84%E5%8D%B7/7.png" srcset="/img/loading.gif" lazyload class="" title="遗传算法">
+
+<img src="/2023/03/18/java%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E7%BB%84%E5%8D%B7/8.png" srcset="/img/loading.gif" lazyload class="" title="遗传算法">
+
+<img src="/2023/03/18/java%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E7%BB%84%E5%8D%B7/9.png" srcset="/img/loading.gif" lazyload class="" title="遗传算法">
+
+<p>（3）两个个体进行交叉，利用随机函数产生交叉点，选取父个体边界点左边的编号，选取母个体边界点右边的编号，组合成新的基因，同时要判断是否有重复题型，重复题型则到题库中选取类型，难度一致的题目进行替换</p>
+<img src="/2023/03/18/java%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E7%BB%84%E5%8D%B7/10.png" srcset="/img/loading.gif" lazyload class="" title="遗传算法">
+</blockquote>
+<h4 id="6、变异"><a href="#6、变异" class="headerlink" title="6、变异"></a>6、变异</h4><h4 id="7、复制"><a href="#7、复制" class="headerlink" title="7、复制"></a>7、复制</h4><h4 id="8、修正"><a href="#8、修正" class="headerlink" title="8、修正"></a>8、修正</h4><h4 id="9、整体业务流程"><a href="#9、整体业务流程" class="headerlink" title="9、整体业务流程"></a>9、整体业务流程</h4><h4 id="10、github链接"><a href="#10、github链接" class="headerlink" title="10、github链接"></a>10、github链接</h4>
                 
               </div>
             
@@ -291,7 +350,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>java遗传算法组卷</div>
+      <div>Java遗传算法组卷</div>
       <div>http://example.com/2023/03/18/java遗传算法组卷/</div>
     </div>
     <div class="license-meta">
@@ -336,9 +395,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/03/19/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="java多线程">
+                      <a href="/2023/03/31/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="RabbitMQ学习笔记">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">java多线程</span>
+                        <span class="hidden-mobile">RabbitMQ学习笔记</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
