@@ -1,0 +1,836 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="swt">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1、ElasticSearch基本概念（1）Node节点 一个节点是一个集群的服务器，存储集群的数据，参与集群的索引和搜索功能。像集群有名字，节点也有自己的名称，默认在启动时会以一个随机的UUID的前七个字符作为节点的名字，你可以为其指定任意的名字。通过集群名在网络中发现同伴组成集群。一个节点也可是集群。  （2）index索引 一个索引是文档的集合，类比mysql中的数据库，每个索引有唯一名称（">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ElasticSearch">
+<meta property="og:url" content="http://example.com/2023/03/24/ElasticSearch/index.html">
+<meta property="og:site_name" content="SWT博客">
+<meta property="og:description" content="1、ElasticSearch基本概念（1）Node节点 一个节点是一个集群的服务器，存储集群的数据，参与集群的索引和搜索功能。像集群有名字，节点也有自己的名称，默认在启动时会以一个随机的UUID的前七个字符作为节点的名字，你可以为其指定任意的名字。通过集群名在网络中发现同伴组成集群。一个节点也可是集群。  （2）index索引 一个索引是文档的集合，类比mysql中的数据库，每个索引有唯一名称（">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/1.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/2.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/3.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/4.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/5.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/6.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/7.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/8.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/9.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/10.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/11.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/12.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/13.png">
+<meta property="article:published_time" content="2023-03-24T02:17:24.000Z">
+<meta property="article:modified_time" content="2023-04-06T09:25:11.706Z">
+<meta property="article:author" content="swt">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2023/03/24/ElasticSearch/1.png">
+  
+  
+  
+  <title>ElasticSearch - SWT博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ElasticSearch"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-24 10:17" pubdate>
+          2023年3月24日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          25 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ElasticSearch</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="1、ElasticSearch基本概念"><a href="#1、ElasticSearch基本概念" class="headerlink" title="1、ElasticSearch基本概念"></a>1、ElasticSearch基本概念</h3><h4 id="（1）Node节点"><a href="#（1）Node节点" class="headerlink" title="（1）Node节点"></a>（1）Node节点</h4><blockquote>
+<p>一个节点是一个集群的服务器，存储集群的数据，参与集群的索引和搜索功能。像集群有名字，节点也有自己的名称，默认在启动时会以一个随机的UUID的前七个字符作为节点的名字，你可以为其指定任意的名字。通过集群名在网络中发现同伴组成集群。一个节点也可是集群。</p>
+</blockquote>
+<h4 id="（2）index索引"><a href="#（2）index索引" class="headerlink" title="（2）index索引"></a>（2）index索引</h4><blockquote>
+<p>一个索引是文档的集合，类比mysql中的数据库，每个索引有唯一名称（全为小写字母），我们对文档进行搜索，增删改时，都要用到这个名字。</p>
+</blockquote>
+<h4 id="（3）Type类型"><a href="#（3）Type类型" class="headerlink" title="（3）Type类型"></a>（3）Type类型</h4><blockquote>
+<p>一个索引中可以存放不同数据，类比mysql中的表，6.0版本以上已废弃。</p>
+</blockquote>
+<h4 id="（4）Document文档"><a href="#（4）Document文档" class="headerlink" title="（4）Document文档"></a>（4）Document文档</h4><blockquote>
+<p>索引中的一条数据，类比msql中的一行数据，插入索引以文档为单位，以JSON格式存储。</p>
+</blockquote>
+<h4 id="（5）Shard分片"><a href="#（5）Shard分片" class="headerlink" title="（5）Shard分片"></a>（5）Shard分片</h4><blockquote>
+<p>数据量过大时，ElasticSearch索引过慢，因此将索引划分成多份，这些份就是分片。分片允许水平扩容；同时支持分布式，并行操作。</p>
+</blockquote>
+<h4 id="（6）Replication复制"><a href="#（6）Replication复制" class="headerlink" title="（6）Replication复制"></a>（6）Replication复制</h4><blockquote>
+<p>一个分片可以有多个备份，分片和复制的数量可以在索引创建的时候指定。在索引创建之后，你可以在任何时候动态地改变复制的数量，但是你事后不能改变分片的数量。</p>
+</blockquote>
+<h3 id="2、索引"><a href="#2、索引" class="headerlink" title="2、索引"></a>2、索引</h3><h4 id="（1）索引创建"><a href="#（1）索引创建" class="headerlink" title="（1）索引创建"></a>（1）索引创建</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs json">PUT /test-index-users<br><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;settings&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;number_of_shards&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span><span class="hljs-comment">//设置分片数量</span><br>    <span class="hljs-attr">&quot;number_of_replicas&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-comment">//指定映射关系</span><br>  <span class="hljs-attr">&quot;mappings&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;properties&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;text&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;fields&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>          <span class="hljs-attr">&quot;keyword&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>            <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;keyword&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;ignore_above&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">256</span><br>          <span class="hljs-punctuation">&#125;</span><br>        <span class="hljs-punctuation">&#125;</span><br>      <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;age&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;long&quot;</span><br>      <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-attr">&quot;remarks&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;text&quot;</span><br>      <span class="hljs-punctuation">&#125;</span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="（2）倒排索引"><a href="#（2）倒排索引" class="headerlink" title="（2）倒排索引"></a>（2）倒排索引</h4><blockquote>
+<p>ElasticSearch会为下面的数据创建两个索引树，ID不指定会自动生成，以Name和Age生成的索引树就为倒排索引</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">ID</th>
+<th align="center">Name</th>
+<th align="center">Age</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">Kate</td>
+<td align="center">24</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">John</td>
+<td align="center">24</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">Bill</td>
+<td align="center">29</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">Kate</td>
+<td align="center">26</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">Brand</td>
+<td align="center">29</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>以Name字段建立的索引树</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">Term</th>
+<th align="center">Posting List</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Kate</td>
+<td align="center">1,4</td>
+</tr>
+<tr>
+<td align="center">Brand</td>
+<td align="center">5</td>
+</tr>
+<tr>
+<td align="center">John</td>
+<td align="center">2</td>
+</tr>
+<tr>
+<td align="center">Bill</td>
+<td align="center">3</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>以Age创建索引树</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">Term</th>
+<th align="center">Posting List</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">24</td>
+<td align="center">1,2</td>
+</tr>
+<tr>
+<td align="center">26</td>
+<td align="center">4</td>
+</tr>
+<tr>
+<td align="center">29</td>
+<td align="center">3,5</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>①每个字段对应一组Term，每个Term对应一个Posting List，他是一组id，根据id到磁盘查找速度会快很多；</p>
+<p>②Term存放于有序表Term DIctionary（磁盘中）中，Term按序存放，每次查找term时，根据二分查找，时间复杂度为LogN；</p>
+<p>③对于Term中大量重复前缀，ElasticSearch会把每一个Term的前缀取出来放入树种，这颗树就是Term Index。</p>
+</blockquote>
+<img src="/2023/03/24/ElasticSearch/1.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+
+<blockquote>
+<p>Posting List压缩：</p>
+<p>①bitmap是一种数据结构，其用0&#x2F;1代表值是否存在，如</p>
+<p>{1，2，3，5},对应bitmap为：[1，0，1，1，1]</p>
+<p>②但bitmap随着元素的增加，bitmap存储空间也是线性增加，会占用大量空间；</p>
+<p>③Roardings bitmap：</p>
+<p>将posting List按照65535分块，0-65535为第一块，65536-131071为第二块，再用&lt;商，余数&gt;表示一组id，商表示在第几组，余数则表示在组中位置，如下图：</p>
+</blockquote>
+<img src="/2023/03/24/ElasticSearch/2.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+
+<h3 id="3、查询"><a href="#3、查询" class="headerlink" title="3、查询"></a>3、查询</h3><blockquote>
+<ul>
+<li>match查询，会将查询池进行分词，包含分词后的词，数据可以被查到，如：</li>
+</ul>
+<p>查询词：苹果橘子，只要包含苹果、橘子的文档都会被查出</p>
+<ul>
+<li>term查询，需要包含和查询值一样的文档，数据才可以被查到（查询词若为英文单词，全部字母需要小写，否则匹配不到），如：</li>
+</ul>
+<p>数据：【Apple ，oragne】，查询词：apple  可以被查到的数据：Apple</p>
+</blockquote>
+<h4 id="（1）复合查询"><a href="#（1）复合查询" class="headerlink" title="（1）复合查询"></a>（1）复合查询</h4><h6 id="①布尔查询（bool-query）"><a href="#①布尔查询（bool-query）" class="headerlink" title="①布尔查询（bool query）"></a>①布尔查询（bool query）</h6><blockquote>
+<ul>
+<li>子查询可以任意顺序出现</li>
+<li>可以嵌套多个查询，包括bool查询</li>
+<li>如果bool查询中没有must条件，should中必须至少满足一条才会返回结果，不满足不反回数据。</li>
+<li>四种操作符must、should、must_not、filter</li>
+</ul>
+</blockquote>
+<img src="/2023/03/24/ElasticSearch/3.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+
+<blockquote>
+<p>must与filter区别</p>
+</blockquote>
+<img src="/2023/03/24/ElasticSearch/4.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+
+<h6 id="②提高查询（boosting-query）"><a href="#②提高查询（boosting-query）" class="headerlink" title="②提高查询（boosting query）"></a>②提高查询（boosting query）</h6><blockquote>
+<p>boosting查询中一个子查询条件不满足，则是减低数据显示的权重（score），如</p>
+<p>name&#x3D;”tom” and age&#x3D;1,条件age不匹配，数据还是会显示，只是降低权重（scope）</p>
+</blockquote>
+<img src="/2023/03/24/ElasticSearch/5.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+
+<h6 id="③固定分数查询（constant-scope）"><a href="#③固定分数查询（constant-scope）" class="headerlink" title="③固定分数查询（constant_scope）"></a>③固定分数查询（constant_scope）</h6><blockquote>
+<p>查询某个条件时，返回固定的scope，我们可以利用filter过滤，返回scope，不需要计算scope，filter是忽略scope的</p>
+</blockquote>
+<img src="/2023/03/24/ElasticSearch/6.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+
+<h6 id="④最佳匹配查询（dis-max）"><a href="#④最佳匹配查询（dis-max）" class="headerlink" title="④最佳匹配查询（dis_max）"></a>④最佳匹配查询（dis_max）</h6><blockquote>
+<p>将与任一匹配的文档返回，但只返回结果最佳的评分 作为查询的评分返回</p>
+<p>在使用多个match匹配时，<u>匹配度最高的不一定是最佳结果</u>，因为match匹配时，会将title，body中match匹配结果的评分进行累加，最终返回，下面计算评分:</p>
+<ol>
+<li>通过title 匹配 brown fox ，id&#x3D;1匹配到(第一个match)</li>
+</ol>
+<p>id&#x3D;1分数：0.6931472</p>
+<p>id&#x3D;2分数：0</p>
+<img src="/2023/03/24/ElasticSearch/7.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+
+<p>2.body 匹配 brown fox（第二个match）</p>
+<p>id&#x3D;1分数：0.2111090919</p>
+<p>id&#x3D;2分数：0.77041256</p>
+<img src="/2023/03/24/ElasticSearch/8.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+
+<p>3.整体查询的结果分数&#x3D;第一个match分数+第二个match分数</p>
+<p>id为1的分数&#x3D;0.6931472+0.2111090919&#x3D;0.90425634</p>
+<p>id为2的分数&#x3D;0+0.77041256&#x3D;0.77041256</p>
+<img src="/2023/03/24/ElasticSearch/9.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+
+<p>使用dis_max,   分数 &#x3D; 第一个匹配条件分数 + tie_breaker * 第二个匹配的条件的分数 </p>
+<img src="/2023/03/24/ElasticSearch/10.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<h6 id="⑤函数查询（function-score）"><a href="#⑤函数查询（function-score）" class="headerlink" title="⑤函数查询（function_score）"></a>⑤函数查询（function_score）</h6><blockquote>
+<p>使用自定义的函数计算评分值</p>
+<ul>
+<li>script_score 使用自定义的脚本来完全控制分值计算逻辑。如果你需要以上预定义函数之外的功能，可以根据需要通过脚本进行实现。</li>
+</ul>
+<img src="/2023/03/24/ElasticSearch/11.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+
+<ul>
+<li>weight 对每份文档适用一个简单的提升，且该提升不会被归约：当weight为2时，结果为2 * score。</li>
+<li>random_score 使用一致性随机分值计算来对每个用户采用不同的结果排序方式，对相同用户仍然使用相同的排序方式。</li>
+</ul>
+<img src="/2023/03/24/ElasticSearch/12.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+
+<ul>
+<li>field_value_factor 使用文档中某个字段的值来改变_score，比如将受欢迎程度或者投票数量考虑在内。</li>
+</ul>
+<img src="/2023/03/24/ElasticSearch/13.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+
+<ul>
+<li>衰减函数(Decay Function) - linear，exp，gauss</li>
+</ul>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ElasticSearch</div>
+      <div>http://example.com/2023/03/24/ElasticSearch/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>swt</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月24日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/31/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="RabbitMQ学习笔记">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">RabbitMQ学习笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/18/java%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E7%BB%84%E5%8D%B7/" title="Java遗传算法组卷">
+                        <span class="hidden-mobile">Java遗传算法组卷</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
