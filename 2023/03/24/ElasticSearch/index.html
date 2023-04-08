@@ -36,8 +36,24 @@
 <meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/11.png">
 <meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/12.png">
 <meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/13.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/14.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/15.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/16.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/17.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/18.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/19.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/20.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/21.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/22.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/23.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/24.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/25.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/26.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/27.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/28.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/29.png">
 <meta property="article:published_time" content="2023-03-24T02:17:24.000Z">
-<meta property="article:modified_time" content="2023-04-06T09:25:11.706Z">
+<meta property="article:modified_time" content="2023-04-08T12:07:06.937Z">
 <meta property="article:author" content="swt">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2023/03/24/ElasticSearch/1.png">
@@ -233,7 +249,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3k 字
+          3.7k 字
         
       </span>
     
@@ -244,7 +260,7 @@
         
         
         
-          25 分钟
+          32 分钟
         
       </span>
     
@@ -491,6 +507,66 @@
 <ul>
 <li>衰减函数(Decay Function) - linear，exp，gauss</li>
 </ul>
+</blockquote>
+<h4 id="（2）全文搜索"><a href="#（2）全文搜索" class="headerlink" title="（2）全文搜索"></a>（2）全文搜索</h4><h6 id="①match查询"><a href="#①match查询" class="headerlink" title="①match查询"></a>①match查询</h6><blockquote>
+<p><strong>单词匹配</strong></p>
+<p>（1）检查查询字段类型，字段为string类型，则match匹配的词要进行分词；</p>
+<p>（2）分析查询字符串，下图中quick只有一个单词，分词后结果为quic，所以match执行的是当个term查询</p>
+<p>（3）term通过倒排索引。，查询到id为 【1，3】</p>
+<p>（4）为每个查询结果进行评分</p>
+<img src="/2023/03/24/ElasticSearch/14.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<blockquote>
+<p><strong>多词匹配</strong></p>
+<p>多个单词，实际上是执行多个单词term匹配，然后合并结果</p>
+<img src="/2023/03/24/ElasticSearch/15.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+
+<p>上方查询与下方bool查询等价</p>
+<img src="/2023/03/24/ElasticSearch/16.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+
+<p>match多词匹配中，有个operator属性，默认值为or，结果与上面等价</p>
+<img src="/2023/03/24/ElasticSearch/17.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+
+<p>match支持参数minimum_should_match来控制匹配单词数，可以是分数，也可以直接指定匹配单词数</p>
+<img src="/2023/03/24/ElasticSearch/18.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+
+<img src="/2023/03/24/ElasticSearch/19.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<h6 id="②match-phrase查询"><a href="#②match-phrase查询" class="headerlink" title="②match_phrase查询"></a>②match_phrase查询</h6><blockquote>
+<p>本质是连续的term查询（必须满足所有单词匹配），遇到数据中没有的词，就会查询不到，同时搜索单词的顺序需要和数据中单词顺寻保持一致，否则查询不到；如下：</p>
+<img src="/2023/03/24/ElasticSearch/20.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+
+<p>下面匹配单词和上图一样，但是顺寻不一样，匹配结果不同</p>
+<img src="/2023/03/24/ElasticSearch/21.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<h6 id="③match-pharse-prefix"><a href="#③match-pharse-prefix" class="headerlink" title="③match_pharse_prefix"></a>③match_pharse_prefix</h6><blockquote>
+<p>该匹配是最后一个词是前缀匹配，前面的单词和match_pharse匹配一致，如：</p>
+<p>【brown quick f】需要匹配到单词brown、quick，且以f为前缀的单词，同时顺序需要保持一致；</p>
+<img src="/2023/03/24/ElasticSearch/22.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+
+<img src="/2023/03/24/ElasticSearch/23.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<h6 id="④match-bool-prefix"><a href="#④match-bool-prefix" class="headerlink" title="④match_bool_prefix"></a>④match_bool_prefix</h6><blockquote>
+<p>也是连续的term匹配，最后一个单词前缀匹配即可，需要匹配所有单词，但顺序可以不一致，如下图：</p>
+<img src="/2023/03/24/ElasticSearch/24.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<h6 id="⑤multi-match"><a href="#⑤multi-match" class="headerlink" title="⑤multi_match"></a>⑤multi_match</h6><blockquote>
+<p>查询单词，满足其中一个字段即可，不用所有单词都匹配</p>
+<img src="/2023/03/24/ElasticSearch/25.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+
+<img src="/2023/03/24/ElasticSearch/26.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<h6 id="⑥query-string"><a href="#⑥query-string" class="headerlink" title="⑥query_string"></a>⑥query_string</h6><blockquote>
+<p>根据运算符来来提供查询字符串，查询前，拆分每一个文本</p>
+<img src="/2023/03/24/ElasticSearch/27.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<h6 id="⑦simple-query-string"><a href="#⑦simple-query-string" class="headerlink" title="⑦simple_query_string"></a>⑦simple_query_string</h6><blockquote>
+<p>查询时，会自动将搜索词中无效的文本忽略</p>
+<img src="/2023/03/24/ElasticSearch/28.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<h6 id="⑧interval"><a href="#⑧interval" class="headerlink" title="⑧interval"></a>⑧interval</h6><blockquote>
+<p>单词都要匹配，且按照匹配条件顺序进行匹配</p>
+<img src="/2023/03/24/ElasticSearch/29.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
 </blockquote>
 
                 
