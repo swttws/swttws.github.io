@@ -52,8 +52,26 @@
 <meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/27.png">
 <meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/28.png">
 <meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/29.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/30.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/31.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/32.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/33.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/34.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/35.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/36.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/37.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/38.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/39.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/40.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/41.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/42.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/43.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/44.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/45.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/46.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/47.png">
 <meta property="article:published_time" content="2023-03-24T02:17:24.000Z">
-<meta property="article:modified_time" content="2023-04-08T12:07:06.937Z">
+<meta property="article:modified_time" content="2023-04-09T11:57:19.000Z">
 <meta property="article:author" content="swt">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2023/03/24/ElasticSearch/1.png">
@@ -249,7 +267,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.7k 字
+          6.1k 字
         
       </span>
     
@@ -260,7 +278,7 @@
         
         
         
-          32 分钟
+          51 分钟
         
       </span>
     
@@ -427,7 +445,7 @@
 </blockquote>
 <img src="/2023/03/24/ElasticSearch/2.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
 
-<h3 id="3、查询"><a href="#3、查询" class="headerlink" title="3、查询"></a>3、查询</h3><blockquote>
+<h3 id="3、DSL查询"><a href="#3、DSL查询" class="headerlink" title="3、DSL查询"></a>3、DSL查询</h3><blockquote>
 <ul>
 <li>match查询，会将查询池进行分词，包含分词后的词，数据可以被查到，如：</li>
 </ul>
@@ -567,6 +585,90 @@
 <h6 id="⑧interval"><a href="#⑧interval" class="headerlink" title="⑧interval"></a>⑧interval</h6><blockquote>
 <p>单词都要匹配，且按照匹配条件顺序进行匹配</p>
 <img src="/2023/03/24/ElasticSearch/29.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<h4 id="（3）Term查询"><a href="#（3）Term查询" class="headerlink" title="（3）Term查询"></a>（3）Term查询</h4><h6 id="①exist查询"><a href="#①exist查询" class="headerlink" title="①exist查询"></a>①exist查询</h6><blockquote>
+<p>查询指定字段存在的数据，字段索引值不存在的原因：JSON数据为null、index设置为false、字段长度超过映射长度、字段数据类型错误</p>
+<img src="/2023/03/24/ElasticSearch/30.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<h6 id="②id查询"><a href="#②id查询" class="headerlink" title="②id查询"></a>②id查询</h6><blockquote>
+<p>查询指定id的数据</p>
+<img src="/2023/03/24/ElasticSearch/31.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<h6 id="③prefix前缀查询"><a href="#③prefix前缀查询" class="headerlink" title="③prefix前缀查询"></a>③prefix前缀查询</h6><blockquote>
+<p>查找指定字段的前缀值相同的数据</p>
+<img src="/2023/03/24/ElasticSearch/32.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<h6 id="④term分词查询"><a href="#④term分词查询" class="headerlink" title="④term分词查询"></a>④term分词查询</h6><blockquote>
+<p>根据分词查询数据，查询词需要和value值完全一样才会匹配</p>
+<img src="/2023/03/24/ElasticSearch/33.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<h6 id="⑤terms多分词查询"><a href="#⑤terms多分词查询" class="headerlink" title="⑤terms多分词查询"></a>⑤terms多分词查询</h6><blockquote>
+<p>根据多个分词查询数据</p>
+<img src="/2023/03/24/ElasticSearch/34.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<h6 id="⑥term-set查询"><a href="#⑥term-set查询" class="headerlink" title="⑥term_set查询"></a>⑥term_set查询</h6><blockquote>
+<p>指定term需要匹配词的数量</p>
+<img src="/2023/03/24/ElasticSearch/35.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<h6 id="⑦wildcard查询"><a href="#⑦wildcard查询" class="headerlink" title="⑦wildcard查询"></a>⑦wildcard查询</h6><blockquote>
+<p>通配符查询，如*可以匹配任意多个随意在字符</p>
+<img src="/2023/03/24/ElasticSearch/36.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<h6 id="⑧range查询"><a href="#⑧range查询" class="headerlink" title="⑧range查询"></a>⑧range查询</h6><blockquote>
+<p>范围匹配查询</p>
+<img src="/2023/03/24/ElasticSearch/37.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<h6 id="⑩fuzzy模糊查询"><a href="#⑩fuzzy模糊查询" class="headerlink" title="⑩fuzzy模糊查询"></a>⑩fuzzy模糊查询</h6><blockquote>
+<p>模糊查询，可以进行匹配词的增删改，如增：sic-&gt;sick 、改：box-&gt;fox、删：black-&gt;lack、换:act-&gt;cat</p>
+<p>（只能更改一个字符）</p>
+<img src="/2023/03/24/ElasticSearch/38.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+
+<img src="/2023/03/24/ElasticSearch/39.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<h3 id="4、聚合查询"><a href="#4、聚合查询" class="headerlink" title="4、聚合查询"></a>4、聚合查询</h3><h5 id="（1）桶（Bucket）聚合"><a href="#（1）桶（Bucket）聚合" class="headerlink" title="（1）桶（Bucket）聚合"></a>（1）桶（Bucket）聚合</h5><blockquote>
+<ol>
+<li><p>桶：类似于MySQL中的groud by查询后的分组，是存放满足特定条件文档的集合；</p>
+</li>
+<li><p>指标：对桶中的文档进行计算，类似于MySQL中的count（），avg（）函数</p>
+<img src="/2023/03/24/ElasticSearch/40.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch"></li>
+</ol>
+</blockquote>
+<blockquote>
+<p>数据准备</p>
+</blockquote>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs json">POST /car/_bulk<br><span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;index&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;price&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-number">10000</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;color&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;red&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;make&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;honda&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;sold&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2014-10-28&quot;</span> <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;index&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;price&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-number">20000</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;color&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;red&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;make&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;honda&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;sold&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2014-11-05&quot;</span> <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;index&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;price&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-number">30000</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;color&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;green&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;make&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ford&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;sold&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2014-05-18&quot;</span> <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;index&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;price&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-number">15000</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;color&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;blue&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;make&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;toyota&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;sold&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2014-07-02&quot;</span> <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;index&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;price&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-number">12000</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;color&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;green&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;make&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;toyota&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;sold&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2014-08-19&quot;</span> <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;index&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;price&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-number">20000</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;color&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;red&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;make&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;honda&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;sold&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2014-11-05&quot;</span> <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;index&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;price&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-number">80000</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;color&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;red&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;make&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;bmw&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;sold&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2014-01-01&quot;</span> <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;index&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;price&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-number">25000</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;color&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;blue&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;make&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ford&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;sold&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2014-02-12&quot;</span> <span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h6 id="①普通的聚合查询"><a href="#①普通的聚合查询" class="headerlink" title="①普通的聚合查询"></a>①普通的聚合查询</h6><blockquote>
+<p>以汽车中的颜色进行分组聚合，doc_count：表示组数据的数量，每个桶的数量代表改颜色文档数量</p>
+<img src="/2023/03/24/ElasticSearch/41.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<h6 id="②嵌套聚合查询"><a href="#②嵌套聚合查询" class="headerlink" title="②嵌套聚合查询"></a>②嵌套聚合查询</h6><blockquote>
+<p>在一个聚合查询到数据，再进行聚合，如下面先以color属性聚合数据，然后在每个桶中再聚合price数据求平均值，如下图：</p>
+<img src="/2023/03/24/ElasticSearch/42.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<h6 id="③filter过滤"><a href="#③filter过滤" class="headerlink" title="③filter过滤"></a>③filter过滤</h6><blockquote>
+<p>filter过滤条件，查询指定的数据进行聚合，如下</p>
+<img src="/2023/03/24/ElasticSearch/43.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<blockquote>
+<p>filters:对filter进行分组聚合，filters中条件进行过滤，将过滤后相同的数据聚合</p>
+<img src="/2023/03/24/ElasticSearch/44.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<h6 id="④range聚合"><a href="#④range聚合" class="headerlink" title="④range聚合"></a>④range聚合</h6><blockquote>
+<p>对number类型进行聚合，根据范围值进行聚合，to不包括值。from包括值</p>
+<img src="/2023/03/24/ElasticSearch/45.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<h6 id="⑤Date-Range聚合"><a href="#⑤Date-Range聚合" class="headerlink" title="⑤Date Range聚合"></a>⑤Date Range聚合</h6><blockquote>
+<p>对日期进行聚合,from和to后面的参数需要按照我们指定的format格式进行输入</p>
+<img src="/2023/03/24/ElasticSearch/46.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<h6 id="⑥Histrogram聚合"><a href="#⑥Histrogram聚合" class="headerlink" title="⑥Histrogram聚合"></a>⑥Histrogram聚合</h6><blockquote>
+<ol>
+<li><p>histogram 桶要求两个参数：一个数值字段以、一个定义桶大小间隔。</p>
+</li>
+<li><p>可以使用各种嵌套聚合，来计算对应区间数据</p>
+<img src="/2023/03/24/ElasticSearch/47.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch"></li>
+</ol>
 </blockquote>
 
                 
