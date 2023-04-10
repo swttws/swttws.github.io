@@ -70,8 +70,23 @@
 <meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/45.png">
 <meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/46.png">
 <meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/47.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/48.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/49.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/50.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/51.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/52.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/53.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/54.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/55.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/56.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/57.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/58.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/59.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/60.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/61.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/62.png">
 <meta property="article:published_time" content="2023-03-24T02:17:24.000Z">
-<meta property="article:modified_time" content="2023-04-09T11:57:19.000Z">
+<meta property="article:modified_time" content="2023-04-10T08:35:59.889Z">
 <meta property="article:author" content="swt">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2023/03/24/ElasticSearch/1.png">
@@ -267,7 +282,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          6.1k 字
+          7.3k 字
         
       </span>
     
@@ -278,7 +293,7 @@
         
         
         
-          51 分钟
+          61 分钟
         
       </span>
     
@@ -662,12 +677,174 @@
 <p>对日期进行聚合,from和to后面的参数需要按照我们指定的format格式进行输入</p>
 <img src="/2023/03/24/ElasticSearch/46.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
 </blockquote>
-<h6 id="⑥Histrogram聚合"><a href="#⑥Histrogram聚合" class="headerlink" title="⑥Histrogram聚合"></a>⑥Histrogram聚合</h6><blockquote>
+<h6 id="⑥Histogram聚合"><a href="#⑥Histogram聚合" class="headerlink" title="⑥Histogram聚合"></a>⑥Histogram聚合</h6><blockquote>
 <ol>
 <li><p>histogram 桶要求两个参数：一个数值字段以、一个定义桶大小间隔。</p>
 </li>
 <li><p>可以使用各种嵌套聚合，来计算对应区间数据</p>
 <img src="/2023/03/24/ElasticSearch/47.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch"></li>
+</ol>
+</blockquote>
+<h5 id="（2）metrics聚合"><a href="#（2）metrics聚合" class="headerlink" title="（2）metrics聚合"></a>（2）metrics聚合</h5><h6 id="①单值分析：stat类型"><a href="#①单值分析：stat类型" class="headerlink" title="①单值分析：stat类型"></a>①单值分析：stat类型</h6><blockquote>
+<ul>
+<li><p>avg：求指定字段平均值</p>
+<img src="/2023/03/24/ElasticSearch/48.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch"></li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li><p>max：求指定字段最大值，min：求指定字段最小值</p>
+<img src="/2023/03/24/ElasticSearch/49.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch"></li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li><p>sum：求指定字段总和</p>
+<img src="/2023/03/24/ElasticSearch/50.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch"></li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li><p>value_count：求所有统计数量</p>
+<img src="/2023/03/24/ElasticSearch/51.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch"></li>
+</ul>
+</blockquote>
+<h6 id="②单值分析：其他类型"><a href="#②单值分析：其他类型" class="headerlink" title="②单值分析：其他类型"></a>②单值分析：其他类型</h6><blockquote>
+<ul>
+<li><p>weighted_avg：带权重，求平均值，如：a权重为0.3,b权重为0.7，求平均值：（0.3<em>a+0.7</em>b）&#x2F; 2</p>
+<img src="/2023/03/24/ElasticSearch/52.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch"></li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li><p>cardinality：指定字段，根据字段值去重</p>
+<img src="/2023/03/24/ElasticSearch/53.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch"></li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li><p>median_absolute_deviation：指定字段求中位数</p>
+<img src="/2023/03/24/ElasticSearch/54.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch"></li>
+</ul>
+</blockquote>
+<h6 id="③非单值分析：stats"><a href="#③非单值分析：stats" class="headerlink" title="③非单值分析：stats"></a>③非单值分析：stats</h6><blockquote>
+<ul>
+<li><p>stats包括max、min、avg、sum</p>
+<img src="/2023/03/24/ElasticSearch/55.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch"></li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li><p>matrix_stats：描述字段之间的关系，针对矩阵模型，count：统计数量，mean：平均值</p>
+<img src="/2023/03/24/ElasticSearch/56.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch"></li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li><p>extended_stat：指定字段，汇总该字段的所有信息</p>
+<img src="/2023/03/24/ElasticSearch/57.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch"></li>
+</ul>
+</blockquote>
+<h6 id="④非单值分析：百分型"><a href="#④非单值分析：百分型" class="headerlink" title="④非单值分析：百分型"></a>④非单值分析：百分型</h6><blockquote>
+<ul>
+<li><p>percentiles：根据指定字段计算百分比</p>
+<img src="/2023/03/24/ElasticSearch/58.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch"></li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li><p>percentile_ranks：指定字段和值，统计该值内数值在总体占比，如下：</p>
+<img src="/2023/03/24/ElasticSearch/59.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch"></li>
+</ul>
+</blockquote>
+<h6 id="⑤非单值分析：地理位置型"><a href="#⑤非单值分析：地理位置型" class="headerlink" title="⑤非单值分析：地理位置型"></a>⑤非单值分析：地理位置型</h6><blockquote>
+<ul>
+<li><p>geo_bounds：查找指定位置的坐标范围</p>
+<img src="/2023/03/24/ElasticSearch/60.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch"></li>
+</ul>
+</blockquote>
+<h5 id="（3）Pipeline聚合"><a href="#（3）Pipeline聚合" class="headerlink" title="（3）Pipeline聚合"></a>（3）Pipeline聚合</h5><blockquote>
+<p>上一步的·聚合结果成为下一个聚合的输入</p>
+</blockquote>
+<h6 id="①Average聚合"><a href="#①Average聚合" class="headerlink" title="①Average聚合"></a>①Average聚合</h6><blockquote>
+<p>在上一个bucket聚合的结果作为输入，输入到metrics聚合中求平均值</p>
+<img src="/2023/03/24/ElasticSearch/61.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<h3 id="5、原理分析"><a href="#5、原理分析" class="headerlink" title="5、原理分析"></a>5、原理分析</h3><img src="/2023/03/24/ElasticSearch/62.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+
+<h5 id="（1）Lucence"><a href="#（1）Lucence" class="headerlink" title="（1）Lucence"></a>（1）Lucence</h5><h6 id="①Segment"><a href="#①Segment" class="headerlink" title="①Segment"></a>①Segment</h6><blockquote>
+<ul>
+<li>Shard&#x3D;Lucene Index</li>
+<li>Lucene Index的Segment存放多种数据结构：</li>
+</ul>
+<ol>
+<li><ol>
+<li>Inverted Index（倒排索引）：分为两部分：一个有序的数据字典（单词term和出现频率）和与term对应的Posting列表（存放单词的文件），如：</li>
+</ol>
+</li>
+</ol>
+<p>​      查询hello world时，将其分为hello和world两个单词，组成倒排索引（如下表）</p>
+<ol>
+<li><ol>
+<li>自动补全：如果要查找以‘c’开头的词，会进行二分查找；</li>
+<li>全表查找：查找包含‘our’字母的单词，会进行全表查询；</li>
+<li>Document Values：列式存储，大大提升访问速度</li>
+</ol>
+</li>
+</ol>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Dictionary</th>
+<th>Posting List</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>term</td>
+<td>freq</td>
+<td>documents</td>
+</tr>
+<tr>
+<td>choice</td>
+<td>1</td>
+<td>2，3，4</td>
+</tr>
+<tr>
+<td>come</td>
+<td>4</td>
+<td>3，5，6</td>
+</tr>
+<tr>
+<td>hello</td>
+<td>2</td>
+<td>6，7，8</td>
+</tr>
+<tr>
+<td>ours</td>
+<td>3</td>
+<td>4，7，8</td>
+</tr>
+</tbody></table>
+<h6 id="②搜索中"><a href="#②搜索中" class="headerlink" title="②搜索中"></a>②搜索中</h6><blockquote>
+<ol>
+<li>搜索每一个segament，然后合并搜索结果；</li>
+<li>Segment是不可变的，删除时，数据依旧保存在文件中，只是标记为删除；更新时，先删除，然后重新索引</li>
+<li>Lucence会对存储数据进行压缩；</li>
+<li>lecence会缓存所有数据，提高查询效率；</li>
+</ol>
+</blockquote>
+<h6 id="③缓存"><a href="#③缓存" class="headerlink" title="③缓存"></a>③缓存</h6><blockquote>
+<ol>
+<li>索引文件时，会对文件建立缓存，并定期刷新数据；</li>
+<li>随着数据的增多，会产生大量segment，增加索引文件时，会将segment合并，删除</li>
+</ol>
+</blockquote>
+<h5 id="（2）Shard"><a href="#（2）Shard" class="headerlink" title="（2）Shard"></a>（2）Shard</h5><blockquote>
+<ol>
+<li>Shard可能分布在不同的节点机器上，搜索返回结果会在网络中传输；</li>
+<li>每个节点都会存储一份路由表，记录节点上shard信息等，请求到任何节点，都可以转发到对应的shard上的node节点；</li>
 </ol>
 </blockquote>
 
