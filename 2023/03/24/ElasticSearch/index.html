@@ -85,8 +85,15 @@
 <meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/60.png">
 <meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/61.png">
 <meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/62.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/63.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/64.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/65.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/66.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/67.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/68.png">
+<meta property="og:image" content="http://example.com/2023/03/24/ElasticSearch/69.png">
 <meta property="article:published_time" content="2023-03-24T02:17:24.000Z">
-<meta property="article:modified_time" content="2023-04-10T08:35:59.889Z">
+<meta property="article:modified_time" content="2023-04-11T06:02:26.070Z">
 <meta property="article:author" content="swt">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2023/03/24/ElasticSearch/1.png">
@@ -282,7 +289,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          7.3k 字
+          8.8k 字
         
       </span>
     
@@ -293,7 +300,7 @@
         
         
         
-          61 分钟
+          73 分钟
         
       </span>
     
@@ -770,28 +777,29 @@
 <p>在上一个bucket聚合的结果作为输入，输入到metrics聚合中求平均值</p>
 <img src="/2023/03/24/ElasticSearch/61.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
 </blockquote>
-<h3 id="5、原理分析"><a href="#5、原理分析" class="headerlink" title="5、原理分析"></a>5、原理分析</h3><img src="/2023/03/24/ElasticSearch/62.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
-
+<h3 id="5、原理分析"><a href="#5、原理分析" class="headerlink" title="5、原理分析"></a>5、原理分析</h3><blockquote>
+<ul>
+<li><p>一个ElasticSearch集群下，有多个node节点组成；</p>
+</li>
+<li><p>每个node节点上有多个分片，分为主分片和复制分片，主分片会将数据同步给复制分片；</p>
+</li>
+<li><p>一个分片对应一个Lucence Index索引结构；</p>
+</li>
+<li><p>一个Lucence Index上有多个Segment（即倒排索引），每个Segment存储文件即为文档数据；</p>
+<img src="/2023/03/24/ElasticSearch/62.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch"></li>
+</ul>
+</blockquote>
 <h5 id="（1）Lucence"><a href="#（1）Lucence" class="headerlink" title="（1）Lucence"></a>（1）Lucence</h5><h6 id="①Segment"><a href="#①Segment" class="headerlink" title="①Segment"></a>①Segment</h6><blockquote>
 <ul>
 <li>Shard&#x3D;Lucene Index</li>
-<li>Lucene Index的Segment存放多种数据结构：</li>
-</ul>
-<ol>
-<li><ol>
-<li>Inverted Index（倒排索引）：分为两部分：一个有序的数据字典（单词term和出现频率）和与term对应的Posting列表（存放单词的文件），如：</li>
-</ol>
-</li>
-</ol>
-<p>​      查询hello world时，将其分为hello和world两个单词，组成倒排索引（如下表）</p>
-<ol>
-<li><ol>
+<li>Lucene Index的Segment存放多种数据结构：<ol>
+<li>Inverted Index（倒排索引）：分为两部分：一个有序的数据字典（单词term和出现频率）和与term对应的Posting列表（存放单词的文件），如：查询hello world时，将其分为hello和world两个单词，组成倒排索引（如下表）</li>
 <li>自动补全：如果要查找以‘c’开头的词，会进行二分查找；</li>
 <li>全表查找：查找包含‘our’字母的单词，会进行全表查询；</li>
 <li>Document Values：列式存储，大大提升访问速度</li>
 </ol>
 </li>
-</ol>
+</ul>
 </blockquote>
 <table>
 <thead>
@@ -829,10 +837,14 @@
 </tbody></table>
 <h6 id="②搜索中"><a href="#②搜索中" class="headerlink" title="②搜索中"></a>②搜索中</h6><blockquote>
 <ol>
-<li>搜索每一个segament，然后合并搜索结果；</li>
-<li>Segment是不可变的，删除时，数据依旧保存在文件中，只是标记为删除；更新时，先删除，然后重新索引</li>
-<li>Lucence会对存储数据进行压缩；</li>
-<li>lecence会缓存所有数据，提高查询效率；</li>
+<li><p>搜索每一个segament，然后合并搜索结果；</p>
+</li>
+<li><p>Segment是不可变的，删除时，数据依旧保存在文件中，只是标记为删除；更新时，先删除，然后重新索引</p>
+</li>
+<li><p>Lucence会对存储数据进行压缩；</p>
+</li>
+<li><p>lecence会缓存所有数据，提高查询效率；</p>
+<img src="/2023/03/24/ElasticSearch/63.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch"></li>
 </ol>
 </blockquote>
 <h6 id="③缓存"><a href="#③缓存" class="headerlink" title="③缓存"></a>③缓存</h6><blockquote>
@@ -846,6 +858,79 @@
 <li>Shard可能分布在不同的节点机器上，搜索返回结果会在网络中传输；</li>
 <li>每个节点都会存储一份路由表，记录节点上shard信息等，请求到任何节点，都可以转发到对应的shard上的node节点；</li>
 </ol>
+</blockquote>
+<h5 id="（3）Es分析器"><a href="#（3）Es分析器" class="headerlink" title="（3）Es分析器"></a>（3）Es分析器</h5><blockquote>
+<p>①分为三部分：</p>
+<ul>
+<li>字符串过滤器：字符串分词前，将HTML标签去掉，替换&amp;为and；</li>
+<li>分词器：将字符串分为一个个单词，简单的分词器，遇到空格或标点符号就会分词；</li>
+<li>Token过滤器：将分好的词按顺序进入过滤，可能会改变词，如：小写化，删除无用词条，增加同义词条</li>
+</ul>
+<p>②内置分词器：</p>
+<p>例子：Hello world （5）</p>
+<ul>
+<li>标准分析器：es默认分词器，根据Unicode定义的单词边界划分文本，去除大部分标点符号，最后词条小写，如【hello，world，5】；</li>
+<li>简单分析器：任何不是字母的地方进行分词，最后词条小写，如【hello，world】；</li>
+<li>空格分析器：以空格划分文本，如【Hello，world，（5）】；</li>
+<li>语言分析器：会将无用单词删除，同时提取英语的词干，如</li>
+</ul>
+<p>I am watching TV and doing homework–&gt;【I，am，watch，TV，do，homework】</p>
+</blockquote>
+<h5 id="（4）索引原理"><a href="#（4）索引原理" class="headerlink" title="（4）索引原理"></a>（4）索引原理</h5><h6 id="①文档索引创建流程"><a href="#①文档索引创建流程" class="headerlink" title="①文档索引创建流程"></a>①文档索引创建流程</h6><blockquote>
+<ul>
+<li><p>客户端发送创建索引请求转发到node1节点；</p>
+</li>
+<li><p>根据文档id确定文档分片属于p2，请求转发到Node3；</p>
+</li>
+<li><p>Node3索引数据创建成功，请求转发到Node1，Node2副分片节点上，所有节点创建成功，Node3向协调节点报告成功，协调节点向客户端报告成功；</p>
+<img src="/2023/03/24/ElasticSearch/64.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch"></li>
+</ul>
+</blockquote>
+<h6 id="②索引流程"><a href="#②索引流程" class="headerlink" title="②索引流程"></a>②索引流程</h6><blockquote>
+<ul>
+<li>协调节点通过文档id，计算请求对应的分片，请求转发到对应的节点分片上；</li>
+<li>分片接收到请求后，会将请求数据写入到Memory Buffer中，每隔一秒更新到FileSystem缓存中；</li>
+<li>缓存中的数据可能会丢失，所以每次请求会写入进Transaction日志中（保证可靠性），当缓存数据写入磁盘时，会清除transaction日志；</li>
+<li>transaction日志flush过程中，会将数据刷新到磁盘，同时内容写入一个新的transaction日志中，删除原来的日志，flush每30分钟执行一次，或日志文件大小超过512M时也会触发；</li>
+</ul>
+<p>transLog日志，对未提交的数据，保证对未提交的数据可以通过id实时访问到</p>
+<img src="/2023/03/24/ElasticSearch/65.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch">
+</blockquote>
+<h6 id="③数据持久化过程"><a href="#③数据持久化过程" class="headerlink" title="③数据持久化过程"></a>③数据持久化过程</h6><blockquote>
+<p>主要步骤：write—refresh—flush—merge</p>
+<ul>
+<li>write：一个新文档会被写入到内存缓冲区中，同时也会写入transLog日志中，此时文档还未写入Segment中，所以是搜索不到新文档的，需要refresh后才能搜索到，Commit point记录所有segment元信息</li>
+<li><img src="/2023/03/24/ElasticSearch/66.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch"></li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li><p>refresh：每隔一秒执行一次刷新，将数据写入到segment中，segment存储在内存中，且可以在segment中搜索到数据，刷新后，清空内存缓冲区数据；该阶段可能会发送数据丢失</p>
+<img src="/2023/03/24/ElasticSearch/67.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch"></li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li><p>flush：每隔30分钟或translog日志文件过大时，就会刷新，创建新的translog日志，删除旧日志；</p>
+</li>
+<li><ul>
+<li><p>所有内存缓冲区的数据被写入Segment中；</p>
+</li>
+<li><p>内存缓冲区被清空；</p>
+</li>
+<li><p>将commit point中所有数据写入到磁盘中；</p>
+</li>
+<li><p>此时索引数据已经写入磁盘，已经持久化，因此不需要原日志数据保证数据安全，清除原translog日志；</p>
+<img src="/2023/03/24/ElasticSearch/68.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch"></li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li><p>Merge：每秒刷新会创建大量segment，而搜索时会必须轮询每一个段，段越多，搜索效率越差。es后台会将小段合并，大段合并到更大的段，refresh时，会创建新的段，从已有段选取大小合适的段，与新段合并，然后删除旧的段；</p>
+<img src="/2023/03/24/ElasticSearch/69.png" srcset="/img/loading.gif" lazyload class="" title="ElasticSearch"></li>
+</ul>
 </blockquote>
 
                 
