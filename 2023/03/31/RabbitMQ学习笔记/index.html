@@ -36,8 +36,12 @@
 <meta property="og:image" content="http://example.com/2023/03/31/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/11.png">
 <meta property="og:image" content="http://example.com/2023/03/31/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/12.png">
 <meta property="og:image" content="http://example.com/2023/03/31/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/13.png">
+<meta property="og:image" content="http://example.com/2023/03/31/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/14.png">
+<meta property="og:image" content="http://example.com/2023/03/31/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/15.png">
+<meta property="og:image" content="http://example.com/2023/03/31/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/16.png">
+<meta property="og:image" content="http://example.com/2023/03/31/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/17.png">
 <meta property="article:published_time" content="2023-03-31T08:12:10.000Z">
-<meta property="article:modified_time" content="2023-04-04T07:49:12.265Z">
+<meta property="article:modified_time" content="2023-04-12T09:22:44.365Z">
 <meta property="article:author" content="swt">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2023/03/31/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/1.png">
@@ -233,7 +237,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          8.5k 字
+          9k 字
         
       </span>
     
@@ -244,7 +248,7 @@
         
         
         
-          72 分钟
+          76 分钟
         
       </span>
     
@@ -428,6 +432,44 @@
 <p>③惰性队列：接收到消息后，会直接存入磁盘，消费者消费时，才会加载到内存</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Bean</span><br><span class="hljs-keyword">public</span> Queue <span class="hljs-title function_">test_queue</span><span class="hljs-params">()</span>&#123;<br>    <span class="hljs-keyword">return</span> QueueBuilder.durable(test_queue_dead)<br>    .lazy()<span class="hljs-comment">//配置为延迟队列</span><br>    .build();<br>&#125;<br></code></pre></td></tr></table></figure>
 
+<h3 id="10、消息中间件四种消息投递模型"><a href="#10、消息中间件四种消息投递模型" class="headerlink" title="10、消息中间件四种消息投递模型"></a>10、消息中间件四种消息投递模型</h3><h4 id="①点对点（PTP）模型"><a href="#①点对点（PTP）模型" class="headerlink" title="①点对点（PTP）模型"></a>①点对点（PTP）模型</h4><blockquote>
+<ul>
+<li><p>点对点通信，一个队列可以有多个生产者和多个消费者；</p>
+</li>
+<li><p>消息按照接收消息的顺序，先后放入队列中，一个消息只能有一个消费者消费；</p>
+</li>
+<li><p>消息消费后，会从队列中删除；</p>
+</li>
+<li><p>虽然采用队列，但是消息的消费可能是无序的，队列可以将消息给多个消费者消费，所以队列保证分发是有序的，但消费顺序取决于消费者的处理速度；</p>
+<img src="/2023/03/31/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/14.png" srcset="/img/loading.gif" lazyload class="" title="图片1"></li>
+</ul>
+</blockquote>
+<h4 id="②发布订阅（Pub-x2F-Sub）模型"><a href="#②发布订阅（Pub-x2F-Sub）模型" class="headerlink" title="②发布订阅（Pub&#x2F;Sub）模型"></a>②发布订阅（Pub&#x2F;Sub）模型</h4><blockquote>
+<p>生成者发送消息到一个主题中，订阅了该主题的所有消费者，都可以收到消息；</p>
+<img src="/2023/03/31/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/15.png" srcset="/img/loading.gif" lazyload class="" title="图片1">
+</blockquote>
+<h4 id="③分区（Partition）模型"><a href="#③分区（Partition）模型" class="headerlink" title="③分区（Partition）模型"></a>③分区（Partition）模型</h4><blockquote>
+<ul>
+<li><p>生产者根据主题类型发送消息到对应的分区（Partition），一个分区可以理解为一个队列，且分区中队列存储的数据只是一部分，而PTP模型中，队列存储的数据是全部数据；</p>
+</li>
+<li><p>每个分区（Partition）会对应一组消费者，消费者只能消费由自己所在分区派发的消息；</p>
+</li>
+<li><p>每个分区只能发送给一个消费者,消费者数量不能多余分区；</p>
+</li>
+<li><p>分区模型，将点对点模型和发布订阅模式结合起来；</p>
+<img src="/2023/03/31/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/16.png" srcset="/img/loading.gif" lazyload class="" title="图片1"></li>
+</ul>
+</blockquote>
+<h4 id="④transfer模型"><a href="#④transfer模型" class="headerlink" title="④transfer模型"></a>④transfer模型</h4><blockquote>
+<ul>
+<li><p>生产者发送消息到topic上，会转发到每一个队列；</p>
+</li>
+<li><p>队列中拥有消息的全量数据，一个队列的消息可以被多个消费者消费；</p>
+</li>
+<li><p>队列同样不保证消息消费的顺序性;</p>
+<img src="/2023/03/31/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/17.png" srcset="/img/loading.gif" lazyload class="" title="图片1"></li>
+</ul>
+</blockquote>
 
                 
               </div>
