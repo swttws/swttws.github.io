@@ -48,8 +48,15 @@
 <meta property="og:image" content="http://example.com/2023/04/10/Netty/22.jpg">
 <meta property="og:image" content="http://example.com/2023/04/10/Netty/24.jpg">
 <meta property="og:image" content="http://example.com/2023/04/10/Netty/25.jpg">
+<meta property="og:image" content="http://example.com/2023/04/10/Netty/26.jpg">
+<meta property="og:image" content="http://example.com/2023/04/10/Netty/27.jpg">
+<meta property="og:image" content="http://example.com/2023/04/10/Netty/28.jpg">
+<meta property="og:image" content="http://example.com/2023/04/10/Netty/29.jpg">
+<meta property="og:image" content="http://example.com/2023/04/10/Netty/30.jpg">
+<meta property="og:image" content="http://example.com/2023/04/10/Netty/31.jpg">
+<meta property="og:image" content="http://example.com/2023/04/10/Netty/32.jpg">
 <meta property="article:published_time" content="2023-04-10T03:21:31.000Z">
-<meta property="article:modified_time" content="2023-04-21T13:36:55.228Z">
+<meta property="article:modified_time" content="2023-04-22T07:23:43.889Z">
 <meta property="article:author" content="swt">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2023/04/10/Netty/1.jpg">
@@ -245,7 +252,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          10k 字
+          12k 字
         
       </span>
     
@@ -256,7 +263,7 @@
         
         
         
-          85 分钟
+          103 分钟
         
       </span>
     
@@ -672,6 +679,100 @@
 </ul>
 </blockquote>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doWrite</span><span class="hljs-params">(ChannelOutboundBuffer in)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>    <span class="hljs-type">int</span> <span class="hljs-variable">writeSpinCount</span> <span class="hljs-operator">=</span> config().getWriteSpinCount();<span class="hljs-comment">//获取自旋最大数（）</span><br>    <span class="hljs-keyword">do</span> &#123;<br>        <span class="hljs-type">Object</span> <span class="hljs-variable">msg</span> <span class="hljs-operator">=</span> in.current();<br>        <span class="hljs-keyword">if</span> (msg == <span class="hljs-literal">null</span>) &#123;<br>            clearOpWrite();<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        writeSpinCount -= doWriteInternal(in, msg);<br>    &#125; <span class="hljs-keyword">while</span> (writeSpinCount &gt; <span class="hljs-number">0</span>);<br>    incompleteWrite(writeSpinCount &lt; <span class="hljs-number">0</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="8、Netty堆外内存"><a href="#8、Netty堆外内存" class="headerlink" title="8、Netty堆外内存"></a>8、Netty堆外内存</h3><h4 id="（1）堆外内存与堆内内存区别"><a href="#（1）堆外内存与堆内内存区别" class="headerlink" title="（1）堆外内存与堆内内存区别"></a>（1）堆外内存与堆内内存区别</h4><blockquote>
+<ul>
+<li><p>堆内内存由JVM管理，GC回收内存会耗费一定的时间；堆外内存不受JVM管理，可以降低GC回收内存对应用运行带来的影响；</p>
+</li>
+<li><p>堆外内存需要手动释放内存，不释放会造成内存泄漏；</p>
+</li>
+<li><p>堆内内存需要IO读写时，需要将堆内内存转换位堆外内存，才可以与底层设备交互，堆外内存可以减少一次内存拷贝；</p>
+</li>
+<li><p>堆外内存可以实现进程间，JVM多实例间数据共享；</p>
+<img src="/2023/04/10/Netty/26.jpg" srcset="/img/loading.gif" lazyload class="" title="Netty"></li>
+</ul>
+</blockquote>
+<h4 id="（2）堆外内存分配"><a href="#（2）堆外内存分配" class="headerlink" title="（2）堆外内存分配"></a>（2）堆外内存分配</h4><blockquote>
+<ul>
+<li><p>ByteBuffer.allocateDirect（）：通过directByteBuffer（堆内内存中）分配的内存，directByteBuffer存储堆外内存的地址，大小等属性，当directByteBuffer被JVM回收时，Cleaner对象会回收堆外内存；</p>
+</li>
+<li><p>unsafe.allocateMemory（）：directByteBuffer调用该方法进行堆外内存分配，该方法分配堆外内存后，需要手动释放，不然会造成内存泄漏；</p>
+<img src="/2023/04/10/Netty/27.jpg" srcset="/img/loading.gif" lazyload class="" title="Netty"></li>
+</ul>
+</blockquote>
+<h4 id="（3）堆外内存回收"><a href="#（3）堆外内存回收" class="headerlink" title="（3）堆外内存回收"></a>（3）堆外内存回收</h4><blockquote>
+<ul>
+<li><p>DirectByteBuffer分配内存时，会创建Cleaner对象，Cleaner对象是虚引用，双向链表结构；</p>
+</li>
+<li><p>当堆内DirectByteBuffer被回收后，等到下一次GC回收，会将Cleaner对象添加到ReferneceQueue，并执行Cleaner中的clean方法；</p>
+</li>
+<li><p>clean方法主要执行将Cleaner对象从双向链表中移除，以及调用unsafe.freeMemory释放堆外内存；</p>
+<img src="/2023/04/10/Netty/28.jpg" srcset="/img/loading.gif" lazyload class="" title="Netty"></li>
+</ul>
+</blockquote>
+<h3 id="9、ByteBuf"><a href="#9、ByteBuf" class="headerlink" title="9、ByteBuf"></a>9、ByteBuf</h3><h4 id="（1）结构"><a href="#（1）结构" class="headerlink" title="（1）结构"></a>（1）结构</h4><blockquote>
+<ul>
+<li><p>readIndex：读取位置的开始指针，读取n个字节，readIndex+n，readIndex等于writeIndex时，表示无字节，则不能进行读；</p>
+</li>
+<li><p>writeIndex：写入位置的开始指针，写入n个指针，writeIndex加n个位置，当writeIndex等于capacity时，需要进行扩容；</p>
+</li>
+<li><p>capacity：ByteBuf容量，当writeIndex&#x3D;&#x3D;capacity时，进行扩容；</p>
+</li>
+<li><p>maxCapacity：最大容量，表示扩容后容量不能超过maxCapacity，超过该容量再写入就会报错；</p>
+<img src="/2023/04/10/Netty/29.jpg" srcset="/img/loading.gif" lazyload class="" title="Netty"></li>
+</ul>
+</blockquote>
+<h4 id="（2）引用计数"><a href="#（2）引用计数" class="headerlink" title="（2）引用计数"></a>（2）引用计数</h4><blockquote>
+<ul>
+<li>创建一个ByteBuf时，引用计数器为1，当调用ByteBuf.release（）后，引用计数器为0；</li>
+<li>当ByteBuf引用计数器为0时，会将ByteBuf放入对象池，可以直接使用，避免重复创建ByteBuf；</li>
+<li>可以用来做内存泄漏检测工具，当ByteBuf不可达时，JVM会回收ByteBuf，通过判断ByteBuf是否不可达且引用计数器大于0，判断内存泄漏的位置；</li>
+</ul>
+</blockquote>
+<h4 id="（3）ByteBuf分类"><a href="#（3）ByteBuf分类" class="headerlink" title="（3）ByteBuf分类"></a>（3）ByteBuf分类</h4><blockquote>
+<ul>
+<li>Heap&#x2F;Direct：Heap指JVM堆内分配内存，底层依赖字节数据，Direct指堆外内存，不受JVM限制，由ByteBuffer进行内存分配；</li>
+<li>Pooled&#x2F;UnPooled：Pooled指从预先分配好的内存取出，用完放回，等待下一次分配，UnPooled则是每次都是系统调用申请内存，确保能够被JVM的GC回收；</li>
+<li>Unsafe&#x2F;非Unsafe：Unsafe是利用offset+index进行操作，非Unsafe则是利用数组，直接操作下标；</li>
+</ul>
+</blockquote>
+<h3 id="10、内存管理"><a href="#10、内存管理" class="headerlink" title="10、内存管理"></a>10、内存管理</h3><h4 id="（1）内存规格"><a href="#（1）内存规格" class="headerlink" title="（1）内存规格"></a>（1）内存规格</h4><blockquote>
+<ul>
+<li>Chunk：为Netty向操作系统申请内存的基本单位，所有内存分配是基于Chunk来实现的，Chunk是页的集合，每个Chunk大小为16M</li>
+<li>Page：是Chunk用于管理内存的基本单位，大小为8k；</li>
+<li>Subpage：分配的空间远小于Page时，会将Page划分为多个相同的子块进行分配大小不固定，根据用户分配的缓冲区大小决定，如：分配1k的内存，Page会划分为8个Subpage；</li>
+<li>tiny：16-496B，small：512-4096B，normal：8k-16M，hug：&gt;16M</li>
+</ul>
+</blockquote>
+<h4 id="（2）Netty内存池架构"><a href="#（2）Netty内存池架构" class="headerlink" title="（2）Netty内存池架构"></a>（2）Netty内存池架构</h4><blockquote>
+<ul>
+<li><p>PoolArean:</p>
+</li>
+<li><ul>
+<li>tinySubpagePools数组：用于分配tiny规格内存大小；smallSubpagePools数组：用于分配small规格内存大小，如分配20B大小空间，也会向上取整32B；</li>
+<li>PoolChunkList：一共六种不同内存使用率的PoolChunkList，之间通过双向链表组合，每次会检查每个chunk内存使用率，并放入对应的位置；qInit内存被完全释放也不会回收，避免chunk重复初始化；</li>
+<li>Chunk：内存真正存储数据地方，每个chunk大小16M，page的集合，会有内存使用上限和下限，当内存分配后大于上限，会将Chunk从当前PoolChunkList移除，添加到下一个PoolChunkList，下限同理；</li>
+</ul>
+</li>
+<li><p>PoolThreadCache：当内存释放时，Netty并不会将缓存归还给chunk，而是下一次使用时，直接取出用即可；内部有MemoryRegionCache，本质是一个队列，分别存放tiny，small，normal三种规格的数据；</p>
+<img src="/2023/04/10/Netty/30.jpg" srcset="/img/loading.gif" lazyload class="" title="Netty"></li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li><p>PoolSubpage：</p>
+</li>
+<li><ul>
+<li><p>通过bitmap记录是否被访问过；</p>
+</li>
+<li><p>分配小内存时，会先去tinySubpagePools或smallSubpagePools数组中先查看对应下标元素的next节点是否有内存，存在则直接分配；</p>
+<img src="/2023/04/10/Netty/31.jpg" srcset="/img/loading.gif" lazyload class="" title="Netty">
+
+<img src="/2023/04/10/Netty/32.jpg" srcset="/img/loading.gif" lazyload class="" title="Netty"></li>
+</ul>
+</li>
+</ul>
+</blockquote>
 
                 
               </div>
