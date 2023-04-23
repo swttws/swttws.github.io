@@ -55,8 +55,11 @@
 <meta property="og:image" content="http://example.com/2023/04/10/Netty/30.jpg">
 <meta property="og:image" content="http://example.com/2023/04/10/Netty/31.jpg">
 <meta property="og:image" content="http://example.com/2023/04/10/Netty/32.jpg">
+<meta property="og:image" content="http://example.com/2023/04/10/Netty/33.jpg">
+<meta property="og:image" content="http://example.com/2023/04/10/Netty/34.jpg">
+<meta property="og:image" content="http://example.com/2023/04/10/Netty/35.jpg">
 <meta property="article:published_time" content="2023-04-10T03:21:31.000Z">
-<meta property="article:modified_time" content="2023-04-22T07:23:43.889Z">
+<meta property="article:modified_time" content="2023-04-23T13:33:59.052Z">
 <meta property="article:author" content="swt">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2023/04/10/Netty/1.jpg">
@@ -252,7 +255,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          12k 字
+          14k 字
         
       </span>
     
@@ -263,7 +266,7 @@
         
         
         
-          103 分钟
+          113 分钟
         
       </span>
     
@@ -772,6 +775,48 @@
 </ul>
 </li>
 </ul>
+</blockquote>
+<h4 id="（3）内存分配和回收"><a href="#（3）内存分配和回收" class="headerlink" title="（3）内存分配和回收"></a>（3）内存分配和回收</h4><blockquote>
+<ul>
+<li>内存分配的大小大于8k；采用page为单位进行内存分配；</li>
+<li>内存分配的大小小于8K：先去PoolThreadCahce中查找是否有内存可以分配，没有则采用Subage为单位进行分配，并且用完空间后，不会回收，而是缓存到PoolThreadCache中；</li>
+<li>PoolThreadCache：申请内存小于8K时，会到PoolThreadCache中的tiny，small中找是否有合适内存分配；申请内存大于8k，小于16M时，会冲PoolThreadCache中的normal中查找是否有符合的内存；大于16M的内存则直接分配；</li>
+</ul>
+</blockquote>
+<h3 id="4、零拷贝"><a href="#4、零拷贝" class="headerlink" title="4、零拷贝"></a>4、零拷贝</h3><blockquote>
+<ul>
+<li>零拷贝：不需要将数据从一个内存位置拷贝到另外一个内存位置，减少内存拷贝损耗；</li>
+</ul>
+</blockquote>
+<h4 id="（1）堆外内存"><a href="#（1）堆外内存" class="headerlink" title="（1）堆外内存"></a>（1）堆外内存</h4><blockquote>
+<ul>
+<li>JVM内部执行IO时，需要将堆内内存拷贝到堆外内存，JVM操作的堆内内存与操作系统分配的内存是不一样的，而且同一个对象在堆内内存的地址是不固定的，GC会通过压缩来减少内存碎片的产生；</li>
+<li>Netty执行IO是在堆外内存操作的，可以避免由堆内内存拷贝到堆外内存</li>
+</ul>
+</blockquote>
+<h4 id="（2）CompositeByteBuf"><a href="#（2）CompositeByteBuf" class="headerlink" title="（2）CompositeByteBuf"></a>（2）CompositeByteBuf</h4><blockquote>
+<ul>
+<li><p>调用addCompoments（）方法来合并两个ByteBuf，底层的byte数组还是复用的，不会进行拷贝；</p>
+</li>
+<li><p>内部维护一个Compoment数组，每一个Compoment对应一个ByteBuf，每一个ByteBuf维护各自的索引；</p>
+</li>
+<li><p>通过Compoment中的offset和endOffset，可以直到一个ByteBuf的开始读取位置到结束位置，从而形成一个逻辑整体；</p>
+<img src="/2023/04/10/Netty/33.jpg" srcset="/img/loading.gif" lazyload class="" title="Netty"></li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Component</span> &#123;<br>    <span class="hljs-keyword">final</span> ByteBuf srcBuf; <span class="hljs-comment">// 原始ByteBuf</span><br>    <span class="hljs-keyword">final</span> ByteBuf buf; <span class="hljs-comment">// srcBuf取出包装后的ByteBuf</span><br>    <span class="hljs-type">int</span> srcAdjustment; <span class="hljs-comment">// CompositeByteBuf 的起始索引相对于 srcBuf 读索引的偏移</span><br>    <span class="hljs-type">int</span> adjustment; <span class="hljs-comment">// CompositeByteBuf 的起始索引相对于 buf 的读索引的偏移</span><br>    <span class="hljs-type">int</span> offset; <span class="hljs-comment">// 相对CompositeByteBuf开始索引</span><br>    <span class="hljs-type">int</span> endOffset; <span class="hljs-comment">// 相对CompositeByteBud的结束索引</span><br>    <span class="hljs-comment">//省略其他代码</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<img src="/2023/04/10/Netty/34.jpg" srcset="/img/loading.gif" lazyload class="" title="Netty">
+
+<h4 id="（3）Unpooled-WrappedBuffer操作"><a href="#（3）Unpooled-WrappedBuffer操作" class="headerlink" title="（3）Unpooled.WrappedBuffer操作"></a>（3）Unpooled.WrappedBuffer操作</h4><blockquote>
+<p>将一个或多个ByteBuf包装为一个大的ByteBuf，底层同样是共享byte数组，不会发生数据拷贝；</p>
+</blockquote>
+<h4 id="（4）ByteBuf-slice（）操作"><a href="#（4）ByteBuf-slice（）操作" class="headerlink" title="（4）ByteBuf.slice（）操作"></a>（4）ByteBuf.slice（）操作</h4><blockquote>
+<p>将一个大的ByteBuf拆分为多个小的ByteBuf，每一个小的ByteBuf都会生成一个读写指针，底层的byte数组依旧与原来的ByteBuf共享;</p>
+<img src="/2023/04/10/Netty/35.jpg" srcset="/img/loading.gif" lazyload class="" title="Netty">
+</blockquote>
+<h4 id="（5）文件传输FileRegiion"><a href="#（5）文件传输FileRegiion" class="headerlink" title="（5）文件传输FileRegiion"></a>（5）文件传输FileRegiion</h4><blockquote>
+<p>FileRegion的对FileChannel的封装，底层使用JDK的NIO的FileChannel的transferTo（）方法实现文件传输，所以为零拷贝；</p>
 </blockquote>
 
                 
