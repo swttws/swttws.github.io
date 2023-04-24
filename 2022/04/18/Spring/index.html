@@ -31,8 +31,9 @@
 <meta property="og:image" content="http://example.com/2022/04/18/Spring/6.jpg">
 <meta property="og:image" content="http://example.com/2022/04/18/Spring/7.jpg">
 <meta property="og:image" content="http://example.com/2022/04/18/Spring/8.jpg">
+<meta property="og:image" content="http://example.com/2022/04/18/Spring/9.jpg">
 <meta property="article:published_time" content="2022-04-18T01:38:27.000Z">
-<meta property="article:modified_time" content="2023-04-20T06:28:52.997Z">
+<meta property="article:modified_time" content="2023-04-24T08:16:42.368Z">
 <meta property="article:author" content="swt">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2022/04/18/Spring/1.jpg">
@@ -228,7 +229,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          6.9k 字
+          7.4k 字
         
       </span>
     
@@ -239,7 +240,7 @@
         
         
         
-          58 分钟
+          62 分钟
         
       </span>
     
@@ -447,6 +448,24 @@
 </blockquote>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Service</span>&#123;<br>    <span class="hljs-meta">@Transaction</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">A</span><span class="hljs-params">()</span>&#123;&#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">B</span><span class="hljs-params">()</span>&#123;<br>        A();<span class="hljs-comment">//A事务失效</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
+<h3 id="5、MVC"><a href="#5、MVC" class="headerlink" title="5、MVC"></a>5、MVC</h3><h4 id="（1）执行流程"><a href="#（1）执行流程" class="headerlink" title="（1）执行流程"></a>（1）执行流程</h4><blockquote>
+<ol>
+<li><p>用户请求–&gt;DispatchServlet：前端控制器收到请求后，委托给统一控制器进行处理，作为统一访问点，进行全局流程控制；</p>
+</li>
+<li><p>DispatchServlet–&gt;HandlerMapping：HandlerMapping将请求映射为HandlerExecutionChain对象，即将url和controller进行映射；</p>
+</li>
+<li><p>DispatchServlet–&gt;HandlerAdapter：HandlerAdapter会把处理器包装为适配器，从而支持多种类型的处理器；</p>
+</li>
+<li><p>HandlerAdapter–&gt;处理器方法调用：HandlerAdapter会根据请求的url选择合适的handler，进行真正业务逻辑处理，返回ModelAndView；</p>
+</li>
+<li><p>ModelAndView–&gt;ViewResolver：将逻辑视图解析为具体的View；</p>
+</li>
+<li><p>View–&gt;渲染：根据model数据获取渲染的View；</p>
+</li>
+<li><p>返回DispatchServlet，由DispatchServlet将数据展示给用户；</p>
+<img src="/2022/04/18/Spring/9.jpg" srcset="/img/loading.gif" lazyload class="" title="spring"></li>
+</ol>
+</blockquote>
 
                 
               </div>
