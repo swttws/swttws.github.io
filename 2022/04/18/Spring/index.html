@@ -32,8 +32,9 @@
 <meta property="og:image" content="http://example.com/2022/04/18/Spring/7.jpg">
 <meta property="og:image" content="http://example.com/2022/04/18/Spring/8.jpg">
 <meta property="og:image" content="http://example.com/2022/04/18/Spring/9.jpg">
+<meta property="og:image" content="http://example.com/2022/04/18/Spring/10.jpg">
 <meta property="article:published_time" content="2022-04-18T01:38:27.000Z">
-<meta property="article:modified_time" content="2023-04-24T08:16:42.368Z">
+<meta property="article:modified_time" content="2023-05-04T07:04:58.907Z">
 <meta property="article:author" content="swt">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2022/04/18/Spring/1.jpg">
@@ -229,7 +230,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          7.4k 字
+          12k 字
         
       </span>
     
@@ -240,7 +241,7 @@
         
         
         
-          62 分钟
+          99 分钟
         
       </span>
     
@@ -466,7 +467,75 @@
 <img src="/2022/04/18/Spring/9.jpg" srcset="/img/loading.gif" lazyload class="" title="spring"></li>
 </ol>
 </blockquote>
+<h4 id="（2）HandlerMapping"><a href="#（2）HandlerMapping" class="headerlink" title="（2）HandlerMapping"></a>（2）HandlerMapping</h4><blockquote>
+<ul>
+<li><p>HandlerMapping是一个映射器（url和controller的映射），为用户发送请求找到合适的HandlerAdapter控制器；</p>
+</li>
+<li><p>会将请求映射为一个HandlerExecutionChain，包含一个handler对象，多个拦截器对象；</p>
+</li>
+<li><ul>
+<li>Handler：Object类型(Controller类)，可以将其理解为HandlerMethod对象（注解@RequestMapping标注的方法会被解析为该对象），包含了一个方法的所有信息，通过该对象可以执行该方法；</li>
+<li>HandlerInterceptor：拦截处理器，对请求方法进行增强逻辑，可以作用于方法前或方法后；</li>
+</ul>
+</li>
+<li><p>主要包括三部分：映射注册，根据url获取控制器，注册拦截器；</p>
+</li>
+<li><p>可以通过实现HandlerMapping接口，实现自己的映射规则（一般不需要自己实现）；</p>
+</li>
+</ul>
+</blockquote>
+<h5 id="①初始化HandlerMapping（initHandlerMappings（））："><a href="#①初始化HandlerMapping（initHandlerMappings（））：" class="headerlink" title="①初始化HandlerMapping（initHandlerMappings（））："></a>①初始化HandlerMapping（initHandlerMappings（））：</h5><blockquote>
+<ul>
+<li><p>若开启探测功能，扫描已注册HandlerMapping的Bean，添加到HandlerMappings中，默认开启；</p>
+</li>
+<li><p>若关闭探测功能，获得Bean名称为“handleringMapping”的bean，添加到HandlerMappings中；</p>
+</li>
+<li><p>若上面未获取到对应的HandlerMapping，则添加默认默认的实现类；RequestHandlerMapping根据注解RequestMapping获取对应的控制器；BeanNameUrlHandlerMapping则是根据xml配置的url和name获取控制器；</p>
+<img src="/2022/04/18/Spring/10.jpg" srcset="/img/loading.gif" lazyload class="" title="spring"></li>
+</ul>
+</blockquote>
+<h5 id="②AbstractHandlerMapping"><a href="#②AbstractHandlerMapping" class="headerlink" title="②AbstractHandlerMapping"></a>②AbstractHandlerMapping</h5><blockquote>
+<p>初始化：</p>
+<ul>
+<li>其父类WebApplicationObjectSupport实现了ApplicationContextAware，在初始化该bean时，调用setApplicationContext（）方法，再这个方法中会调用initApplicationContext（）方法；</li>
+<li>detectMappedInterceptors()方法：扫描所有的MappedInterceptor，添加到adaptedInterceptors；</li>
+<li>initInterceptors（）方法：将interceptor转换为HandlerInterceptor，添加到adaptedInterceptors；</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">initApplicationContext</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> BeansException &#123;<br>    <span class="hljs-comment">//空实现</span><br>    extendInterceptors(<span class="hljs-built_in">this</span>.interceptors);<br>    <span class="hljs-comment">//扫描已经注册的MappedInterceptor</span><br>    detectMappedInterceptors(<span class="hljs-built_in">this</span>.adaptedInterceptors);<br>    <span class="hljs-comment">//将interceptor转换为HandlerInterceptor</span><br>    initInterceptors();<br>&#125;<br><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">initInterceptors</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">this</span>.interceptors.isEmpty()) &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-built_in">this</span>.interceptors.size(); i++) &#123;<br>            <span class="hljs-type">Object</span> <span class="hljs-variable">interceptor</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">this</span>.interceptors.get(i);<br>            <span class="hljs-keyword">if</span> (interceptor == <span class="hljs-literal">null</span>) &#123;<br>                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">IllegalArgumentException</span>(<span class="hljs-string">&quot;Entry number &quot;</span> + i + <span class="hljs-string">&quot; in interceptors array is null&quot;</span>);<br>            &#125;<br>            <span class="hljs-built_in">this</span>.adaptedInterceptors.add(adaptInterceptor(interceptor));<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//拦截器类型转换</span><br><span class="hljs-keyword">protected</span> HandlerInterceptor <span class="hljs-title function_">adaptInterceptor</span><span class="hljs-params">(Object interceptor)</span> &#123;<br>    <span class="hljs-keyword">if</span> (interceptor <span class="hljs-keyword">instanceof</span> HandlerInterceptor) &#123;<br>        <span class="hljs-keyword">return</span> (HandlerInterceptor) interceptor;<br>    &#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (interceptor <span class="hljs-keyword">instanceof</span> WebRequestInterceptor) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">WebRequestHandlerInterceptorAdapter</span>((WebRequestInterceptor) interceptor);<br>    &#125;<br>    <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">IllegalArgumentException</span>(<span class="hljs-string">&quot;Interceptor type not supported: &quot;</span> + interceptor.getClass().getName());<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
+<blockquote>
+<p>getHandler（）方法：获取HandlerExecutionChain拦截链，包括控制器和拦截器，拦截器需要进行路径匹配才可以添加到拦截链中；</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">protected</span> HandlerExecutionChain <span class="hljs-title function_">getHandlerExecutionChain</span><span class="hljs-params">(Object handler, HttpServletRequest request)</span> &#123;<br>    <span class="hljs-type">HandlerExecutionChain</span> <span class="hljs-variable">chain</span> <span class="hljs-operator">=</span> (handler <span class="hljs-keyword">instanceof</span> HandlerExecutionChain ?<br>                                   (HandlerExecutionChain) handler : <span class="hljs-keyword">new</span> <span class="hljs-title class_">HandlerExecutionChain</span>(handler));<br>    <span class="hljs-type">String</span> <span class="hljs-variable">lookupPath</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">this</span>.urlPathHelper.getLookupPathForRequest(request);<br>    <span class="hljs-keyword">for</span> (HandlerInterceptor interceptor : <span class="hljs-built_in">this</span>.adaptedInterceptors) &#123;<br>        <span class="hljs-comment">//为拦截器</span><br>        <span class="hljs-keyword">if</span> (interceptor <span class="hljs-keyword">instanceof</span> MappedInterceptor) &#123;<br>            <span class="hljs-type">MappedInterceptor</span> <span class="hljs-variable">mappedInterceptor</span> <span class="hljs-operator">=</span> (MappedInterceptor) interceptor;<br>            <span class="hljs-comment">//拦截器于url匹配</span><br>            <span class="hljs-keyword">if</span> (mappedInterceptor.matches(lookupPath, <span class="hljs-built_in">this</span>.pathMatcher)) &#123;<br>                chain.addInterceptor(mappedInterceptor.getInterceptor());<br>            &#125;<br>        &#125;<br>        <span class="hljs-comment">//不是拦截器类型，直接添加</span><br>        <span class="hljs-keyword">else</span> &#123;<br>            chain.addInterceptor(interceptor);<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> chain;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="③HandlerInterceptor"><a href="#③HandlerInterceptor" class="headerlink" title="③HandlerInterceptor"></a>③HandlerInterceptor</h5><blockquote>
+<ul>
+<li>通过实现WebMvcConfigurer配置类的addInterceptors（InterceptorRegistry registry）方法，添加拦截器；</li>
+<li>拦截器执行顺序为添加拦截器时的顺序；</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">HandlerInterceptor</span> &#123;<br>	<span class="hljs-comment">//前置处理器</span><br>    <span class="hljs-keyword">default</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">preHandle</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response, </span><br><span class="hljs-params">                              Object handler)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>	<span class="hljs-comment">//后置处理器</span><br>    <span class="hljs-keyword">default</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">postHandle</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response, </span><br><span class="hljs-params">                            Object handler, <span class="hljs-meta">@Nullable</span> ModelAndView modelAndView)</span> <br>    <span class="hljs-keyword">throws</span> Exception &#123;<br>        <br>    &#125;<br>    <span class="hljs-comment">//完成后处理</span><br>    <span class="hljs-keyword">default</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">afterCompletion</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response</span><br><span class="hljs-params">                                 ,Object handler, <span class="hljs-meta">@Nullable</span> Exception ex)</span> <br>    <span class="hljs-keyword">throws</span> Exception &#123;<br>        <br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="（3）HandlerAdapter"><a href="#（3）HandlerAdapter" class="headerlink" title="（3）HandlerAdapter"></a>（3）HandlerAdapter</h4><blockquote>
+<ul>
+<li><p>handler为Object类型，用户处理器可以通过实现Controller接口、HttpRequestHandler接口、@RequestMapping注解来实现，因此springMVC无法直接执行该处理器，需要通过一个适配器HandlerAdapter来执行该方法；</p>
+</li>
+<li><p>ServletInvocationHandlerMethod：封装了HandlerMethod对象，主题业务调用其invokeAndHandle（）方法，最终调用其父类InvocationHandle中的invokeForRequest（）方法，其中包括了参数解析器（HandlerMethodArgumentResolver）和返回值处理器（HandlerMethodReturnValueResolver）；</p>
+</li>
+<li><p>HandlerMethodArgumentResolver：参数解析器，包含多种不同类型的参数解析器，存储在LinkedList中，因此是有序解析，排在前解析器若解析到该参数，后面解析器不会执行；</p>
+</li>
+<li><p>HandlerMethodReturnValueResolver：返回值解析器，包含多种不同类型的参数解析器；</p>
+</li>
+<li><ul>
+<li>RequestResponseBodyMethodProccessor（即是参数解析器，也是返回结果处理器）：处理添加了@RequestBody注解的入参，处理添加了@ResponseBody注解的返回值；会将ModelAndViewContainer的requestHandler设置为true，表示返回视图为null，不会进行视图渲染，从而实现前后分离；</li>
+<li>ViewNameMethodReturnHandler：处理返回结果为视图的类，返回值为void或字符串时，该类都可以将结果设置为视图名；</li>
+<li>当返回的类型为字符串，且不是视图类型，由于RequestResponseBodyMethodProccessor的添加顺序先于ViewNameMethodReturnHandler，因此交给RequestResponseBodyMethodProccessor处理返回值；</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4>
                 
               </div>
             
