@@ -19,25 +19,25 @@
     <meta name="description" content="1、IOC（1）控制反转  传统的业务开发中，A对象需要B对象，是由A对象去new创建B对象，并管理者B对象的生命周期；  使用IOC后，对象的管理权交给ioc，A对象需要B对象时，直接从IOC容器中注入B对象到A中，A无需知道B对象是怎么创建的，也不用管理B对象的生命周期；    （2）IOC优点  降低对象之间的依赖程度；  可以很好实现单例bean；  在传统开发中，UserServiceI">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring">
-<meta property="og:url" content="http://example.com/2022/04/18/Spring/index.html">
+<meta property="og:url" content="http://example.com/2021/09/18/Spring/index.html">
 <meta property="og:site_name" content="SWT博客">
 <meta property="og:description" content="1、IOC（1）控制反转  传统的业务开发中，A对象需要B对象，是由A对象去new创建B对象，并管理者B对象的生命周期；  使用IOC后，对象的管理权交给ioc，A对象需要B对象时，直接从IOC容器中注入B对象到A中，A无需知道B对象是怎么创建的，也不用管理B对象的生命周期；    （2）IOC优点  降低对象之间的依赖程度；  可以很好实现单例bean；  在传统开发中，UserServiceI">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2022/04/18/Spring/1.jpg">
-<meta property="og:image" content="http://example.com/2022/04/18/Spring/2.jpg">
-<meta property="og:image" content="http://example.com/2022/04/18/Spring/3.jpg">
-<meta property="og:image" content="http://example.com/2022/04/18/Spring/4.jpg">
-<meta property="og:image" content="http://example.com/2022/04/18/Spring/5.jpg">
-<meta property="og:image" content="http://example.com/2022/04/18/Spring/6.jpg">
-<meta property="og:image" content="http://example.com/2022/04/18/Spring/7.jpg">
-<meta property="og:image" content="http://example.com/2022/04/18/Spring/8.jpg">
-<meta property="og:image" content="http://example.com/2022/04/18/Spring/9.jpg">
-<meta property="og:image" content="http://example.com/2022/04/18/Spring/10.jpg">
-<meta property="article:published_time" content="2022-04-18T01:38:27.000Z">
-<meta property="article:modified_time" content="2023-05-05T05:15:03.147Z">
+<meta property="og:image" content="http://example.com/2021/09/18/Spring/1.jpg">
+<meta property="og:image" content="http://example.com/2021/09/18/Spring/2.jpg">
+<meta property="og:image" content="http://example.com/2021/09/18/Spring/3.jpg">
+<meta property="og:image" content="http://example.com/2021/09/18/Spring/4.jpg">
+<meta property="og:image" content="http://example.com/2021/09/18/Spring/5.jpg">
+<meta property="og:image" content="http://example.com/2021/09/18/Spring/6.jpg">
+<meta property="og:image" content="http://example.com/2021/09/18/Spring/7.jpg">
+<meta property="og:image" content="http://example.com/2021/09/18/Spring/8.jpg">
+<meta property="og:image" content="http://example.com/2021/09/18/Spring/9.jpg">
+<meta property="og:image" content="http://example.com/2021/09/18/Spring/10.jpg">
+<meta property="article:published_time" content="2021-09-18T01:38:27.000Z">
+<meta property="article:modified_time" content="2023-05-05T06:14:50.289Z">
 <meta property="article:author" content="swt">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2022/04/18/Spring/1.jpg">
+<meta name="twitter:image" content="http://example.com/2021/09/18/Spring/1.jpg">
   
   
   
@@ -218,8 +218,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-04-18 09:38" pubdate>
-          2022年4月18日 上午
+        <time datetime="2021-09-18 09:38" pubdate>
+          2021年9月18日 上午
         </time>
       </span>
     
@@ -289,7 +289,7 @@
 <li><p>传统的业务开发中，A对象需要B对象，是由A对象去new创建B对象，并管理者B对象的生命周期；</p>
 </li>
 <li><p>使用IOC后，对象的管理权交给ioc，A对象需要B对象时，直接从IOC容器中注入B对象到A中，A无需知道B对象是怎么创建的，也不用管理B对象的生命周期；</p>
-<img src="/2022/04/18/Spring/1.jpg" srcset="/img/loading.gif" lazyload class="" title="spring"></li>
+<img src="/2021/09/18/Spring/1.jpg" srcset="/img/loading.gif" lazyload class="" title="spring"></li>
 </ul>
 </blockquote>
 <h4 id="（2）IOC优点"><a href="#（2）IOC优点" class="headerlink" title="（2）IOC优点"></a>（2）IOC优点</h4><blockquote>
@@ -299,14 +299,14 @@
 <li><p>可以很好实现单例bean；</p>
 </li>
 <li><p>在传统开发中，UserServiceImpl中，需要应用UserDao实现类，需要new一个实现类UserDaoImpl，当dao实现类需要修改为另外一个时，service中依赖该dao的new代码，都需要修改（如果由100个service类依赖该dao，就要修改100次），代码耦合度过高；</p>
-<img src="/2022/04/18/Spring/2.jpg" srcset="/img/loading.gif" lazyload class="" title="spring"></li>
+<img src="/2021/09/18/Spring/2.jpg" srcset="/img/loading.gif" lazyload class="" title="spring"></li>
 </ul>
 </blockquote>
 <blockquote>
 <ul>
 <li>对象交给SpringIOC控制后，代码的依赖性大大降低，在修改dao实现类时，由于dao对象已经交由ioc容器管理，service层代码不需要修改任何代码，直接和IOC容器要即可；</li>
 </ul>
-<img src="/2022/04/18/Spring/3.jpg" srcset="/img/loading.gif" lazyload class="" title="spring">
+<img src="/2021/09/18/Spring/3.jpg" srcset="/img/loading.gif" lazyload class="" title="spring">
 </blockquote>
 <h3 id="2、AOP"><a href="#2、AOP" class="headerlink" title="2、AOP"></a>2、AOP</h3><blockquote>
 <ol>
@@ -320,15 +320,15 @@
 <li><p>在OOP编程中，可以解决大部分纵向垂直代码的重复问题，但无法解决父类多个方法中，同一个位置出现重复代码的问题；</p>
 </li>
 <li><p>如下实例，Student类和Teacher类继承Person类，可以自动获得父类Person中的方法，这样可以减少重复代码的出现；但是Person多个方法中出现多个同样逻辑，oop无法解决代码重复问题</p>
-<img src="/2022/04/18/Spring/4.jpg" srcset="/img/loading.gif" lazyload class="" title="spring">
+<img src="/2021/09/18/Spring/4.jpg" srcset="/img/loading.gif" lazyload class="" title="spring">
 
-<img src="/2022/04/18/Spring/5.jpg" srcset="/img/loading.gif" lazyload class="" title="spring"></li>
+<img src="/2021/09/18/Spring/5.jpg" srcset="/img/loading.gif" lazyload class="" title="spring"></li>
 </ul>
 </blockquote>
 <blockquote>
 <ul>
 <li><p>AOP将与业务无关的代码，与业务代码分离出来。在不改变原有业务逻辑的情况下，将增强逻辑代码织入到业务代码中，从而减少大量重复代码；</p>
-<img src="/2022/04/18/Spring/6.jpg" srcset="/img/loading.gif" lazyload class="" title="spring"></li>
+<img src="/2021/09/18/Spring/6.jpg" srcset="/img/loading.gif" lazyload class="" title="spring"></li>
 </ul>
 </blockquote>
 <h4 id="（2）AOP术语"><a href="#（2）AOP术语" class="headerlink" title="（2）AOP术语"></a>（2）AOP术语</h4><blockquote>
@@ -355,9 +355,9 @@
 <li><p>AopInterceptorChain：拦截器链，addInterceptor实现添加拦截器，，executeChain方法依次执行拦截器链中的拦截器；</p>
 </li>
 <li><p>InvocationWrapper：拦截器链的递归调用，proceed方法执行目标方法；</p>
-<img src="/2022/04/18/Spring/7.jpg" srcset="/img/loading.gif" lazyload class="" title="spring">
+<img src="/2021/09/18/Spring/7.jpg" srcset="/img/loading.gif" lazyload class="" title="spring">
 
-<img src="/2022/04/18/Spring/8.jpg" srcset="/img/loading.gif" lazyload class="" title="spring"></li>
+<img src="/2021/09/18/Spring/8.jpg" srcset="/img/loading.gif" lazyload class="" title="spring"></li>
 </ul>
 </blockquote>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//封装被代理类信息</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">MethodInvocation</span> &#123;<br>    Object <span class="hljs-title function_">proceed</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Throwable;<br>    Method <span class="hljs-title function_">getMethod</span><span class="hljs-params">()</span>;<br>    Object[] getArgs();<br>    Object <span class="hljs-title function_">getThis</span><span class="hljs-params">()</span>;<br>&#125;<br><br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">MethodInterceptor</span> &#123;<br>    Object <span class="hljs-title function_">invoke</span><span class="hljs-params">(MethodInvocation invocation)</span> <span class="hljs-keyword">throws</span> Throwable;<br>&#125;<br><br><br><span class="hljs-comment">//封装拦截链和MethodInvocation</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">InvocationWrapper</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">MethodInvocation</span>&#123;<br><br>    <span class="hljs-keyword">private</span> AopInterceptorChain chain;<br>    <span class="hljs-keyword">private</span> MethodInvocation invocation;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">InvocationWrapper</span><span class="hljs-params">(AopInterceptorChain chain,MethodInvocation invocation)</span>&#123;<br>        <span class="hljs-built_in">this</span>.chain=chain;<br>        <span class="hljs-built_in">this</span>.invocation=invocation;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">proceed</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Throwable &#123;<br>        <span class="hljs-comment">//递归调用拦截器</span><br>        <span class="hljs-keyword">return</span> chain.executeChain(invocation);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Method <span class="hljs-title function_">getMethod</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> invocation.getMethod();<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Object[] getArgs() &#123;<br>        <span class="hljs-keyword">return</span> invocation.getArgs();<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">getThis</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> invocation.getThis();<br>    &#125;<br>&#125;<br><br><br><span class="hljs-comment">//拦截链</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AopInterceptorChain</span> &#123;<br>    <span class="hljs-keyword">private</span> List&lt;MethodInterceptor&gt; chain=<span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addInterceptor</span><span class="hljs-params">(MethodInterceptor interceptor)</span>&#123;<br>        chain.add(interceptor);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">executeChain</span><span class="hljs-params">(MethodInvocation invocation)</span> <span class="hljs-keyword">throws</span> Throwable &#123;<br>        <span class="hljs-keyword">if</span> (chain.isEmpty())&#123;<br>            <span class="hljs-comment">//执行业务逻辑</span><br>            <span class="hljs-keyword">return</span> invocation.proceed();<br>        &#125;<br>        <span class="hljs-comment">//获取代理链</span><br>        <span class="hljs-type">MethodInterceptor</span> <span class="hljs-variable">interceptor</span> <span class="hljs-operator">=</span> chain.remove(<span class="hljs-number">0</span>);<br>        <span class="hljs-comment">//执行拦截器逻辑，并将拦截链和invocation封装到  InvocationWrapper</span><br>        <span class="hljs-keyword">return</span> interceptor.invoke(<span class="hljs-keyword">new</span> <span class="hljs-title class_">InvocationWrapper</span>(<span class="hljs-built_in">this</span>,invocation));<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
@@ -464,7 +464,7 @@
 <li><p>View–&gt;渲染：根据model数据获取渲染的View；</p>
 </li>
 <li><p>返回DispatchServlet，由DispatchServlet将数据展示给用户；</p>
-<img src="/2022/04/18/Spring/9.jpg" srcset="/img/loading.gif" lazyload class="" title="spring"></li>
+<img src="/2021/09/18/Spring/9.jpg" srcset="/img/loading.gif" lazyload class="" title="spring"></li>
 </ol>
 </blockquote>
 <h4 id="（2）HandlerMapping"><a href="#（2）HandlerMapping" class="headerlink" title="（2）HandlerMapping"></a>（2）HandlerMapping</h4><blockquote>
@@ -491,7 +491,7 @@
 <li><p>若关闭探测功能，获得Bean名称为“handleringMapping”的bean，添加到HandlerMappings中；</p>
 </li>
 <li><p>若上面未获取到对应的HandlerMapping，则添加默认默认的实现类；RequestHandlerMapping根据注解RequestMapping获取对应的控制器；BeanNameUrlHandlerMapping则是根据xml配置的url和name获取控制器；</p>
-<img src="/2022/04/18/Spring/10.jpg" srcset="/img/loading.gif" lazyload class="" title="spring"></li>
+<img src="/2021/09/18/Spring/10.jpg" srcset="/img/loading.gif" lazyload class="" title="spring"></li>
 </ul>
 </blockquote>
 <h5 id="②AbstractHandlerMapping"><a href="#②AbstractHandlerMapping" class="headerlink" title="②AbstractHandlerMapping"></a>②AbstractHandlerMapping</h5><blockquote>
@@ -584,7 +584,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>Spring</div>
-      <div>http://example.com/2022/04/18/Spring/</div>
+      <div>http://example.com/2021/09/18/Spring/</div>
     </div>
     <div class="license-meta">
       
@@ -596,7 +596,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年4月18日</div>
+          <div>2021年9月18日</div>
         </div>
       
       
@@ -628,9 +628,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/06/06/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="数据结构">
+                      <a href="/2022/01/05/SpringBoot/" title="SpringBoot">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">数据结构</span>
+                        <span class="hidden-mobile">SpringBoot</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
