@@ -34,7 +34,7 @@
 <meta property="og:image" content="http://example.com/2022/04/18/Spring/9.jpg">
 <meta property="og:image" content="http://example.com/2022/04/18/Spring/10.jpg">
 <meta property="article:published_time" content="2022-04-18T01:38:27.000Z">
-<meta property="article:modified_time" content="2023-05-04T07:04:58.907Z">
+<meta property="article:modified_time" content="2023-05-05T05:15:03.147Z">
 <meta property="article:author" content="swt">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2022/04/18/Spring/1.jpg">
@@ -230,7 +230,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          12k 字
+          14k 字
         
       </span>
     
@@ -241,7 +241,7 @@
         
         
         
-          99 分钟
+          115 分钟
         
       </span>
     
@@ -535,7 +535,38 @@
 </li>
 </ul>
 </blockquote>
-<h4 id=""><a href="#" class="headerlink" title=""></a></h4>
+<h4 id="（4）MultipartResolver"><a href="#（4）MultipartResolver" class="headerlink" title="（4）MultipartResolver"></a>（4）MultipartResolver</h4><blockquote>
+<ul>
+<li>请求头中Content-type类型为：multipart&#x2F;*，MutlipartResolver会将HttpServletRequest解析成MultipartHttpServletRequest对象，以便获取Mutlipart对象；</li>
+<li>MutlipartResolver类型有两种，分别为StandardServletMultipartResolver和CommonMultipartResolver，springboot中默认为StandardServletMutlipartRedolver，会将文件封装为StandardMutlipart；</li>
+</ul>
+</blockquote>
+<h4 id="（5）HandlerExceptionResovler"><a href="#（5）HandlerExceptionResovler" class="headerlink" title="（5）HandlerExceptionResovler"></a>（5）HandlerExceptionResovler</h4><h5 id="①ExceptionHandlerExceptionResolver"><a href="#①ExceptionHandlerExceptionResolver" class="headerlink" title="①ExceptionHandlerExceptionResolver"></a>①ExceptionHandlerExceptionResolver</h5><blockquote>
+<ul>
+<li>基于@ExceptionHandler注解配置HandlerMethod的HandlerExceptionResolver的实现类；</li>
+<li>该类实现了InitializingBean接口，Spring初始化Bean时会调用afterPropertiesSet（）方法进行初始化，将有@ContorllerAdvice注解的bean:异常处理器，添加到map集合（exceptionHandlerAdviceCache），同时初始化参数解析器和返回值解析器；</li>
+</ul>
+</blockquote>
+<h5 id="②ExceptionHandlerMethodResolver"><a href="#②ExceptionHandlerMethodResolver" class="headerlink" title="②ExceptionHandlerMethodResolver"></a>②ExceptionHandlerMethodResolver</h5><blockquote>
+<ul>
+<li>添加@ControllerAdvice注解的bean，用于解析@ExceptionHandler注解的方法；</li>
+<li>将异常类：@ExceptionHandler注解的方法，添加到map中（mappedMethods）；</li>
+<li>resolveMethod(Exception exception)：获取异常对应的方法，会从exceptionLookupCache中查找，查找不到则到mappedMethods中排序获取第一个匹配方法，添加到exceptionLookupCahce中；</li>
+<li>doResolveHandlerMethodException（）：真正执行处理异常的逻辑；</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> Method <span class="hljs-title function_">resolveMethod</span><span class="hljs-params">(Exception exception)</span> &#123;<br>	<span class="hljs-keyword">return</span> resolveMethodByThrowable(exception);<br>&#125;<br><br><span class="hljs-meta">@Nullable</span><br><span class="hljs-keyword">public</span> Method <span class="hljs-title function_">resolveMethodByThrowable</span><span class="hljs-params">(Throwable exception)</span> &#123;<br>    <span class="hljs-comment">//获取异常对应的方法</span><br>    <span class="hljs-type">Method</span> <span class="hljs-variable">method</span> <span class="hljs-operator">=</span> resolveMethodByExceptionType(exception.getClass());<br>    <span class="hljs-keyword">if</span> (method == <span class="hljs-literal">null</span>) &#123;<br>        <span class="hljs-type">Throwable</span> <span class="hljs-variable">cause</span> <span class="hljs-operator">=</span> exception.getCause();<br>        <span class="hljs-keyword">if</span> (cause != <span class="hljs-literal">null</span>) &#123;<br>            method = resolveMethodByExceptionType(cause.getClass());<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> method;<br>&#125;<br><br><span class="hljs-meta">@Nullable</span><br><span class="hljs-keyword">public</span> Method <span class="hljs-title function_">resolveMethodByExceptionType</span><span class="hljs-params">(Class&lt;? extends Throwable&gt; exceptionType)</span> &#123;<br>    <span class="hljs-type">Method</span> <span class="hljs-variable">method</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">this</span>.exceptionLookupCache.get(exceptionType);<br>    <span class="hljs-comment">//获取不到，则从mappedMethods中获取，并添加到exceptionLookupCache中</span><br>    <span class="hljs-keyword">if</span> (method == <span class="hljs-literal">null</span>) &#123;<br>        method = getMappedMethod(exceptionType);<br>        <span class="hljs-built_in">this</span>.exceptionLookupCache.put(exceptionType, method);<br>    &#125;<br>    <span class="hljs-keyword">return</span> method;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="③ResponseStatusExceptionResolver"><a href="#③ResponseStatusExceptionResolver" class="headerlink" title="③ResponseStatusExceptionResolver"></a>③ResponseStatusExceptionResolver</h5><blockquote>
+<ul>
+<li>基于@ResponseStatus注解提供错误响应的HandlerExceptionResolver实现类；</li>
+<li>applyStatusAndReason（）方法：设置错误响应；</li>
+</ul>
+</blockquote>
+<h5 id="④DefaultHandlerExceptionResolver"><a href="#④DefaultHandlerExceptionResolver" class="headerlink" title="④DefaultHandlerExceptionResolver"></a>④DefaultHandlerExceptionResolver</h5><blockquote>
+<p>默认HandlerExceptionResolver的实现类，针对不同异常，设置不同的错误响应码；</p>
+</blockquote>
+
                 
               </div>
             
