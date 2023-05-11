@@ -1,0 +1,786 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="swt">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1、功能体系（1）SpringSecurity与单体应用  认证：对于每一次请求访问认证，系统会校验该请求访问者是否具有合法身份；  授权：用户通过认证后，可以访问服务器资源，但服务器资源某些资源可能需要更加高级用户才能访问，因此需要对访问的权限进行验证；    （2）SpringSecurity与微服务应用  微服务中，每个服务消费者是客户端，而服务提供者是资源服务器，所以各服务既可以是客户端，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringSecurity">
+<meta property="og:url" content="http://example.com/2023/05/11/SpringSecurity/index.html">
+<meta property="og:site_name" content="SWT博客">
+<meta property="og:description" content="1、功能体系（1）SpringSecurity与单体应用  认证：对于每一次请求访问认证，系统会校验该请求访问者是否具有合法身份；  授权：用户通过认证后，可以访问服务器资源，但服务器资源某些资源可能需要更加高级用户才能访问，因此需要对访问的权限进行验证；    （2）SpringSecurity与微服务应用  微服务中，每个服务消费者是客户端，而服务提供者是资源服务器，所以各服务既可以是客户端，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/05/11/SpringSecurity/1.jpg">
+<meta property="og:image" content="http://example.com/2023/05/11/SpringSecurity/2.jpg">
+<meta property="og:image" content="http://example.com/2023/05/11/SpringSecurity/3.jpg">
+<meta property="og:image" content="http://example.com/2023/05/11/SpringSecurity/4.jpg">
+<meta property="og:image" content="http://example.com/2023/05/11/SpringSecurity/5.jpg">
+<meta property="og:image" content="http://example.com/2023/05/11/SpringSecurity/6.jpg">
+<meta property="og:image" content="http://example.com/2023/05/11/SpringSecurity/7.jpg">
+<meta property="article:published_time" content="2023-05-11T00:52:28.000Z">
+<meta property="article:modified_time" content="2023-05-11T08:23:52.279Z">
+<meta property="article:author" content="swt">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2023/05/11/SpringSecurity/1.jpg">
+  
+  
+  
+  <title>SpringSecurity - SWT博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="SpringSecurity"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-05-11 08:52" pubdate>
+          2023年5月11日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          11k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          90 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">SpringSecurity</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="1、功能体系"><a href="#1、功能体系" class="headerlink" title="1、功能体系"></a>1、功能体系</h3><h4 id="（1）SpringSecurity与单体应用"><a href="#（1）SpringSecurity与单体应用" class="headerlink" title="（1）SpringSecurity与单体应用"></a>（1）SpringSecurity与单体应用</h4><blockquote>
+<ul>
+<li><p>认证：对于每一次请求访问认证，系统会校验该请求访问者是否具有合法身份；</p>
+</li>
+<li><p>授权：用户通过认证后，可以访问服务器资源，但服务器资源某些资源可能需要更加高级用户才能访问，因此需要对访问的权限进行验证；</p>
+<img src="/2023/05/11/SpringSecurity/1.jpg" srcset="/img/loading.gif" lazyload class="" title="SpringSecurity"></li>
+</ul>
+</blockquote>
+<h4 id="（2）SpringSecurity与微服务应用"><a href="#（2）SpringSecurity与微服务应用" class="headerlink" title="（2）SpringSecurity与微服务应用"></a>（2）SpringSecurity与微服务应用</h4><blockquote>
+<ul>
+<li><p>微服务中，每个服务消费者是客户端，而服务提供者是资源服务器，所以各服务既可以是客户端，也可以为资源服务器；</p>
+</li>
+<li><p>微服务应用中添加了授权中心，授权中心会获取用户请求身份凭证，返回token信息；</p>
+</li>
+<li><p>用户请求通过token访问服务，服务对token进行认证授权，访问对应端点资源；</p>
+<img src="/2023/05/11/SpringSecurity/2.jpg" srcset="/img/loading.gif" lazyload class="" title="SpringSecurity"></li>
+</ul>
+</blockquote>
+<h3 id="2、认证"><a href="#2、认证" class="headerlink" title="2、认证"></a>2、认证</h3><h4 id="（1）SpringSecurity用户对象"><a href="#（1）SpringSecurity用户对象" class="headerlink" title="（1）SpringSecurity用户对象"></a>（1）SpringSecurity用户对象</h4><blockquote>
+<ul>
+<li><p>UserDetails：SpringSecurity用户对象；</p>
+</li>
+<li><p>GrantedAuthority：定义用户操作权限；</p>
+</li>
+<li><p>UserDetailsService：定义了对UserDetail的查询操作；</p>
+</li>
+<li><p>UserDetailsManager：扩展UserDetailsService，添加了创建用户，修改用户密码等；</p>
+<img src="/2023/05/11/SpringSecurity/3.jpg" srcset="/img/loading.gif" lazyload class="" title="SpringSecurity"></li>
+</ul>
+</blockquote>
+<h4 id="（2）认证对象"><a href="#（2）认证对象" class="headerlink" title="（2）认证对象"></a>（2）认证对象</h4><blockquote>
+<ul>
+<li><p>Authentication：认证的请求本身，认证过程交由相应组件AuthenticationProvider完成；</p>
+</li>
+<li><p>SpringSecurity是使用AuthenticationManager接口来代理AuthenticationProvider实现认证，如JdbcUserDetailsManager：</p>
+<img src="/2023/05/11/SpringSecurity/4.jpg" srcset="/img/loading.gif" lazyload class="" title="SpringSecurity">
+</li>
+<li><p>UsernamePasswordAuthenticationToken是实现Authentication接口的实现类，用于存储用户认证所需的用户名和密码；</p>
+</li>
+</ul>
+</blockquote>
+<h4 id="（3）定制化认证"><a href="#（3）定制化认证" class="headerlink" title="（3）定制化认证"></a>（3）定制化认证</h4><blockquote>
+<ul>
+<li><p>实现UserDetails接口，该实现类可以自定义我们需要的对应数据库字段；</p>
+</li>
+<li><p>实现UserDetailsService接口，该实现类主重写方法loadUserByUsername（），可以根据用户名到数据库中查找；</p>
+</li>
+<li><p>实现AuthenticationProvider接口，重写authenticate（）和supports（）方法，authenticate（）方法执行逻辑如下：</p>
+</li>
+<li><p>继承WebSecurityConfiurateAdapter，重写configurate（）方法，添加自定义的AuthenticationProvider和UserDetailsService</p>
+<img src="/2023/05/11/SpringSecurity/5.jpg" srcset="/img/loading.gif" lazyload class="" title="SpringSecurity"></li>
+</ul>
+</blockquote>
+<h4 id="（4）PassWordEncoder"><a href="#（4）PassWordEncoder" class="headerlink" title="（4）PassWordEncoder"></a>（4）PassWordEncoder</h4><blockquote>
+<p>加密器：</p>
+<ul>
+<li>NoOpPasswordEncoder：不对密码进行加密。</li>
+<li>StandardPasswordEncoder：使用 SHA-256 算法对密码执行哈希操作，该算法通过获取盐和明文密码最终生成密文密码，加盐是指在密码加密中，往原密码中加入附加数据，然后再加密；</li>
+<li>BCryptPasswordEncoder：使用 bcrypt 强哈希算法对密码执行哈希操作。</li>
+<li>Pbkdf2PasswordEncoder：使用 PBKDF2 算法对密码执行哈希操作。</li>
+</ul>
+<p>DelegatingPasswordEncoder：</p>
+<ul>
+<li><p>起到代理组件的角色，通过器代理，可以将密码分配到对应的密码加密器加密和解密；</p>
+</li>
+<li><p>默认实现的加密器为BCryptPasswordEncoder，通过PasswordEncoderFactories创建该代理类；</p>
+</li>
+<li><p>数据库存储密文密码格式为：{id}password</p>
+<img src="/2023/05/11/SpringSecurity/6.jpg" srcset="/img/loading.gif" lazyload class="" title="SpringSecurity"></li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//DelegatingPasswordEncoder.class</span><br><span class="hljs-keyword">public</span> <span class="hljs-title function_">DelegatingPasswordEncoder</span><span class="hljs-params">(String idForEncode,</span><br><span class="hljs-params">                                 Map&lt;String, PasswordEncoder&gt; idToPasswordEncoder)</span> &#123;<br>    <span class="hljs-comment">//代码忽略</span><br>    <span class="hljs-built_in">this</span>.idForEncode = idForEncode;<br>    <span class="hljs-comment">//对应加密器</span><br>    <span class="hljs-built_in">this</span>.passwordEncoderForEncode = idToPasswordEncoder.get(idForEncode);<br>    <span class="hljs-comment">//key：前缀，value：加密器类</span><br>    <span class="hljs-built_in">this</span>.idToPasswordEncoder = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;(idToPasswordEncoder);<br>&#125;<br><span class="hljs-comment">//PasswordEncoderFactories.class</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> PasswordEncoder <span class="hljs-title function_">createDelegatingPasswordEncoder</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">String</span> <span class="hljs-variable">encodingId</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;bcrypt&quot;</span>;<br>    Map&lt;String, PasswordEncoder&gt; encoders = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br>    encoders.put(encodingId, <span class="hljs-keyword">new</span> <span class="hljs-title class_">BCryptPasswordEncoder</span>());<br>    encoders.put(<span class="hljs-string">&quot;ldap&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">org</span>.springframework.security.crypto.password.LdapShaPasswordEncoder());<br>    encoders.put(<span class="hljs-string">&quot;MD4&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">org</span>.springframework.security.crypto.password.Md4PasswordEncoder());<br>    encoders.put(<span class="hljs-string">&quot;MD5&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">org</span>.springframework.security.crypto.password.MessageDigestPasswordEncoder(<span class="hljs-string">&quot;MD5&quot;</span>));<br>    encoders.put(<span class="hljs-string">&quot;noop&quot;</span>, org.springframework.security.crypto.password.NoOpPasswordEncoder.getInstance());<br>    encoders.put(<span class="hljs-string">&quot;pbkdf2&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Pbkdf2PasswordEncoder</span>());<br>    encoders.put(<span class="hljs-string">&quot;scrypt&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">SCryptPasswordEncoder</span>());<br>    encoders.put(<span class="hljs-string">&quot;SHA-1&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">org</span>.springframework.security.crypto.password.MessageDigestPasswordEncoder(<span class="hljs-string">&quot;SHA-1&quot;</span>));<br>    encoders.put(<span class="hljs-string">&quot;SHA-256&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">org</span>.springframework.security.crypto.password.MessageDigestPasswordEncoder(<span class="hljs-string">&quot;SHA-256&quot;</span>));<br>    encoders.put(<span class="hljs-string">&quot;sha256&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">org</span>.springframework.security.crypto.password.StandardPasswordEncoder());<br>    encoders.put(<span class="hljs-string">&quot;argon2&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Argon2PasswordEncoder</span>());<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">DelegatingPasswordEncoder</span>(encodingId, encoders);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="3、授权"><a href="#3、授权" class="headerlink" title="3、授权"></a>3、授权</h3><h4 id="（1）基于权限进行访问控制"><a href="#（1）基于权限进行访问控制" class="headerlink" title="（1）基于权限进行访问控制"></a>（1）基于权限进行访问控制</h4><blockquote>
+<ul>
+<li>需要在WebSecurityConfigurerAdapter中的configure（）方法，进行权限配置；</li>
+<li>hasAuthority（String role）：允许具有特定权限访问；</li>
+<li>hasAnyAuthority（String role）：允许具有任一权限进行访问；</li>
+<li>acess（）：根据表达式，确定所需权限；</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//具有CREATE权限可以访问</span><br>http.authorizeRequests().anyRequest().access(<span class="hljs-string">&quot;hasAuthority(&#x27;CREATE&#x27;)&quot;</span>);<br><span class="hljs-comment">//具有user权限可以访问</span><br>http.authorizeRequests().anyRequest().hasAuthority(<span class="hljs-string">&quot;user&quot;</span>);<br><span class="hljs-comment">//具有user，admin权限其中一个，就可以访问</span><br>http.authorizeRequests().anyRequest().hasAnyAuthority(<span class="hljs-string">&quot;user&quot;</span>,<span class="hljs-string">&quot;admin&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<h4 id="（2）基于角色进行访问控制"><a href="#（2）基于角色进行访问控制" class="headerlink" title="（2）基于角色进行访问控制"></a>（2）基于角色进行访问控制</h4><blockquote>
+<ul>
+<li>将角色看出为拥有多个权限的载体，以”ROLE_“为前缀的GrantedAuthority，就代表一种角色；</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//具有ROLE_ADMIN权限的用户才能访问</span><br>http.authorizeRequests().anyRequest().hasRole(<span class="hljs-string">&quot;ADMIN&quot;</span>);<br><span class="hljs-comment">//具有ROLE_ADMIN或者ROLE_USER的用户才能访问</span><br>http.authorizeRequests().anyRequest().hasRole(<span class="hljs-string">&quot;ADMIN&quot;</span>,<span class="hljs-string">&quot;USER&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<h4 id="（3）使用配置方法控制访问权限"><a href="#（3）使用配置方法控制访问权限" class="headerlink" title="（3）使用配置方法控制访问权限"></a>（3）使用配置方法控制访问权限</h4><blockquote>
+<ul>
+<li>MVC匹配器：使用mvcMatchers（），根据方法的请求路径进行权限匹配；</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//  /hello路径下的请求，需要具有ADMIN权限才能进行访问，其他路径以直接访问</span><br>http.authorizeRequests().mvcMatchers(<span class="hljs-string">&quot;/hello&quot;</span>).hasRole(<span class="hljs-string">&quot;ADMIN&quot;</span>).anyRequest().permijtAll();<br><span class="hljs-comment">//  /hello路径下的请求，需要具有ADMIN权限才能进行访问，其他路径需要认证后才可以访问</span><br>http.authorizeRequests().mvcMatchers(<span class="hljs-string">&quot;/hello&quot;</span>).hasRole(<span class="hljs-string">&quot;ADMIN&quot;</span>).anyRequest().authenticate();<br><span class="hljs-comment">// /hello路径请求下，且请求方式为GET，需要认证才能访问，其他请求可以直接访问</span><br>http.authorizeRequests().mvcMatchers(HttpMethod.GET,<span class="hljs-string">&quot;/hello&quot;</span>).authenticated()<br>.anyRequest().permijtAll();<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>ANT匹配器：使用antMatchers（）匹配，与MVC匹配器类似，但访问的请求后需要加”&#x2F;“，否则匹配不到；</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/*</span><br><span class="hljs-comment">http://localhost/hello/  可以请求到</span><br><span class="hljs-comment">http://localhost/hello   匹配失败</span><br><span class="hljs-comment">*/</span><br>http.authorizeRequests().antMatchers(HttpMethod.GET,<span class="hljs-string">&quot;/hello&quot;</span>).authenticated();<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>正则匹配器：使用regexMatchers进行匹配，基于正则表达式实现；</li>
+</ul>
+</blockquote>
+<h4 id="（4）授权工作流程"><a href="#（4）授权工作流程" class="headerlink" title="（4）授权工作流程"></a>（4）授权工作流程</h4><blockquote>
+<ul>
+<li><p>基于过滤器链进行请求拦截，从而实现对访问权限的控制；</p>
+</li>
+<li><p>拦截请求：FIlterSecurityInterceptor：整个请求过滤器的末端，对权限控制进行拦截，以此判断能否到HTTP端点；</p>
+</li>
+<li><p>获取权限配置：请求拦截后，获取请求访问资源，以及对应资源的权限信息，通过SecurtiyMetadataSource获取，最终将配置信息转换为ConfigAttribute；</p>
+</li>
+<li><p>执行授权决策：获取到配置信息后，根据配置信息决定HTTP是否有权限进行访问，该操作由AccessDecisionManager接口完成，会委派给AccessDecisionVoter完成；</p>
+<img src="/2023/05/11/SpringSecurity/7.jpg" srcset="/img/loading.gif" lazyload class="" title="SpringSecurity"></li>
+</ul>
+</blockquote>
+<h5 id="①拦截请求"><a href="#①拦截请求" class="headerlink" title="①拦截请求"></a>①拦截请求</h5><blockquote>
+<ul>
+<li>FilterSecurityInterceptor实现了Filter接口，请求访问时，会先调用过滤器doFIlter（）方法；</li>
+<li>FIlterSecurityInterceptor只是获取HTTP请求，权限校验委托给其父类AbstractSecurityInterceptor执行；</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//FilterSecurityInterceptor.class</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doFilter</span><span class="hljs-params">(ServletRequest request, ServletResponse response,</span><br><span class="hljs-params">                     FilterChain chain)</span> <span class="hljs-keyword">throws</span> IOException, ServletException &#123;<br>    <span class="hljs-type">FilterInvocation</span> <span class="hljs-variable">fi</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FilterInvocation</span>(request, response, chain);<br>    invoke(fi);<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">invoke</span><span class="hljs-params">(FilterInvocation fi)</span> <span class="hljs-keyword">throws</span> IOException, ServletException &#123;<br>    <span class="hljs-comment">//代码忽略。。。。。</span><br>    <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-comment">// 代码忽略。。。。。</span><br>        <span class="hljs-type">InterceptorStatusToken</span> <span class="hljs-variable">token</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">super</span>.beforeInvocation(fi);<span class="hljs-comment">//核心方法</span><br>        <span class="hljs-keyword">try</span> &#123;<br>            fi.getChain().doFilter(fi.getRequest(), fi.getResponse());<span class="hljs-comment">//请求继续往下执行</span><br>        &#125;<br>        <span class="hljs-comment">//代码忽略......</span><br>    &#125;<br>&#125;<br><span class="hljs-comment">//AbstractSecurityInterceptor.class</span><br><span class="hljs-keyword">protected</span> InterceptorStatusToken <span class="hljs-title function_">beforeInvocation</span><span class="hljs-params">(Object object)</span> &#123;<br>	<span class="hljs-comment">//代码忽略。。。。</span><br>	<span class="hljs-comment">//获取ConfigAttribute集合</span><br>    Collection&lt;ConfigAttribute&gt; attributes = <span class="hljs-built_in">this</span>.obtainSecurityMetadataSource()<br>            .getAttributes(object);<br><br>    <span class="hljs-comment">//代码忽略。。。。</span><br>	<span class="hljs-comment">//获取认证信息</span><br>    <span class="hljs-type">Authentication</span> <span class="hljs-variable">authenticated</span> <span class="hljs-operator">=</span> authenticateIfRequired();<br><br>    <span class="hljs-comment">// 授权</span><br>    <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-built_in">this</span>.accessDecisionManager.decide(authenticated, object, attributes);<br>    &#125;<br>    <span class="hljs-comment">//代码忽略。。。。</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="②获取权限配置"><a href="#②获取权限配置" class="headerlink" title="②获取权限配置"></a>②获取权限配置</h5><blockquote>
+<ul>
+<li>http.authorizedRequests()和http.hasAuthoried()返回的是一个ExpressionInterceptUrlRegistry对象，http.anyRequests()方法返回的一个AuthoriedUrl对象；</li>
+<li>FIlterSecurtiyInterceptor对象由AbstractInterceptorUrl进行创建；</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//AbstractInterceptorUrl.class</span><br><span class="hljs-keyword">private</span> FilterSecurityInterceptor <span class="hljs-title function_">createFilterSecurityInterceptor</span><span class="hljs-params">(H http,</span><br><span class="hljs-params">                            FilterInvocationSecurityMetadataSource metadataSource,</span><br><span class="hljs-params">                     AuthenticationManager authenticationManager)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>    <span class="hljs-type">FilterSecurityInterceptor</span> <span class="hljs-variable">securityInterceptor</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FilterSecurityInterceptor</span>();<br>    securityInterceptor.setSecurityMetadataSource(metadataSource);<br>    securityInterceptor.setAccessDecisionManager(getAccessDecisionManager(http));<br>    securityInterceptor.setAuthenticationManager(authenticationManager);<br>    securityInterceptor.afterPropertiesSet();<br>    <span class="hljs-keyword">return</span> securityInterceptor;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>FIlterInvocationInvocationSecurityMetadataSource</strong>：</p>
+<ul>
+<li>即MetadataSource，资源配置其，存放url和权限的映射关系；</li>
+<li>AbstractInterceptorUrl提供抽象创建方法，由子类ExpressionUrlAuthorizationConfigurer进行创建；</li>
+<li>REGISTRY:类型为ExpressionInterceptUrlRegistry，http.authorizedRequests()返回该类型；</li>
+<li>createRequestMap（）方法：将请求与权限资源的urlMapping存储到REGISTRY中；</li>
+<li>urlMapping是由ExpressionUrlAuthorizationConfigurer.AuthorizedUrl中的acess方法创建；</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//ExpressionUrlAuthorizationConfigurer.class</span><br>ExpressionBasedFilterInvocationSecurityMetadataSource <span class="hljs-title function_">createMetadataSource</span><span class="hljs-params">( H http)</span> &#123;<br>    LinkedHashMap&lt;RequestMatcher, Collection&lt;ConfigAttribute&gt;&gt; requestMap = <br>		REGISTRY.createRequestMap();<span class="hljs-comment">//创建映射关系</span><br>    <span class="hljs-comment">//代码忽略</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ExpressionBasedFilterInvocationSecurityMetadataSource</span>(requestMap,getExpressionHandler(http));<br>&#125;<br><span class="hljs-comment">//ExceptionInterceptUrlRegistery.class</span><br><span class="hljs-keyword">final</span> LinkedHashMap&lt;RequestMatcher, Collection&lt;ConfigAttribute&gt;&gt; <span class="hljs-title function_">createRequestMap</span><span class="hljs-params">()</span> &#123;<br>	<span class="hljs-comment">//代码忽略</span><br>    LinkedHashMap&lt;RequestMatcher, Collection&lt;ConfigAttribute&gt;&gt; requestMap = <span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkedHashMap</span>&lt;&gt;();<br>    <span class="hljs-keyword">for</span> (UrlMapping mapping : getUrlMappings()) &#123;<br>        <span class="hljs-type">RequestMatcher</span> <span class="hljs-variable">matcher</span> <span class="hljs-operator">=</span> mapping.getRequestMatcher();<br>        Collection&lt;ConfigAttribute&gt; configAttrs = mapping.getConfigAttrs();<br>        requestMap.put(matcher, configAttrs);<br>    &#125;<br>    <span class="hljs-keyword">return</span> requestMap;<br>&#125;<br><span class="hljs-comment">//ExpressionUrlAuthorizationConfigurer.AuthorizedUrl.class</span><br><span class="hljs-keyword">public</span> ExpressionInterceptUrlRegistry <span class="hljs-title function_">access</span><span class="hljs-params">(String attribute)</span> &#123;<br>    <span class="hljs-keyword">if</span> (not) &#123;<br>        attribute = <span class="hljs-string">&quot;!&quot;</span> + attribute;<br>    &#125;<br>    interceptUrl(requestMatchers, SecurityConfig.createList(attribute));<br>    <span class="hljs-keyword">return</span> ExpressionUrlAuthorizationConfigurer.<span class="hljs-built_in">this</span>.REGISTRY;<br>&#125;<br><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">interceptUrl</span><span class="hljs-params">(Iterable&lt;? extends RequestMatcher&gt; requestMatchers,</span><br><span class="hljs-params">        Collection&lt;ConfigAttribute&gt; configAttributes)</span> &#123;<br>    <span class="hljs-keyword">for</span> (RequestMatcher requestMatcher : requestMatchers) &#123;<br>        REGISTRY.addMapping(<span class="hljs-keyword">new</span> <span class="hljs-title class_">AbstractConfigAttributeRequestMatcherRegistry</span>.UrlMapping(<br>                requestMatcher, configAttributes));<span class="hljs-comment">//创建UrlMapping</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="③执行授权决策"><a href="#③执行授权决策" class="headerlink" title="③执行授权决策"></a>③执行授权决策</h5><blockquote>
+<p><strong>authenticateIfRequired（）</strong></p>
+<ul>
+<li>进行认证，获取认证信息；</li>
+<li>判断认证信息是否存在上下文环境中，存在直接返回；</li>
+<li>不存在，调用AuthenticationManager来的authticate（）方法进行认证，该方法最终会调用AuthenticationProvider.authticate()方法，若我们有自定义实现该接口，会执行我们指定的认证逻辑，否则采用默认逻辑；</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">Authentication</span> <span class="hljs-variable">authenticated</span> <span class="hljs-operator">=</span> authenticateIfRequired();<br><span class="hljs-keyword">private</span> Authentication <span class="hljs-title function_">authenticateIfRequired</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">Authentication</span> <span class="hljs-variable">authentication</span> <span class="hljs-operator">=</span> SecurityContextHolder.getContext() .getAuthentication();<br>	<span class="hljs-comment">//认证信息存在</span><br>    <span class="hljs-keyword">if</span> (authentication.isAuthenticated() &amp;&amp; !alwaysReauthenticate) &#123;<br>        <span class="hljs-comment">//代码忽略。。。。</span><br>        <span class="hljs-keyword">return</span> authentication;<br>    &#125;<br>    authentication = authenticationManager.authenticate(authentication);<span class="hljs-comment">//开始认证</span><br>    <span class="hljs-comment">//代码忽略。。</span><br>    SecurityContextHolder.getContext().setAuthentication(authentication);<span class="hljs-comment">//认证信息存储</span><br>    <span class="hljs-keyword">return</span> authentication;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>decide（）：</strong></p>
+<ul>
+<li>AccessDecisionManager，默认会创建一个 AffirmativeBased 实例；</li>
+<li>将授权委托给一组AccessDecisionVoter，只要其中一组没有通过，授权就失败；</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-built_in">this</span>.accessDecisionManager.decide(authenticated, object, attributes);<span class="hljs-comment">//执行授权</span><br><span class="hljs-comment">//AffirmativeBased.class</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">decide</span><span class="hljs-params">(Authentication authentication, Object object, Collection&lt;ConfigAttribute&gt; configAttributes)</span> <span class="hljs-keyword">throws</span> AccessDeniedException &#123;<br>    <span class="hljs-type">int</span> <span class="hljs-variable">deny</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span> (AccessDecisionVoter voter : getDecisionVoters()) &#123;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">result</span> <span class="hljs-operator">=</span> voter.vote(authentication, object, configAttributes);<br>        <span class="hljs-comment">//代码忽略</span><br>        <span class="hljs-keyword">switch</span> (result) &#123;<br>            <span class="hljs-keyword">case</span> AccessDecisionVoter.ACCESS_GRANTED:<br>                <span class="hljs-keyword">return</span>;<br>            <span class="hljs-keyword">case</span> AccessDecisionVoter.ACCESS_DENIED:<span class="hljs-comment">//授权未通过</span><br>                deny++;<br>                <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">default</span>:<br>                <span class="hljs-keyword">break</span>;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (deny &gt; <span class="hljs-number">0</span>) &#123;<span class="hljs-comment">//授权失败，抛出异常</span><br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">AccessDeniedException</span>(messages.getMessage(<br>            <span class="hljs-string">&quot;AbstractAccessDecisionManager.accessDenied&quot;</span>, <span class="hljs-string">&quot;Access is denied&quot;</span>));<br>    &#125;<br>    checkAllowIfAllAbstainDecisions();<br>&#125;<br><span class="hljs-comment">//WebExpressionVoter.class</span><br><span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">vote</span><span class="hljs-params">(Authentication authentication, FilterInvocation fi,</span><br><span class="hljs-params">                Collection&lt;ConfigAttribute&gt; attributes)</span> &#123;<br>    <span class="hljs-comment">//代码忽略</span><br>    <span class="hljs-comment">//查找授权表达式信息</span><br>    <span class="hljs-type">WebExpressionConfigAttribute</span> <span class="hljs-variable">weca</span> <span class="hljs-operator">=</span> findConfigAttribute(attributes);<br>    <span class="hljs-keyword">if</span> (weca == <span class="hljs-literal">null</span>) &#123;<br>        <span class="hljs-keyword">return</span> ACCESS_ABSTAIN;<span class="hljs-comment">//放弃匹配，交由其他授权决策权继续处理</span><br>    &#125;<br><br>    <span class="hljs-type">EvaluationContext</span> <span class="hljs-variable">ctx</span> <span class="hljs-operator">=</span> expressionHandler.createEvaluationContext(authentication,                                                               fi);<br>    ctx = weca.postProcess(ctx, fi);<br>    <span class="hljs-comment">//授权匹配</span><br>    <span class="hljs-keyword">return</span> ExpressionUtils.evaluateAsBoolean(weca.getAuthorizeExpression(), ctx) ? <br>    ACCESS_GRANTED: ACCESS_DENIED;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>SpringSecurity</div>
+      <div>http://example.com/2023/05/11/SpringSecurity/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>swt</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年5月11日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/04/10/Netty/" title="Netty">
+                        <span class="hidden-mobile">Netty</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
