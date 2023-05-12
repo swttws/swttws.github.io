@@ -30,8 +30,12 @@
 <meta property="og:image" content="http://example.com/2023/05/11/SpringSecurity/5.jpg">
 <meta property="og:image" content="http://example.com/2023/05/11/SpringSecurity/6.jpg">
 <meta property="og:image" content="http://example.com/2023/05/11/SpringSecurity/7.jpg">
+<meta property="og:image" content="http://example.com/2023/05/11/SpringSecurity/8.jpg">
+<meta property="og:image" content="http://example.com/2023/05/11/SpringSecurity/9.jpg">
+<meta property="og:image" content="http://example.com/2023/05/11/SpringSecurity/10.jpg">
+<meta property="og:image" content="http://example.com/2023/05/11/SpringSecurity/11.jpg">
 <meta property="article:published_time" content="2023-05-11T00:52:28.000Z">
-<meta property="article:modified_time" content="2023-05-11T08:23:52.279Z">
+<meta property="article:modified_time" content="2023-05-12T08:08:45.581Z">
 <meta property="article:author" content="swt">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2023/05/11/SpringSecurity/1.jpg">
@@ -227,7 +231,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          11k 字
+          16k 字
         
       </span>
     
@@ -238,7 +242,7 @@
         
         
         
-          90 分钟
+          132 分钟
         
       </span>
     
@@ -448,6 +452,144 @@
 </ul>
 </blockquote>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-built_in">this</span>.accessDecisionManager.decide(authenticated, object, attributes);<span class="hljs-comment">//执行授权</span><br><span class="hljs-comment">//AffirmativeBased.class</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">decide</span><span class="hljs-params">(Authentication authentication, Object object, Collection&lt;ConfigAttribute&gt; configAttributes)</span> <span class="hljs-keyword">throws</span> AccessDeniedException &#123;<br>    <span class="hljs-type">int</span> <span class="hljs-variable">deny</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span> (AccessDecisionVoter voter : getDecisionVoters()) &#123;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">result</span> <span class="hljs-operator">=</span> voter.vote(authentication, object, configAttributes);<br>        <span class="hljs-comment">//代码忽略</span><br>        <span class="hljs-keyword">switch</span> (result) &#123;<br>            <span class="hljs-keyword">case</span> AccessDecisionVoter.ACCESS_GRANTED:<br>                <span class="hljs-keyword">return</span>;<br>            <span class="hljs-keyword">case</span> AccessDecisionVoter.ACCESS_DENIED:<span class="hljs-comment">//授权未通过</span><br>                deny++;<br>                <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">default</span>:<br>                <span class="hljs-keyword">break</span>;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (deny &gt; <span class="hljs-number">0</span>) &#123;<span class="hljs-comment">//授权失败，抛出异常</span><br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">AccessDeniedException</span>(messages.getMessage(<br>            <span class="hljs-string">&quot;AbstractAccessDecisionManager.accessDenied&quot;</span>, <span class="hljs-string">&quot;Access is denied&quot;</span>));<br>    &#125;<br>    checkAllowIfAllAbstainDecisions();<br>&#125;<br><span class="hljs-comment">//WebExpressionVoter.class</span><br><span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">vote</span><span class="hljs-params">(Authentication authentication, FilterInvocation fi,</span><br><span class="hljs-params">                Collection&lt;ConfigAttribute&gt; attributes)</span> &#123;<br>    <span class="hljs-comment">//代码忽略</span><br>    <span class="hljs-comment">//查找授权表达式信息</span><br>    <span class="hljs-type">WebExpressionConfigAttribute</span> <span class="hljs-variable">weca</span> <span class="hljs-operator">=</span> findConfigAttribute(attributes);<br>    <span class="hljs-keyword">if</span> (weca == <span class="hljs-literal">null</span>) &#123;<br>        <span class="hljs-keyword">return</span> ACCESS_ABSTAIN;<span class="hljs-comment">//放弃匹配，交由其他授权决策权继续处理</span><br>    &#125;<br><br>    <span class="hljs-type">EvaluationContext</span> <span class="hljs-variable">ctx</span> <span class="hljs-operator">=</span> expressionHandler.createEvaluationContext(authentication,                                                               fi);<br>    ctx = weca.postProcess(ctx, fi);<br>    <span class="hljs-comment">//授权匹配</span><br>    <span class="hljs-keyword">return</span> ExpressionUtils.evaluateAsBoolean(weca.getAuthorizeExpression(), ctx) ? <br>    ACCESS_GRANTED: ACCESS_DENIED;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="4、SpringSecurity过滤器"><a href="#4、SpringSecurity过滤器" class="headerlink" title="4、SpringSecurity过滤器"></a>4、SpringSecurity过滤器</h3><h4 id="（1）过滤器链"><a href="#（1）过滤器链" class="headerlink" title="（1）过滤器链"></a>（1）过滤器链</h4><blockquote>
+<ul>
+<li><p>servlet过滤器链原理：<a target="_blank" rel="noopener" href="https://swttws.github.io/2022/04/07/Tomcat/#5%E3%80%81HTTP%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B">过滤器链调用</a></p>
+</li>
+<li><p>SpringSecurity过滤器链都直接或间接实现了Filter接口；</p>
+</li>
+<li><p>UserPasswordAuthenticationFIlter：用于验证用户名和密码是否正确，并将结果传递到下一个过滤器链，该过滤器（attemptAuthentication）是由其父类过滤器AbstractAuthenticationProcessingFIlter中的doFIlter（）方法调用；</p>
+</li>
+<li><p>BasicAuthenticationFIilter：用于验证用户身份，该类的核心方法为doFilterInternal（），由其父类OncePreRequestFilter中的doFIlter（）方法调用；</p>
+</li>
+<li><p>该过滤器链的最后一个过滤器为FilterSecurityInterceptor，该过滤器实现了权限的控制；</p>
+<img src="/2023/05/11/SpringSecurity/8.jpg" srcset="/img/loading.gif" lazyload class="" title="SpringSecurity"></li>
+</ul>
+</blockquote>
+<h4 id="（2）自定义过滤器链"><a href="#（2）自定义过滤器链" class="headerlink" title="（2）自定义过滤器链"></a>（2）自定义过滤器链</h4><blockquote>
+<ul>
+<li><p>过滤器链中是按照顺序执行的，添加过滤器链应根据实际业务顺序添加；</p>
+</li>
+<li><p>添加过滤方法有</p>
+</li>
+<li><ul>
+<li>addFIlterBefore(Filter1，Filter2)：Filter1添加在Filter2之前；</li>
+<li>addFilterAfter(Filter1，Filter2)：Filter1添加在Filter2之后；</li>
+</ul>
+</li>
+<li><p>示例：我们自定义HeaderFilter（检查请求头是否有指定标志），LoggFIlter（打印请求日志），前面讲到的BasicAuthenticationFilter是验证用户身份凭证过滤器，这三个过滤器顺序如下图：</p>
+<img src="/2023/05/11/SpringSecurity/9.jpg" srcset="/img/loading.gif" lazyload class="" title="SpringSecurity"></li>
+</ul>
+</blockquote>
+<h4 id="（3）常见过滤器"><a href="#（3）常见过滤器" class="headerlink" title="（3）常见过滤器"></a>（3）常见过滤器</h4><table>
+<thead>
+<tr>
+<th>顺序</th>
+<th>过滤器</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>ChannelProcessingFilter</td>
+<td>根据配置进行协议重定向</td>
+</tr>
+<tr>
+<td>2</td>
+<td>SecurityContextPersistenceFilter</td>
+<td>针对web请求，结束时将SecurityContext请求保存到session</td>
+</tr>
+<tr>
+<td>3</td>
+<td>ConcurrentSeesionFilter</td>
+<td>刷新session最后更新时间，并判断session是否过期</td>
+</tr>
+<tr>
+<td>4</td>
+<td>UsernamePasswordAuthenticationFIlterBasicAuthenticationFilter、……</td>
+<td>一组认证过滤器</td>
+</tr>
+<tr>
+<td>5</td>
+<td>SecurityContextHolderAwareRequestFilter</td>
+<td>安全上下文过滤器</td>
+</tr>
+<tr>
+<td>6</td>
+<td>JassApiIntegrationFilter</td>
+<td>Jass相关过滤器</td>
+</tr>
+<tr>
+<td>7</td>
+<td>RemeberMeAuthenticationFilter</td>
+<td>提供”记住我“功能过滤器</td>
+</tr>
+<tr>
+<td>8</td>
+<td>AnonymousAuthenticationFIlter</td>
+<td>匿名授权过滤器</td>
+</tr>
+<tr>
+<td>9</td>
+<td>ExceptionTransactionFilter</td>
+<td>异常捕获和处理过滤器</td>
+</tr>
+<tr>
+<td>10</td>
+<td>FilterSecurityInterceptor</td>
+<td>权限控制过滤器</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>UsernamePasswordAuthenticationFilter执行逻辑如下图：</strong></p>
+<img src="/2023/05/11/SpringSecurity/10.jpg" srcset="/img/loading.gif" lazyload class="" title="SpringSecurity">
+</blockquote>
+<h3 id="5、CSRF和CROS"><a href="#5、CSRF和CROS" class="headerlink" title="5、CSRF和CROS"></a>5、CSRF和CROS</h3><h4 id="（1）CSRF"><a href="#（1）CSRF" class="headerlink" title="（1）CSRF"></a>（1）CSRF</h4><blockquote>
+<ul>
+<li><p>CSRF：伪造者恶意请求盗用用户身份凭证（不是获取cookie中的crsf），通过用户身份凭证访问合法网站，进行恶意攻击；</p>
+</li>
+<li><p>普通用户向合法网站发送请求，服务器进行身份验证；</p>
+</li>
+<li><p>服务器身份验证通过，将身份凭证保存到普通用户的cookies中；</p>
+</li>
+<li><p>普通用户点击恶意链接，恶意链接获取到普通用户访问合法网站的身份信息；</p>
+</li>
+<li><p>恶意链接利用普通用户身份信息伪造请求，访问合法网站；</p>
+</li>
+<li><p>合法网站校验成功，恶意请求开始执行；</p>
+<img src="/2023/05/11/SpringSecurity/11.jpg" srcset="/img/loading.gif" lazyload class="" title="SpringSecurity"></li>
+</ul>
+</blockquote>
+<h4 id="（2）防止CRSF攻击"><a href="#（2）防止CRSF攻击" class="headerlink" title="（2）防止CRSF攻击"></a>（2）防止CRSF攻击</h4><blockquote>
+<p><strong>CrsFilter：</strong></p>
+<ul>
+<li>允许使用head，get等请求直接访问（不会拦截），针对post，put，delete等可能修改请求，则会进行拦截，检查Cookie中的crsf和请求头的crsf是否一致，不一致，拒绝访问；</li>
+<li>拦截请求，并获取请求中的crsf令牌，若请求中不存在，则添加一个crsf到请求头的cookie中（第一次请求肯定不存在crsf，添加后crsf到请求头的cookie中和request请求属性中，，可以保证请求能够继续往后执行，在后面过滤器中再进行身份验证）；</li>
+<li>判断请求头中的crsf和cookie中的crsf是否一样，伪造者盗用的用户身份凭证请求中，请求头通常不会有正确的crsf，与cookie中的crsf比较后，不一致，则拒绝访问；</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//CrsFilter.class</span><br><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doFilterInternal</span><span class="hljs-params">(HttpServletRequest request,</span><br><span class="hljs-params">                                HttpServletResponse response, FilterChain filterChain)</span><span class="hljs-keyword">throws</span> ServletException, IOException &#123;<br>    request.setAttribute(HttpServletResponse.class.getName(), response);<br>	<span class="hljs-comment">//请求中获取crsf_token</span><br>    <span class="hljs-type">CsrfToken</span> <span class="hljs-variable">csrfToken</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">this</span>.tokenRepository.loadToken(request);<br>    <span class="hljs-keyword">final</span> <span class="hljs-type">boolean</span> <span class="hljs-variable">missingToken</span> <span class="hljs-operator">=</span> csrfToken == <span class="hljs-literal">null</span>;<br>    <span class="hljs-keyword">if</span> (missingToken) &#123;<span class="hljs-comment">//crsf_token不存在，添加到cookie中</span><br>        csrfToken = <span class="hljs-built_in">this</span>.tokenRepository.generateToken(request);<br>        <span class="hljs-built_in">this</span>.tokenRepository.saveToken(csrfToken, request, response);<br>    &#125;<br>    request.setAttribute(CsrfToken.class.getName(), csrfToken);<br>    request.setAttribute(csrfToken.getParameterName(), csrfToken);<span class="hljs-comment">//设置token</span><br>	<span class="hljs-comment">//请求不需要过滤，放行</span><br>    <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">this</span>.requireCsrfProtectionMatcher.matches(request)) &#123;<br>        filterChain.doFilter(request, response);<span class="hljs-comment">//过滤器放行，执行下一个过滤器</span><br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>	<span class="hljs-comment">//获取实际请求头中的crsr_token</span><br>    <span class="hljs-type">String</span> <span class="hljs-variable">actualToken</span> <span class="hljs-operator">=</span> request.getHeader(csrfToken.getHeaderName());<br>    <span class="hljs-keyword">if</span> (actualToken == <span class="hljs-literal">null</span>) &#123;<span class="hljs-comment">//为空，参数获取</span><br>        actualToken = request.getParameter(csrfToken.getParameterName());<br>    &#125;<br>    <span class="hljs-keyword">if</span> (!csrfToken.getToken().equals(actualToken)) &#123;<span class="hljs-comment">//携带的token不一样，过滤掉</span><br>        <span class="hljs-comment">//代码忽略。。。。</span><br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>    <span class="hljs-comment">//过滤去放行，执行下一个过滤器</span><br>    filterChain.doFilter(request, response);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>定制化CSRF保护：</p>
+<ul>
+<li>可以通过实现CsrfTokenRepository接口，重写三个方法；</li>
+<li>generateToken（）：生成csrf令牌；</li>
+<li>saveToken（）：保存csrf令牌，CsrFilter使用的是保存在cookie中；</li>
+<li>loadToken（）：加载csrf令牌；</li>
+<li>同时还开启配置，实现自定义功能；</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//自定义类</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyCrsToken</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">CsrfTokenRepository</span>&#123;<br>    <span class="hljs-keyword">static</span> Map&lt;String,CsrfToken&gt; map=<span class="hljs-keyword">new</span> <span class="hljs-title class_">ConcurrentHashMap</span>&lt;&gt;();<span class="hljs-comment">//保存username，csrf映射</span><br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> CsrfToken <span class="hljs-title function_">generateToken</span><span class="hljs-params">(HttpServletRequest request)</span> &#123;<br>        String token=UUID.randomUUID().toString();<br>        System.out.println(<span class="hljs-string">&quot;生成csrf_token为：&quot;</span>+token);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">DefaultCsrfToken</span>(<span class="hljs-string">&quot;X-CSRF-TOKEN&quot;</span>, <span class="hljs-string">&quot;_csrf&quot;</span>, token);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">saveToken</span><span class="hljs-params">(CsrfToken token, HttpServletRequest request, HttpServletResponse response)</span> &#123;<br>        <span class="hljs-comment">//获取用户名参数（模拟唯一标识）</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">username</span> <span class="hljs-operator">=</span> request.getParameter(<span class="hljs-string">&quot;username&quot;</span>);<br>        <span class="hljs-comment">//将生成的token保存到map中</span><br>        map.put(username,token);<br>        System.out.println(map);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> CsrfToken <span class="hljs-title function_">loadToken</span><span class="hljs-params">(HttpServletRequest request)</span> &#123;<br>        <span class="hljs-keyword">return</span> map.get(request.getParameter(<span class="hljs-string">&quot;username&quot;</span>));<br>    &#125;<br>&#125;<br><span class="hljs-comment">//配置类</span><br><span class="hljs-meta">@Configuration</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SpringSecurityConfiguration</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">WebSecurityConfigurerAdapter</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">configure</span><span class="hljs-params">(HttpSecurity http)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        http.authorizeRequests().mvcMatchers(<span class="hljs-string">&quot;/**&quot;</span>).permitAll();<br>        http.csrf(csrf-&gt;&#123;<br>            csrf.csrfTokenRepository(myCrsToken());<span class="hljs-comment">//开启定制化CSRF</span><br>        &#125;);<br>    &#125;<br><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-keyword">public</span> MyCrsToken <span class="hljs-title function_">myCrsToken</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">MyCrsToken</span>();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="（3）CORS"><a href="#（3）CORS" class="headerlink" title="（3）CORS"></a>（3）CORS</h4><blockquote>
+<ul>
+<li>CORS：浏览器为了安全，当我们从域名”a.com“发起请求，浏览器不允许我们访问”api.a.com“；</li>
+<li>跨域问题仅仅只是浏览器问题，当浏览器进行跨域请求时，会和服务端进行一次握手，响应后可以获得如下参数：</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//指定哪些客户端的域名允许访问这个资源</span><br>Access-Control-Allow-Origin <br><span class="hljs-comment">//服务器支持的 HTTP 方法</span><br>Access-Control-Allow-Methods <br><span class="hljs-comment">//需要在正式请求中加入的 HTTP 消息头</span><br>Access-Control-Allow-Headers <br><span class="hljs-meta">@Configuration</span><span class="hljs-comment">//配置中设置跨域</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SpringSecurityConfiguration</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">WebSecurityConfigurerAdapter</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">configure</span><span class="hljs-params">(HttpSecurity http)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        http.cors(c -&gt; &#123;<br>            <span class="hljs-type">CorsConfigurationSource</span> <span class="hljs-variable">source</span> <span class="hljs-operator">=</span> request -&gt; &#123;<br>                <span class="hljs-type">CorsConfiguration</span> <span class="hljs-variable">config</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">CorsConfiguration</span>();<br>                config.setAllowedOrigins(Arrays.asList(<span class="hljs-string">&quot;*&quot;</span>));<span class="hljs-comment">//允许所有请求跨域</span><br>                config.setAllowedMethods(Arrays.asList(<span class="hljs-string">&quot;*&quot;</span>));<br>                <span class="hljs-keyword">return</span> config;<br><br>            &#125;;<br>            c.configurationSource(source);<br>        &#125;);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
                 
               </div>

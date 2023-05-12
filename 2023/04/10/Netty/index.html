@@ -59,7 +59,7 @@
 <meta property="og:image" content="http://example.com/2023/04/10/Netty/34.jpg">
 <meta property="og:image" content="http://example.com/2023/04/10/Netty/35.jpg">
 <meta property="article:published_time" content="2023-04-10T03:21:31.000Z">
-<meta property="article:modified_time" content="2023-05-11T08:36:51.281Z">
+<meta property="article:modified_time" content="2023-05-11T13:09:03.355Z">
 <meta property="article:author" content="swt">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2023/04/10/Netty/1.jpg">
@@ -391,7 +391,7 @@
 </li>
 <li><p>是ChannelHandler实例列表，通过双向链表将不同ChannelHandler连接起来，当I&#x2F;O事件触发时，ChannelPipeline会依次调用ChannelHandler列表对Channel数据依次处理；</p>
 </li>
-<li><p>ChannelPipeline是线程安全的，一个EventLoop对应一个ChannelPipeline，一个EventLoop绑定一个线程；</p>
+<li><p>ChannelPipeline是线程安全的，<strong>一个EventLoop对应一个Channel</strong>，一个EventLoop绑定一个线程；</p>
 </li>
 <li><p>ChannelPipeline包含入站ChannelInboundHandler和出站ChannelOutboundHandler处理器，服务端和客户端依次完整的数据请求响应：客户端出战（请求数据）-&gt;服务端入站（服务端业务处理）-&gt;服务端出站（响应结果）；</p>
 <img src="/2023/04/10/Netty/8.jpg" srcset="/img/loading.gif" lazyload class="" title="Netty"></li>
