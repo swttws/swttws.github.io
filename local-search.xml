@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>Kafka</title>
+    <link href="/2023/05/18/Kafka/"/>
+    <url>/2023/05/18/Kafka/</url>
+    
+    <content type="html"><![CDATA[<h3 id="1、术语"><a href="#1、术语" class="headerlink" title="1、术语"></a>1、术语</h3><h4 id="（1）kafka三层消息架构"><a href="#（1）kafka三层消息架构" class="headerlink" title="（1）kafka三层消息架构"></a>（1）kafka三层消息架构</h4><blockquote><ul><li><p>第一层是主题层，每个主题可以配置多个分区，每个分区可以配置多个副本；</p></li><li><p>第二层是分区层，每个分区的N个副本中，只有领导者副本可以对外提供服务，其他N-1个副本是追随者副本，只能供数据冗余备份；</p></li><li><p>第三层为消息层，分区中有若干条消息，消息位移从0开始递增；</p><img src="/2023/05/18/Kafka/1.jpg" class="" title="Kafka"></li></ul></blockquote><h4 id="（2）Broke数据持久化"><a href="#（2）Broke数据持久化" class="headerlink" title="（2）Broke数据持久化"></a>（2）Broke数据持久化</h4><blockquote><ul><li><p>消息日志：使用消息日志保存数据，一个消息日志就是磁盘上一个只能追加写的物理文件，采用顺序IO，是实现高吞吐量的重要手段；</p></li><li><p>日志索引：存储<strong>消息的偏移量</strong>和<strong>消息在消息日志分段中的位置</strong>的映射关系，磁盘和内存各有一份，以支持高效的消息读取和消费；</p></li><li><p>位移索引：存储<strong>消息偏移量</strong>和<strong>消息在消息日志中的分段位置</strong>之间映射关系，磁盘和内存各一份；</p></li><li><p>消息日志被分为多个日志段（Log Segmenet），消息数据追加导最新的日志段，日志段写满后会关闭，并创建一个新的日志段；</p></li><li><p>Kafka后台的定时任务，会根据保留策略，删除一些旧的日志段；</p><img src="/2023/05/18/Kafka/2.jpg" class="" title="Kafka"></li></ul></blockquote><h4 id="（3）其他术语"><a href="#（3）其他术语" class="headerlink" title="（3）其他术语"></a>（3）其他术语</h4><blockquote><ul><li>消息位移：每个分区中，消息存储的位移，是单调递增且不变的值；</li><li>消费者位移：表示消费者消费的进度，每个消费者有自己的消费位移；</li><li>重平衡：消费组内某个消费者挂了，其他消费者自动分配订阅主题的过程；</li></ul></blockquote><h3 id="2、集群参数配置"><a href="#2、集群参数配置" class="headerlink" title="2、集群参数配置"></a>2、集群参数配置</h3><h4 id="（1）存储信息参数"><a href="#（1）存储信息参数" class="headerlink" title="（1）存储信息参数"></a>（1）存储信息参数</h4><blockquote><ul><li>log.dirs：指定Broke存储数据的若干各文件路径，没有默认值，需要开发者指定；</li><li>log.dir：指定Broke存储数据的单个文件路径；</li><li>只需指定上述其中一个参数即可（最好指定第一个），多个路径最好挂载到不同磁盘上，多块磁盘可以同时读写数据，有更高的吞吐量，多块磁盘还能实现故障转移；</li></ul></blockquote><h4 id="（2）与zookeeper相关参数"><a href="#（2）与zookeeper相关参数" class="headerlink" title="（2）与zookeeper相关参数"></a>（2）与zookeeper相关参数</h4><blockquote><ul><li>zookeeper.connect：用于指定kafka与zookeeper的链接信息；</li><li>Zookeeper用于协调和管理kafka集群的各个组件，kafka通过zookeeper实现集群的之间的协调工作，包括消费者组的管理等；</li></ul></blockquote><h4 id="（3）与Broke相关参数"><a href="#（3）与Broke相关参数" class="headerlink" title="（3）与Broke相关参数"></a>（3）与Broke相关参数</h4><blockquote><ul><li>listeners：监听器，监听指定网络的接口和端口，从而接收生产者和消费者的请求，并进行相应处理；格式为：<listeners>:&#x2F;&#x2F;<host>:<port>，listeners为协议，host为主机名或ip地址，port为端口；</li><li>advertised.listeners：用于告知生产者和消费者连接到kafka的有效网络地址；</li></ul></blockquote><h4 id="（4）与Topic相关参数"><a href="#（4）与Topic相关参数" class="headerlink" title="（4）与Topic相关参数"></a>（4）与Topic相关参数</h4><blockquote><ul><li>auto.create.topics.enable：是否允许自动创建topic，最好将其关闭，应为当我们将主题名称拼错时，若开启此参数，kafka会自动创建topic主题，导致服务器中大量主题存在；</li><li>unclean.leader.election.enable：默认为false，是否允许数据少的副本竞争leader，最好不要开启此参数，因为数据存储少的副本竞选为leader后，认为自己的数据才是权威数据，会导致数据丢失；</li><li>auto.leader.rebalance.enable：是否允许定期选举leader，最好关闭，更换一次leader代价大；</li></ul></blockquote><h4 id="（5）与数据保存相关参数"><a href="#（5）与数据保存相关参数" class="headerlink" title="（5）与数据保存相关参数"></a>（5）与数据保存相关参数</h4><blockquote><ul><li>log.retention.{hour|minutes|ms}：控制一条消息数据保存的时间；</li><li>log.retention.bytes：指定Broke为消息保存的总磁盘大小，-1表示可以使用全部磁盘容量保存；</li><li>message.max.bytes：指定Broke能够接收最大消息大小；</li></ul></blockquote><h4 id="（6）Topic级别参数配置"><a href="#（6）Topic级别参数配置" class="headerlink" title="（6）Topic级别参数配置"></a>（6）Topic级别参数配置</h4><blockquote><ul><li>retention.ms：指定topic保存消息的时间，默认为7天；</li><li>retention.bytes：指定topic可以使用磁盘多少空间，-1为可以无限使用磁盘大小；</li></ul></blockquote>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>SpringSecurity</title>
     <link href="/2023/05/11/SpringSecurity/"/>
     <url>/2023/05/11/SpringSecurity/</url>
