@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>JVM</title>
+    <link href="/2023/05/24/JVM/"/>
+    <url>/2023/05/24/JVM/</url>
+    
+    <content type="html"><![CDATA[<h3 id="1、JVM基础概念"><a href="#1、JVM基础概念" class="headerlink" title="1、JVM基础概念"></a>1、JVM基础概念</h3><h4 id="（1）JVM、JRE、JDK"><a href="#（1）JVM、JRE、JDK" class="headerlink" title="（1）JVM、JRE、JDK"></a>（1）JVM、JRE、JDK</h4><blockquote><ul><li><p>JRE：JVM+基本类库组成的运行环境就是JRE。JVM自己是无法完成一次编译，处处运行的，需要有一个基本类库告诉JVM如何操作运行，如如何操作文件，连接网络等，JVM运行时，会一次性加载基本类库；</p></li><li><p>JDK：JDK中除了包含JRE，同时还包含一些小工具，如javac，jar等；如果只要运行java程序，只需JRE即可</p></li><li><p>三者之间关系：JDK&gt;JRE&gt;JVM</p><img src="/2023/05/24/JVM/1.jpg" class="" title="JVM"></li></ul></blockquote><h4 id="（2）java程序运行"><a href="#（2）java程序运行" class="headerlink" title="（2）java程序运行"></a>（2）java程序运行</h4><blockquote><ul><li><p>编写好一个java程序后，使用javac进行编译后，会生成字节码文件（java程序中，使用的输出等模块是JRE里提供的基本类）；</p></li><li><p>JVM采用栈架构，其指令由操作码（opcode）+操作数组成，操作码只有1个字节长度（0-255），指令数不能超过256条</p></li><li><p>我们运行.class文件时，会启动一个JVM进程，JVM通过opcode+操作数来执行程序；</p></li><li><p>执行方式有：解释执行：将opcode+操作数翻译为机器码文件；JIT：及时编译，在特定条件下，会将字节码编译为机器码文件之后才执行；</p><img src="/2023/05/24/JVM/2.jpg" class="" title="JVM"></li></ul></blockquote><h3 id="2、JVM内存管理"><a href="#2、JVM内存管理" class="headerlink" title="2、JVM内存管理"></a>2、JVM内存管理</h3><h4 id="（1）JVM内存布局"><a href="#（1）JVM内存布局" class="headerlink" title="（1）JVM内存布局"></a>（1）JVM内存布局</h4><blockquote><ul><li><p>堆中的数据是共享的，占用内存最大；</p></li><li><p>执行字节码文件的模块为执行引擎，线程切换通过程序计数器进行；</p><img src="/2023/05/24/JVM/3.jpg" class="" title="JVM"></li></ul></blockquote><h4 id="（2）虚拟机栈"><a href="#（2）虚拟机栈" class="headerlink" title="（2）虚拟机栈"></a>（2）虚拟机栈</h4><blockquote><ul><li><p>虚拟机栈是基于线程的，main方法启动后，以线程方式运行；</p></li><li><p>线程的生命周期和栈的生命周期一样，栈中每一条数据都是栈帧；</p></li><li><p>每调用一个java方法，就会创建一个栈帧并入栈，执行完改该方法后，便会出栈；</p></li><li><p>所有栈帧出栈后，线程就会结束；</p><img src="/2023/05/24/JVM/4.jpg" class="" title="JVM"></li></ul></blockquote><h4 id="（3）程序计数器"><a href="#（3）程序计数器" class="headerlink" title="（3）程序计数器"></a>（3）程序计数器</h4><blockquote><ul><li><p>程序计数器可以看作当前线程执行字节码的行号指示器，存储的是当前线程的进度；</p></li><li><p>程序计数器有线程创建时产生，配合虚拟机站完成计算操作；</p><img src="/2023/05/24/JVM/5.jpg" class="" title="JVM"></li></ul></blockquote><h4 id="（4）堆"><a href="#（4）堆" class="headerlink" title="（4）堆"></a>（4）堆</h4><blockquote><ul><li><p>申请的对象都是存储在堆中，垃圾回收的对象是堆；</p></li><li><p>堆在程序启动时创建，随着对象不断创建，堆空间会越来越小，就需要对堆内不常用的对象进行回收，即GC；</p></li><li><p>java对象分为基本数据类型和普通对象，基本数据类型存储在栈中；对于普通对象，JVM会在堆中创建对象，其他地方使用该应用；</p></li><li><p>堆中的数据是线程共享的，栈中的数据是线程私有的；</p><img src="/2023/05/24/JVM/6.jpg" class="" title="JVM"></li></ul></blockquote><h4 id="（5）元空间"><a href="#（5）元空间" class="headerlink" title="（5）元空间"></a>（5）元空间</h4><blockquote><ul><li><p>Java8之前，类（创建对象的模板）都是存储在永久代中，且不会被JVM回收，随着类的增多，会造成JVM内存溢出；</p></li><li><p>java8中，元空间替代了永久代，在非堆上存储，JVM不会再出现方法区的内存溢出，但无限使用元空间会造成操作系统挂掉，可以通过-XX:MaxMetaspaceSize控制元空间大小；</p><img src="/2023/05/24/JVM/7.jpg" class="" title="JVM"></li></ul></blockquote>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Kafka</title>
     <link href="/2023/05/18/Kafka/"/>
     <url>/2023/05/18/Kafka/</url>
