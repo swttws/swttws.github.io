@@ -43,8 +43,19 @@
 <meta property="og:image" content="http://example.com/2023/05/24/JVM/18.jpg">
 <meta property="og:image" content="http://example.com/2023/05/24/JVM/19.jpg">
 <meta property="og:image" content="http://example.com/2023/05/24/JVM/20.jpg">
+<meta property="og:image" content="http://example.com/2023/05/24/JVM/21.jpg">
+<meta property="og:image" content="http://example.com/2023/05/24/JVM/22.jpg">
+<meta property="og:image" content="http://example.com/2023/05/24/JVM/23.jpg">
+<meta property="og:image" content="http://example.com/2023/05/24/JVM/24.jpg">
+<meta property="og:image" content="http://example.com/2023/05/24/JVM/25.jpg">
+<meta property="og:image" content="http://example.com/2023/05/24/JVM/26.jpg">
+<meta property="og:image" content="http://example.com/2023/05/24/JVM/27.jpg">
+<meta property="og:image" content="http://example.com/2023/05/24/JVM/28.jpg">
+<meta property="og:image" content="http://example.com/2023/05/24/JVM/29.jpg">
+<meta property="og:image" content="http://example.com/2023/05/24/JVM/30.jpg">
+<meta property="og:image" content="http://example.com/2023/05/24/JVM/31.jpg">
 <meta property="article:published_time" content="2023-05-24T07:21:19.000Z">
-<meta property="article:modified_time" content="2023-05-26T14:26:54.522Z">
+<meta property="article:modified_time" content="2023-05-27T09:38:14.413Z">
 <meta property="article:author" content="swt">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2023/05/24/JVM/1.jpg">
@@ -240,7 +251,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          5.1k 字
+          9.9k 字
         
       </span>
     
@@ -251,7 +262,7 @@
         
         
         
-          43 分钟
+          83 分钟
         
       </span>
     
@@ -531,6 +542,237 @@
 <li>Parallel Old垃圾回收器：多线程处理，追求CPU高吞吐；</li>
 <li>CMS垃圾回收器：以获取最短用户停顿时间为目标的垃圾收集器，采用用户线程和回收线程并发执行，用户不会感觉到明显的停顿；</li>
 </ul>
+</blockquote>
+<h3 id="7、CMS垃圾收集器"><a href="#7、CMS垃圾收集器" class="headerlink" title="7、CMS垃圾收集器"></a>7、CMS垃圾收集器</h3><blockquote>
+<ul>
+<li>CMS全称并发标记清除垃圾回收器，在年轻代使用标记复制算法，在老年代使用标记清除算法，会造成内存碎片，只有通过full GC时，进行整理；</li>
+<li>主要是为了降低清除老年代时，避免长时停顿；</li>
+<li>UseCMSCompactAtFullCollection：默认开启，表示Full GC时，需要整理内存，不能和用户进程并发，会造成停顿；</li>
+</ul>
+<p>回收过程如下：</p>
+<ol>
+<li><p>初始标记：只标记和GC Root直接相连的对象，因为GC Root在追踪活对象时最为耗时，同时还要标记与年轻代相关的对象；会发生STW；</p>
+</li>
+<li><p>并发标记：在初始标记阶段，进行并发标记（标记所有可达对象）。该阶段最为耗时，但可以和用户进程并行。在该阶段，可能会有对象引用发生变化，引用发生变化的对象会被标记为dirty，用于后续重新扫描；</p>
+</li>
+<li><p>并发预清理：并发预清理被标记为dirty状态的对象，将dirty状态对象重新标记，清除dirty状态，该阶段和用户进程并发，因此可能还会出现dirty状态；</p>
+</li>
+<li><p>并发可取消的预清理：重新标记阶段是需要STW（停止用户线程），因此在满足某些条件时，可以终止标记，避免会扫年轻代大量对象；</p>
+</li>
+<li><p>最终标记：第二次STW，标记所有存活对象。之前的并发预清理阶段可能发生多次，可能赶不上应用变化清况，所以最终标记会STW，停止应用进程，最终标记所有存活对象；</p>
+</li>
+<li><p>并发清除：与用户进程并发进行，清除所有不可达对象，可能会产生新的垃圾（浮动垃圾），该部分垃圾只能等到下一次GC时才能被回收；</p>
+</li>
+<li><p>并发重置：重置与CMS相关的内部结构，为下一次GC做准备；</p>
+<img src="/2023/05/24/JVM/21.jpg" srcset="/img/loading.gif" lazyload class="" title="JVM"></li>
+</ol>
+</blockquote>
+<h3 id="8、G1垃圾收集器"><a href="#8、G1垃圾收集器" class="headerlink" title="8、G1垃圾收集器"></a>8、G1垃圾收集器</h3><blockquote>
+<ul>
+<li><p>-XX:MaxGCPauseMillis&#x3D;10，G1的参数，表示在任意1s时间内，停顿时间不能超过10ms；</p>
+</li>
+<li><p>G1将堆切分成很多小堆区（Region），每一个Region可以是Eden、Survivor或Old区；这些区在内存上不是连续存放的；</p>
+</li>
+<li><p>每一块Region大小都是相同的，大小为1-32M，若Region对象存储不下，大小超过Region50%的对象，将会存放到Humongous Region；</p>
+</li>
+<li><p>-XX:G1HeapRegionSize，可以调整Region大小；</p>
+</li>
+<li><p>-XX:G1HeapWastePercent：可以调整GC回收的阈值，默认为5%；只有达到这个阈值，GC才会回收对象，避免GC花费大量时间，回收内存却比较少；</p>
+</li>
+</ul>
+  <img src="/2023/05/24/JVM/22.jpg" srcset="/img/loading.gif" lazyload class="" title="JVM">
+</blockquote>
+<blockquote>
+<p><strong>垃圾回收过程：</strong></p>
+<ul>
+<li>G1“年轻代对象回收”，即Minor GC，发生时机为Eden满；</li>
+<li>老年代垃圾收集，他是一个并发标记过程，会顺便清理一点对象；</li>
+<li>混合清理，会同时清除年轻代和老年代对象；</li>
+</ul>
+<p><strong>RSet：</strong></p>
+<ul>
+<li><p>RSet记录的其他Region对象应用本Region对象的关系，是一个hash结构，key为引用的Region的地址，value为应用本Region的对象卡页集合；</p>
+</li>
+<li><p>有了该结构，回收对象时，不必堆整个堆内存对象进行扫描；</p>
+</li>
+<li><p>RSet占用空间较大，通常为5%；</p>
+<img src="/2023/05/24/JVM/23.jpg" srcset="/img/loading.gif" lazyload class="" title="JVM"></li>
+</ul>
+</blockquote>
+<h3 id="9、高并发下估算和调优"><a href="#9、高并发下估算和调优" class="headerlink" title="9、高并发下估算和调优"></a>9、高并发下估算和调优</h3><h4 id="（1）GC考量指标"><a href="#（1）GC考量指标" class="headerlink" title="（1）GC考量指标"></a>（1）GC考量指标</h4><blockquote>
+<ul>
+<li><p>系统容量：机器上的资源容量，资源容量限制比较严格的系统，对他的优化会越明显；</p>
+</li>
+<li><p>吞吐量：在一个时间段内完成多少事务操作；</p>
+</li>
+<li><p>延迟：等待时间；如查询一条sql，返回数据所等待时间；</p>
+<img src="/2023/05/24/JVM/24.jpg" srcset="/img/loading.gif" lazyload class="" title="JVM"></li>
+</ul>
+</blockquote>
+<h4 id="（2）选择垃圾收集器"><a href="#（2）选择垃圾收集器" class="headerlink" title="（2）选择垃圾收集器"></a>（2）选择垃圾收集器</h4><blockquote>
+<ul>
+<li>堆大小空间不是很大（如100MB），使用串行收集器效果最好，XX：+UseSerialGC；</li>
+<li>如果机器为单核CPU，选择串行收集器较好；</li>
+<li>如果应用为“吞吐优先”，并且堆停顿时间没有要求，使用并行收集器合适，XX:+UseParallelGC；</li>
+<li>如果应用对响应时间要求较高，使用G1，CMS，ZGC较为合适，-XX:+UseConcMarkSweepGC、-XX:+UseG1GC、-XX:+UseZGC ，但会额外使用资源处理；</li>
+</ul>
+</blockquote>
+<h4 id="（3）大流量应用特点"><a href="#（3）大流量应用特点" class="headerlink" title="（3）大流量应用特点"></a>（3）大流量应用特点</h4><blockquote>
+<ul>
+<li><p>对延迟非常敏感的应用，通常可以通过机器集群来解决；</p>
+</li>
+<li><p>考量系统指标有：</p>
+</li>
+<li><ul>
+<li>TPS：每秒处理的事务数量；</li>
+<li>AVG：平均响应时间；</li>
+<li>TP：表示机器有多少请求响应时间小于x毫秒；如TP80，代表有80%的请求响应时间小于x毫秒；</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h4 id="（4）估算"><a href="#（4）估算" class="headerlink" title="（4）估算"></a>（4）估算</h4><blockquote>
+<p>假设高峰请求6w&#x2F;s，共有10台机器，每个请求大小20k，则每台机器JVM的流量为120MB&#x2F;s</p>
+<img src="/2023/05/24/JVM/25.jpg" srcset="/img/loading.gif" lazyload class="" title="JVM">
+</blockquote>
+<h4 id="（5）调优"><a href="#（5）调优" class="headerlink" title="（5）调优"></a>（5）调优</h4><blockquote>
+<ul>
+<li>假设给JVM分配了5460MB空间，则年轻代占用空间为5460&#x2F;3&#x3D;1820MB，Eden区大小大约为1820&#x2F;10*8&#x3D;1456MB,按照上面估算的120MB&#x2F;s的流量，大约12s需要发生一次Minor GC；</li>
+<li>每隔半小时，会发送一次Major GC，Survivor区大小为182MB，若幸存下来的对象大于Survivor区内存大小，则会将对象直接分配到Old区，这样导致垃圾存储时间更长，只有Old区满了才能清除；</li>
+<li>大部分对象存活时间短，在Eden区发生GC后，会回收大量对象，我们可以分配一半的空间给Eden区，通过配置-XX:+UseConcMarkSweepGC -Xmx5460M -Xms5460M -Xmn2730M，Eden区发生GC时间为2730&#x2F;10*8&#x2F;120&#x3D;18s；</li>
+<li>调大年轻代，顺便调大幸村去，这样对象在年轻代存活时间越大；</li>
+<li>元空间在扩容时，会发生Full GC，默认大小为20MB，可以通过参数- -XX:MetaspaceSize&#x3D;256M -XX:MaxMetaspaceSize&#x3D;256M将其调大，减少发生Full GC；</li>
+</ul>
+</blockquote>
+<h3 id="10、OOM问题排查"><a href="#10、OOM问题排查" class="headerlink" title="10、OOM问题排查"></a>10、OOM问题排查</h3><h4 id="（1）分析那个线程影响CPU"><a href="#（1）分析那个线程影响CPU" class="headerlink" title="（1）分析那个线程影响CPU"></a>（1）分析那个线程影响CPU</h4><blockquote>
+<ol>
+<li>使用top命令查询占用CPU最多的线程，记录其pid，shitf+p可以按照CPU使用率进行排序；</li>
+<li>使用 top -H -p <pid> 查看进程中哪个线程占用CPU最高，记录线程id；</li>
+<li>将十进制是tid转换为16进制，printf  %x <tid>；</li>
+<li>将线程栈信息输入到文件，jstack <tid> &gt; &lt;tid.log&gt;;</li>
+<li>查看日志信息 less &lt;tid.log&gt;；</li>
+</ol>
+</blockquote>
+<h4 id="（2）内存泄漏"><a href="#（2）内存泄漏" class="headerlink" title="（2）内存泄漏"></a>（2）内存泄漏</h4><blockquote>
+<ul>
+<li>内存溢出是结果，内存泄漏是一个原因；</li>
+<li>不再被使用的对象，没有被切断和GC root链接，会导致内存泄漏；</li>
+<li>使用hashmap缓存数据时，没有使用LRU等策略，导致hashmap数据量越来越多，最终导致内存泄漏；</li>
+<li>操作文件读写时，没有将close放入finally中，最终导致文件描述符越来越多，导致内存泄漏；</li>
+</ul>
+</blockquote>
+<h3 id="11、JMM"><a href="#11、JMM" class="headerlink" title="11、JMM"></a>11、JMM</h3><h4 id="（1）JMM结构"><a href="#（1）JMM结构" class="headerlink" title="（1）JMM结构"></a>（1）JMM结构</h4><blockquote>
+<ul>
+<li><p>主存储器：所有实例对象存储的位置，实例所拥有的字段也存储在里面，是所有线程共享的；</p>
+</li>
+<li><p>工作存储器：每个线程都有自己的工作存储器，工作存储器存储主存储器所必要的数据拷贝；</p>
+</li>
+<li><p>线程无法直接对主存储器进行操作，只能通过主存进行通信；</p>
+<img src="/2023/05/24/JVM/26.jpg" srcset="/img/loading.gif" lazyload class="" title="JVM"></li>
+</ul>
+</blockquote>
+<h4 id="（2）操作类型"><a href="#（2）操作类型" class="headerlink" title="（2）操作类型"></a>（2）操作类型</h4><blockquote>
+<ul>
+<li><p>read：作用于主内存，将共享变量从主内存传送到工作内存中；</p>
+</li>
+<li><p>load：作用于工作内存，将read中的值读取到的值放入工作内存的变量副本中；</p>
+</li>
+<li><p>store：作用于工作内存，将工作内存中的变量副本传送到主内存中；</p>
+</li>
+<li><p>write：作用于主内存中，将strore的值写入到主内存的共享变量中；</p>
+</li>
+<li><p>use：作用域工作内存，会将工作内存的值传递给执行引擎，每当虚拟机需要使用该变量，就会执行该操作；</p>
+</li>
+<li><p>assign：作用于工作内存，每当虚拟机遇到一个赋值指令，就会把执行引擎中获取的值赋值给工作内存中的变量；</p>
+</li>
+<li><p>lock：作用于主内存，将变量标记为线程独占状态；</p>
+</li>
+<li><p>unlock：作用于主内存，释放独占状态；</p>
+<img src="/2023/05/24/JVM/27.jpg" srcset="/img/loading.gif" lazyload class="" title="JVM"></li>
+</ul>
+</blockquote>
+<h4 id="（3）三大特性"><a href="#（3）三大特性" class="headerlink" title="（3）三大特性"></a>（3）三大特性</h4><blockquote>
+<ul>
+<li><p>原子性：JMM 保证了 read、load、assign、use、store 和 write 六个操作具有原子性，除了long、double，其余基本数据类型都是原子性的；</p>
+</li>
+<li><p>可见性：一个线程修改了变量，会同步给主内存，赶在其他线程修改之前刷新主内存。使用volatile修饰变量，变量更新会立即同步到主内存中，其他线程修改该变量之前，需要到主内存中拉取变量更新到自己的工作内存；</p>
+</li>
+<li><p>有序性：在线程中观察，可以发现操作是有序的，而在另外一个线程中观察，操作是无序的；java中有一些默认的happen-before：</p>
+</li>
+<li><ul>
+<li>程序次序：一个线程内，按照代码顺序，写在前面的操作先行发生于写在后面的操作。</li>
+<li>监视器锁定：unLock 操作先行发生于后面对同一个锁的 lock 操作。</li>
+<li>volatile：对一个变量的写操作先行发生于后面对这个变量的读操作。</li>
+<li>传递规则：如果操作 A 先行发生于操作 B，而操作 B 又先行发生于操作 C，则操作 A 先行发生于操作 C。</li>
+<li>线程启动：对线程 start() 的操作先行发生于线程内的任何操作。</li>
+<li>线程中断：对线程 interrupt() 的调用先行发生于线程代码中检测到中断事件的发生，可以通过 Thread.interrupted() 方法检测是否发生中断。</li>
+<li>线程终结规则：线程中的所有操作先行发生于检测到线程终止，可以通过 Thread.join()、Thread.isAlive() 的返回值检测线程是否已经终止。</li>
+<li>对象终结规则：一个对象的初始化完成先行发生于它的 finalize() 方法的开始。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h4 id="（4）内存屏障"><a href="#（4）内存屏障" class="headerlink" title="（4）内存屏障"></a>（4）内存屏障</h4><blockquote>
+<ul>
+<li>load-load barriers：指令前插入load Barriers，会使高速缓存直接失效，强制重新从主内存加载数据；如下:load1数据的加载会先于load2及后面的数据的加载</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">load1<br>LoadLoad<br>load2<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>load-store Barriers：load1数据的加载会先于store2及后面数据存储指令加载到主内存；</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">load1<br>LoadStore<br>store2<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>store-store Barriers：store1数据写入主内存，优先于store2及后面的数据写入主内存，使用store barriers，能让写入缓存的数据最快加载如主内存，让其他线程可见；</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">store1<br>StoreStore<br>store2<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>store-load Barriers：在load2及后续所有读取操作执行之前，保证store1写入对多有处理器都可见；开销最大，涵盖前三条；</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">store1<br>StoreLoad<br>load2<br></code></pre></td></tr></table></figure>
+
+<h3 id="12、字节码看并发编程"><a href="#12、字节码看并发编程" class="headerlink" title="12、字节码看并发编程"></a>12、字节码看并发编程</h3><h4 id="（1）线程模型"><a href="#（1）线程模型" class="headerlink" title="（1）线程模型"></a>（1）线程模型</h4><blockquote>
+<ul>
+<li><p>对于java虚拟机中，每一个java线程会对应一个轻量级进程LWP；</p>
+</li>
+<li><p>轻量级线程是调用系统内核所提供的一套接口，实际上还需要调用内核线程KLT；</p>
+</li>
+<li><p>具体的概念，如创建，同步等，需要进行系统调用；</p>
+</li>
+<li><p>系统调用需要用户态和内核态进行切换，即上下文切换，开销较大；</p>
+<img src="/2023/05/24/JVM/28.jpg" srcset="/img/loading.gif" lazyload class="" title="JVM"></li>
+</ul>
+</blockquote>
+<h4 id="（2）Synchronized字节码"><a href="#（2）Synchronized字节码" class="headerlink" title="（2）Synchronized字节码"></a>（2）Synchronized字节码</h4><blockquote>
+<ul>
+<li>方法加上Synchronized关键字，字节码是在flag标志处加上同步标志；</li>
+</ul>
+<img src="/2023/05/24/JVM/29.jpg" srcset="/img/loading.gif" lazyload class="" title="JVM">
+
+<ul>
+<li>对对象使用synchronized，字节码是通过一套monitorenter，monitorexit来使用的</li>
+</ul>
+<img src="/2023/05/24/JVM/30.jpg" srcset="/img/loading.gif" lazyload class="" title="JVM">
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SynchronizedDemo</span> &#123;<br>    <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">m1</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;m1&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">final</span> <span class="hljs-type">Object</span> <span class="hljs-variable">lock</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>();<br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">doLock</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">synchronized</span> (lock) &#123;<br>            System.out.println(<span class="hljs-string">&quot;lock&quot;</span>);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="（3）对象内存布局"><a href="#（3）对象内存布局" class="headerlink" title="（3）对象内存布局"></a>（3）对象内存布局</h4><blockquote>
+<ul>
+<li>Mark Word：用来存储 hashCode、GC 分代年龄、锁类型标记、偏向锁线程 ID、CAS 锁指向线程 LockRecord 的指针等，synconized 锁的机制与这里密切相关；</li>
+<li>Class Point：用于执行对象所对应的类元数据信息，JVM通过他直到对象属于哪个Class；</li>
+<li>Instance Data：真正存储对象数据，如字段内容等；</li>
+<li>Padding：对象字节必须为8倍数，该字段会自动填充到8倍数；</li>
+</ul>
+<img src="/2023/05/24/JVM/31.jpg" srcset="/img/loading.gif" lazyload class="" title="JVM">
 </blockquote>
 
                 
