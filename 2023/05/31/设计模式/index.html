@@ -1,0 +1,792 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="swt">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1、适配器模式（1）概述  适配器中有一个适配器包装类Adapter，其包装的对象为适配者Adaptee，适配器作用就是将客户端请求转化为调用适配者中的接口； 当调用适配器中的方法时，适配器内部会调用适配者类的方法，这个调用对客户端是透明，实现了不同接口之间由于不兼容的类，可以相互调用；   （2）对象适配器  Target（目标抽象类）：可以是一个抽象类或接口，该类为客户端所需要的接口；  Ad">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式">
+<meta property="og:url" content="http://example.com/2023/05/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:site_name" content="SWT博客">
+<meta property="og:description" content="1、适配器模式（1）概述  适配器中有一个适配器包装类Adapter，其包装的对象为适配者Adaptee，适配器作用就是将客户端请求转化为调用适配者中的接口； 当调用适配器中的方法时，适配器内部会调用适配者类的方法，这个调用对客户端是透明，实现了不同接口之间由于不兼容的类，可以相互调用；   （2）对象适配器  Target（目标抽象类）：可以是一个抽象类或接口，该类为客户端所需要的接口；  Ad">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/05/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/1.jpg">
+<meta property="og:image" content="http://example.com/2023/05/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/2.jpg">
+<meta property="og:image" content="http://example.com/2023/05/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/3.jpg">
+<meta property="og:image" content="http://example.com/2023/05/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/4.jpg">
+<meta property="og:image" content="http://example.com/2023/05/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/5.jpg">
+<meta property="article:published_time" content="2023-05-31T13:34:00.000Z">
+<meta property="article:modified_time" content="2023-06-10T13:12:49.696Z">
+<meta property="article:author" content="swt">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2023/05/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/1.jpg">
+  
+  
+  
+  <title>设计模式 - SWT博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="设计模式"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-05-31 21:34" pubdate>
+          2023年5月31日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          67 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">设计模式</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="1、适配器模式"><a href="#1、适配器模式" class="headerlink" title="1、适配器模式"></a>1、适配器模式</h3><h4 id="（1）概述"><a href="#（1）概述" class="headerlink" title="（1）概述"></a>（1）概述</h4><blockquote>
+<ul>
+<li>适配器中有一个适配器包装类Adapter，其包装的对象为适配者Adaptee，适配器作用就是将客户端请求转化为调用适配者中的接口；</li>
+<li>当调用适配器中的方法时，适配器内部会调用适配者类的方法，这个调用对客户端是透明，实现了不同接口之间由于不兼容的类，可以相互调用；</li>
+</ul>
+</blockquote>
+<h4 id="（2）对象适配器"><a href="#（2）对象适配器" class="headerlink" title="（2）对象适配器"></a>（2）对象适配器</h4><blockquote>
+<ul>
+<li><p>Target（目标抽象类）：可以是一个抽象类或接口，该类为客户端所需要的接口；</p>
+</li>
+<li><p>Adapter（适配器类）:Adapter可以调用另外一个接口，对Target和Adaptee进行适配，Target通过Adapter可以调用Adaptee中的业务逻辑，对客户端是透明的；</p>
+</li>
+<li><p>Adaptee（适配者类）：定义了一个已经存在的接口，适配者类一般是一个具体的类，包含了客户需要调用的业务方法；</p>
+</li>
+<li><p>Adapter和Adaptee是关联关系；</p>
+<img src="/2023/05/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/1.jpg" srcset="/img/loading.gif" lazyload class="" title="设计模式"></li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//适配器</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Adapter</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Target</span>&#123;<br>    <span class="hljs-keyword">private</span> MySQLConnect mySQLConnect;<span class="hljs-comment">//适配者对象</span><br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Adapter</span><span class="hljs-params">(MySQLConnect mySQLConnect)</span>&#123;<br>        <span class="hljs-built_in">this</span>.mySQLConnect=mySQLConnect;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">connect</span><span class="hljs-params">()</span> &#123;<br>        mySQLConnect.mysqlConnect();<br>    &#125;<br>&#125;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Target</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">connect</span><span class="hljs-params">()</span>;<br>&#125;<br><span class="hljs-comment">//适配者</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MySQLConnect</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">mysqlConnect</span><span class="hljs-params">()</span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;数据库链接配置&quot;</span>);<br>    &#125;<br>&#125;<br><span class="hljs-comment">//测试</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Main</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        Target target=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Adapter</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">MySQLConnect</span>());<br>        target.connect();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="（3）类适配器"><a href="#（3）类适配器" class="headerlink" title="（3）类适配器"></a>（3）类适配器</h4><blockquote>
+<ul>
+<li>适配器和适配者之间的关系为继承；</li>
+<li>适配器实现了Target接口，继承了Adapteee类；</li>
+<li>当Target不是接口，而是抽象类，则无法使用类适配器，当Adaptee类被final修饰，也不能使用类适配器；</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//适配器类，其他代码和上一样</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Adapter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">MySQLConnect</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Target</span>&#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">connect</span><span class="hljs-params">()</span> &#123;<br>        mysqlConnect();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="（3）缺省适配器"><a href="#（3）缺省适配器" class="headerlink" title="（3）缺省适配器"></a>（3）缺省适配器</h4><blockquote>
+<ul>
+<li>ServiceInterface（适配者接口）：为一个接口，实现大量方法；</li>
+<li>AbstractServiceClass（缺省适配器类）：实现了适配者接口中所有方法，使用空方法形式；</li>
+<li>ConcreteServiceClass（业务类）：为缺省适配器的子类，在没有适配器之前，该类需要实现ServiceInterface中所有方法，引入适配器类后，只需要继承适配器类，实现对应的方法即可；</li>
+</ul>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">ServiceInterface</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">print</span><span class="hljs-params">()</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">eat</span><span class="hljs-params">()</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">smell</span><span class="hljs-params">()</span>;<br>&#125;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AbstractService</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ServiceInterface</span>&#123;<span class="hljs-comment">//缺省适配器</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">print</span><span class="hljs-params">()</span> &#123; &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">eat</span><span class="hljs-params">()</span> &#123; &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">smell</span><span class="hljs-params">()</span> &#123; &#125;<br>&#125;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ConcreteService</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractService</span>&#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">print</span><span class="hljs-params">()</span> &#123;<span class="hljs-comment">//重写打印接口</span><br>        System.out.println(<span class="hljs-string">&quot;打印&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="（4）总结"><a href="#（4）总结" class="headerlink" title="（4）总结"></a>（4）总结</h4><blockquote>
+<p>优点：</p>
+<ul>
+<li>目标类和适配者类解耦，通过引入一个适配器类来重用现有的适配者类，无序修改原有代码结构；</li>
+<li>增加了类的透明性和复用性，将业务代码封装在适配者类中，对于用户是透明的，同时适配者类可以被多个不同系统调用</li>
+<li>灵活性和扩展性好，通过配置文件切换适配器类，可以在原有基础上添加新的适配器类，符合开闭原则；</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>类适配器中只能适配一个适配者类，java不能多继承；</li>
+<li>对象适配器，在适配器重置换适配者类比较麻烦，需要先创建一个适配者类的子类，重写需要置换的方法，然后再将适配器适配到这个子类；</li>
+</ul>
+<p>使用场景：</p>
+<ul>
+<li>系统需要使用已有的接口，而这些接口不符合系统需求，甚至没有源代码；</li>
+<li>想创建一个可以重复使用的类，用于一些彼此之间没有太大关联的一些类，包括一些可能在将来引进的类一起工作；</li>
+</ul>
+</blockquote>
+<h3 id="2、工厂方法模式"><a href="#2、工厂方法模式" class="headerlink" title="2、工厂方法模式"></a>2、工厂方法模式</h3><h4 id="（1）概念"><a href="#（1）概念" class="headerlink" title="（1）概念"></a>（1）概念</h4><blockquote>
+<ul>
+<li>工厂方法定义一个创建对象的接口，让实现该接口的子类取实例化对象。</li>
+<li>工厂方法将对象的实例化延迟到其子类创建；</li>
+</ul>
+</blockquote>
+<h4 id="（2）角色"><a href="#（2）角色" class="headerlink" title="（2）角色"></a>（2）角色</h4><blockquote>
+<ul>
+<li><p>Product（抽象产品）：定义产品接口（某个类型产品），是工厂方法模式中，所有创建对象的公共父类；</p>
+</li>
+<li><p>ConcreteProduct（具体产品）：实现抽象产品的接口，即某种类型的具体产品，与一个具体工厂一一对应；</p>
+</li>
+<li><p>Factory（抽象工厂）：创建对象工厂的接口，声明工厂方法（Factory Method），用于返回一个产品，所有创建对象的工厂类都需要实现该接口；</p>
+</li>
+<li><p>ConcreteFactory（具体工厂）：实现抽象工厂的工厂方法，返回一个具体的产品；</p>
+<img src="/2023/05/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/2.jpg" srcset="/img/loading.gif" lazyload class="" title="设计模式"></li>
+</ul>
+</blockquote>
+<h4 id="（3）实现"><a href="#（3）实现" class="headerlink" title="（3）实现"></a>（3）实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Factory</span> &#123;<br>    <span class="hljs-keyword">public</span> Product <span class="hljs-title function_">create</span><span class="hljs-params">()</span>;<br>&#125;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MySQLFactory</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Factory</span>&#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Product <span class="hljs-title function_">create</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">MySQLProduct</span>();<br>    &#125;<br>&#125;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Factory</span> &#123;<span class="hljs-comment">//抽象工厂</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">connect</span><span class="hljs-params">()</span>&#123;<span class="hljs-comment">//对客户端隐藏调用具体产品的方法</span><br>        <span class="hljs-type">Product</span> <span class="hljs-variable">product</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">this</span>.create();<br>        product.connect();<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> Product <span class="hljs-title function_">create</span><span class="hljs-params">()</span>;<br>&#125;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MySQLFactory</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Factory</span>&#123;<span class="hljs-comment">//具体工厂</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Product <span class="hljs-title function_">create</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">MySQLProduct</span>();<br>    &#125;<br>&#125;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Main</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        Factory factory=<span class="hljs-keyword">new</span> <span class="hljs-title class_">MySQLFactory</span>();<span class="hljs-comment">//可以通过配置文件配置，进行工厂方法切换</span><br>        factory.connect();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="（4）总结-1"><a href="#（4）总结-1" class="headerlink" title="（4）总结"></a>（4）总结</h4><blockquote>
+<p>优点</p>
+<ul>
+<li>客户端只需要知道创建对象的工厂方法，工厂方法隐藏具体具体对象被实例化的细节，客户端无需关系对象如何创建，甚至无需关心对象的具体类名；</li>
+<li>当需要加入一个新的对象产品时，无需修改原系统，只需要新增一个具体对象类和对应的工厂类即可；</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>每新增一个产品，就需要新增对应的产品类和工厂类，增加系统复杂度，同时由更多类需要被系统加载，会给系统带来一些而外的开销；</li>
+<li>引入抽象层，增加系统抽象性和可理解性；</li>
+</ul>
+<p>使用场景：</p>
+<ul>
+<li>客户端不知道他所需要的类；</li>
+<li>抽象工厂类通过子类创建对象；</li>
+</ul>
+</blockquote>
+<h3 id="3、抽象工厂模式"><a href="#3、抽象工厂模式" class="headerlink" title="3、抽象工厂模式"></a>3、抽象工厂模式</h3><h4 id="（1）概述-1"><a href="#（1）概述-1" class="headerlink" title="（1）概述"></a>（1）概述</h4><blockquote>
+<ul>
+<li><p>产品等级结构：即产品的继承结构，一个抽象产品，多个相同的产品继承该抽象产品，一个抽象产品与其子类构成一个产品等级结构。如：电视机为抽象类，则海尔电视机，华普电视机，创维电视机为其子类，共同构成一个产品等级结构；</p>
+</li>
+<li><p>产品族：产品族是由同一个工厂产生的，位于不同产品等级结构的一组产品；</p>
+</li>
+<li><p>一个工厂负责生产一个产品族（即下图颜色相同的）；</p>
+</li>
+<li><p>抽象工厂会提供一个创建一系列相关或相互依赖的对象的接口，而无需指定他们的具体实现类；</p>
+<img src="/2023/05/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/3.jpg" srcset="/img/loading.gif" lazyload class="" title="设计模式"></li>
+</ul>
+</blockquote>
+<h4 id="（2）角色-1"><a href="#（2）角色-1" class="headerlink" title="（2）角色"></a>（2）角色</h4><blockquote>
+<ul>
+<li><p>AbstractFactory（抽象工厂）：声明一些列创建产品族的方法，每一个方法对应一个产品；</p>
+</li>
+<li><p>ConcreteFactory（具体工厂）：实现抽象工厂中的方法，用于创建一组具体产品，这些具体产品构成一个产品族，位于一个产品等级结构中；</p>
+</li>
+<li><p>AbstractProduct（抽象产品）：为每种产品生成一种接口，在抽象产品中声明了产品所具有的业务方法；</p>
+</li>
+<li><p>ConcreteProduct（具体产品）：他定义具体工厂生成的产品对象，实现抽象产品接口中声明的业务方法；</p>
+<img src="/2023/05/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/4.jpg" srcset="/img/loading.gif" lazyload class="" title="设计模式"></li>
+</ul>
+</blockquote>
+<h4 id="（3）实现-1"><a href="#（3）实现-1" class="headerlink" title="（3）实现"></a>（3）实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">AbstractFactory</span> &#123;<span class="hljs-comment">//抽象工厂</span><br>    <span class="hljs-keyword">public</span> AbstractProductA <span class="hljs-title function_">createProductA</span><span class="hljs-params">()</span>;<br>    <span class="hljs-keyword">public</span> AbstractProductB <span class="hljs-title function_">createProductB</span><span class="hljs-params">()</span>;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ConcreteProduct1</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">AbstractFactory</span>&#123;<span class="hljs-comment">//具体工厂1</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> AbstractProductA <span class="hljs-title function_">createProductA</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ProductA1</span>();<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> AbstractProductB <span class="hljs-title function_">createProductB</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ProductB1</span>();<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ConcreteProduct2</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">AbstractFactory</span>&#123;<span class="hljs-comment">//具体工厂2</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> AbstractProductA <span class="hljs-title function_">createProductA</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ProductA2</span>();<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> AbstractProductB <span class="hljs-title function_">createProductB</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ProductB2</span>();<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">AbstractProductA</span> &#123;<span class="hljs-comment">//抽象产品A</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">printA</span><span class="hljs-params">()</span>;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ProductA1</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">AbstractProductA</span>&#123;<span class="hljs-comment">//具体产品A--1</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">printA</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;产品A类--型号1类型&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ProductA2</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">AbstractProductA</span>&#123;<span class="hljs-comment">//具体产品A---2</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">printA</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;产品A类--型号2类型&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">AbstractProductB</span> &#123;<span class="hljs-comment">//抽象产品B</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">printB</span><span class="hljs-params">()</span>;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ProductB1</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">AbstractProductB</span>&#123;<span class="hljs-comment">//具体产品B--1</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">printB</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;产品B类--型号1类型&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ProductB2</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">AbstractProductB</span>&#123;<span class="hljs-comment">//具体产品B--2</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">printB</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;产品B类--型号2类型&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Main</span> &#123;<span class="hljs-comment">//测试类</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;工厂1生成对应1号类型的产品族&quot;</span>);<br>        AbstractFactory factory1=<span class="hljs-keyword">new</span> <span class="hljs-title class_">ConcreteProduct1</span>();<br>        factory1.createProductA().printA();<br>        factory1.createProductB().printB();<br><br>        System.out.println(<span class="hljs-string">&quot;工厂2生成对应的2号类型的产品族&quot;</span>);<br>        AbstractFactory factory2=<span class="hljs-keyword">new</span> <span class="hljs-title class_">ConcreteProduct2</span>();<br>        factory2.createProductA().printA();<br>        factory2.createProductB().printB();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="（4）总结-2"><a href="#（4）总结-2" class="headerlink" title="（4）总结"></a>（4）总结</h4><blockquote>
+<p>优点：</p>
+<ul>
+<li>客户端不需要知道产品如何创建，如果需要切换产品，更换一个具体工厂即可；</li>
+<li>增加新的产品族十分方便，无需修改原系统，符合开闭原则；</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>添加一个产品等级结构系列时，需要从修改原有系统中的所有工厂方法，不符合开闭原则；</li>
+</ul>
+<p>使用场景：</p>
+<ul>
+<li>一个系统不依赖对象的创建，组合，客户端无需知道对象如何创建；</li>
+<li>系统中有多个产品族，每次只使用一个产品族；</li>
+<li>同一个产品族中的产品将在一起使用，同一个产品族的产品可以没有任何关系，但必须是有一总共同约束；</li>
+</ul>
+</blockquote>
+<h3 id="4、装饰器模式"><a href="#4、装饰器模式" class="headerlink" title="4、装饰器模式"></a>4、装饰器模式</h3><h4 id="（1）概述-2"><a href="#（1）概述-2" class="headerlink" title="（1）概述"></a>（1）概述</h4><blockquote>
+<ul>
+<li>装饰模式可以在不改变原有对象的模式下，增加额外行为；</li>
+<li>可以动态给对象增加一些职责；</li>
+</ul>
+</blockquote>
+<h4 id="（2）角色-2"><a href="#（2）角色-2" class="headerlink" title="（2）角色"></a>（2）角色</h4><blockquote>
+<ul>
+<li><p>Component（抽象组件）：他是具体组件和装饰组件的父类，声明了具体组件实现的业务方法，为客户端提供以一致方式处理装饰前以及装饰后的组件；</p>
+</li>
+<li><p>ConcreteComponent（具体组件）：Component的子类，用于定义具体的组件方法，装饰器类可以给他增加额外职责；</p>
+</li>
+<li><p>Decorator（抽象装饰类）：Component子类，用于给具体组件添加新的职责，他维护一个指向抽象组件的应用，通过该应用可以调用装饰之前的组件，并通过起子类扩展职责；</p>
+</li>
+<li><p>ConcreteDecorator（具体装饰类）：抽象装饰类的子类，负责向具体组件添加新的职责；</p>
+<img src="/2023/05/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/5.jpg" srcset="/img/loading.gif" lazyload class="" title="设计模式"></li>
+</ul>
+</blockquote>
+<h4 id="（3）实现-2"><a href="#（3）实现-2" class="headerlink" title="（3）实现"></a>（3）实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Component</span> &#123;<span class="hljs-comment">//抽象组件</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">operation</span><span class="hljs-params">()</span>;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ConcreteComponent</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Component</span>&#123;<span class="hljs-comment">//具体组件</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">operation</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;组件操作&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Decorator</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Component</span>&#123;<span class="hljs-comment">//抽象装饰器</span><br>    <span class="hljs-keyword">private</span> Component component;<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Decorator</span><span class="hljs-params">(Component component)</span>&#123;<br>        <span class="hljs-built_in">this</span>.component=component;<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">operation</span><span class="hljs-params">()</span> &#123;<br>        component.operation();<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ConcreteDecoratorA</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Decorator</span>&#123;<span class="hljs-comment">//具体装饰类</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">ConcreteDecoratorA</span><span class="hljs-params">(Component component)</span> &#123;<br>        <span class="hljs-built_in">super</span>(component);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">operation</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-built_in">super</span>.operation();<br>        addState();<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addState</span><span class="hljs-params">()</span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;添加机器状态&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ConcreteDecoratorB</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Decorator</span> &#123;<span class="hljs-comment">//具体装饰类</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">ConcreteDecoratorB</span><span class="hljs-params">(Component component)</span> &#123;<br>        <span class="hljs-built_in">super</span>(component);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">operation</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-built_in">super</span>.operation();<br>        addMoney();<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addMoney</span><span class="hljs-params">()</span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;加钱，买更多机器投入操作&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Main</span> &#123;<span class="hljs-comment">//main方法</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        Component component=<span class="hljs-keyword">new</span> <span class="hljs-title class_">ConcreteComponent</span>();<br>        System.out.println(<span class="hljs-string">&quot;装饰器A-----------&quot;</span>);<br>        Decorator decorator=<span class="hljs-keyword">new</span> <span class="hljs-title class_">ConcreteDecoratorA</span>(component);<br>        decorator.operation();<br>        System.out.println(<span class="hljs-string">&quot;装饰器B---------------&quot;</span>);<br>        decorator=<span class="hljs-keyword">new</span> <span class="hljs-title class_">ConcreteDecoratorB</span>(component);<br>        decorator.operation();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="（4）总结-3"><a href="#（4）总结-3" class="headerlink" title="（4）总结"></a>（4）总结</h4><blockquote>
+<p>优点：</p>
+<ul>
+<li>装饰器比继承更加灵活，不会导致类个数急剧增加；</li>
+<li>可以动态的扩展一个对象功能，通过配置类可以在运行时选择不同的配置类，从而实现不同行为；</li>
+<li>可以对一个对象装饰多次，采用不同1装饰类可以组装出多个不同的行为；</li>
+<li>具体的组件类和装饰类可以独立添加，可以根据需要添加新的构建类和组件类，符合开闭原则；</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>会产生大量的小对象，这些小对象随着不断累积，会消耗大量内存；</li>
+<li>对于排错，需要多级查找；</li>
+</ul>
+<p>使用场景：</p>
+<ul>
+<li>在不影响其他对象的情况下，动态，透明的给一个对象添加职责；</li>
+<li>系统中存在大量独立的类，不可以使用装饰器模式，否则会产生大量的子类；</li>
+</ul>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>设计模式</div>
+      <div>http://example.com/2023/05/31/设计模式/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>swt</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年5月31日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/05/29/Zookeeper/" title="Zookeeper">
+                        <span class="hidden-mobile">Zookeeper</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
