@@ -31,8 +31,9 @@
 <meta property="og:image" content="http://example.com/2023/05/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/6.jpg">
 <meta property="og:image" content="http://example.com/2023/05/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/7.jpg">
 <meta property="og:image" content="http://example.com/2023/05/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/8.jpg">
+<meta property="og:image" content="http://example.com/2023/05/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/9.jpg">
 <meta property="article:published_time" content="2023-05-31T13:34:00.000Z">
-<meta property="article:modified_time" content="2023-07-01T06:24:54.973Z">
+<meta property="article:modified_time" content="2023-07-02T13:47:54.789Z">
 <meta property="article:author" content="swt">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2023/05/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/1.jpg">
@@ -228,7 +229,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          15k 字
+          17k 字
         
       </span>
     
@@ -239,7 +240,7 @@
         
         
         
-          127 分钟
+          146 分钟
         
       </span>
     
@@ -558,6 +559,39 @@
 <ul>
 <li>一个对象发生改变会影响多个对象，而这些对象之间相互无任何联系；</li>
 <li>链式触发，如A影响B，B影响C，。。。；</li>
+</ul>
+</blockquote>
+<h3 id="8、责任链模式"><a href="#8、责任链模式" class="headerlink" title="8、责任链模式"></a>8、责任链模式</h3><h4 id="（1）概述-6"><a href="#（1）概述-6" class="headerlink" title="（1）概述"></a>（1）概述</h4><blockquote>
+<p>避免请求发送者和接收者耦合在一起，让多个对象都可以接收请求，将这些对象合成一条链，并且沿着这条链传递请求，直到有对象处理该请求为止；</p>
+</blockquote>
+<h4 id="（2）角色-6"><a href="#（2）角色-6" class="headerlink" title="（2）角色"></a>（2）角色</h4><blockquote>
+<ul>
+<li><p>Handler（抽象处理者）：定义了一个处理请求的接口，不同的处理者对每一个请求的处理方式不同，因此定义抽象处理者。每一个处理者的下一个还是处理者，在抽象类中定义一个处理者对象，用于对下一个处理者的调用；</p>
+</li>
+<li><p>ConcreteHandler（具体处理者）：抽象处理者的实现类，实现具体的请求处理方法，处理请求之前需要先判断是否有权限处理，有则处理，否则将请求转发给下一个处理者；</p>
+<img src="/2023/05/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/9.jpg" srcset="/img/loading.gif" lazyload class="" title="设计模式"></li>
+</ul>
+</blockquote>
+<h4 id="（3）实现-6"><a href="#（3）实现-6" class="headerlink" title="（3）实现"></a>（3）实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Data</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Handler</span> &#123;<br>    <span class="hljs-keyword">protected</span> Handler handler;<span class="hljs-comment">//下一个处理者</span><br>    <span class="hljs-keyword">protected</span> String name;<span class="hljs-comment">//姓名</span><br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Handler</span><span class="hljs-params">(String name)</span>&#123;<br>        <span class="hljs-built_in">this</span>.name=name;<br>    &#125;<br><br>    <span class="hljs-comment">//处理请求逻辑方法</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">processorHandler</span><span class="hljs-params">(<span class="hljs-type">int</span> money)</span>;<br>&#125;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ConcreteHandlerA</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Handler</span>&#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">ConcreteHandlerA</span><span class="hljs-params">(String name)</span>&#123;<br>        <span class="hljs-built_in">super</span>(name);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><span class="hljs-comment">//可以审批5000元以下</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">processorHandler</span><span class="hljs-params">(<span class="hljs-type">int</span> money)</span> &#123;<br>        <span class="hljs-keyword">if</span> (money&lt;=<span class="hljs-number">5000</span>)&#123;<br>            System.out.println(name+<span class="hljs-string">&quot;进行审批，审批通过&quot;</span>);<br>        &#125;<span class="hljs-keyword">else</span> &#123;<br>            System.out.println(name+<span class="hljs-string">&quot;无法审批金额，流转下一个审批者&quot;</span>);<br>            handler.processorHandler(money);<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ConcreteHandlerB</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Handler</span>&#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">ConcreteHandlerB</span><span class="hljs-params">(String name)</span>&#123;<br>        <span class="hljs-built_in">super</span>(name);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><span class="hljs-comment">//可以审批5000-20000</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">processorHandler</span><span class="hljs-params">(<span class="hljs-type">int</span> money)</span> &#123;<br>        <span class="hljs-keyword">if</span> (money&gt;<span class="hljs-number">5000</span>&amp;&amp;money&lt;=<span class="hljs-number">20000</span>)&#123;<br>            System.out.println(name+<span class="hljs-string">&quot;进行审批，审批通过&quot;</span>);<br>        &#125;<span class="hljs-keyword">else</span> &#123;<br>            System.out.println(name+<span class="hljs-string">&quot;无法审批金额，流转下一个审批者&quot;</span>);<br>            handler.processorHandler(money);<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ConcreteHandlerC</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Handler</span>&#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">ConcreteHandlerC</span><span class="hljs-params">(String name)</span>&#123;<br>        <span class="hljs-built_in">super</span>(name);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><span class="hljs-comment">//可以审批20000以上</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">processorHandler</span><span class="hljs-params">(<span class="hljs-type">int</span> money)</span> &#123;<br>        <span class="hljs-keyword">if</span> (money&gt;<span class="hljs-number">20000</span>)&#123;<br>            System.out.println(name+<span class="hljs-string">&quot;进行审批，审批通过&quot;</span>);<br>        &#125;<span class="hljs-keyword">else</span> &#123;<br>            System.out.println(name+<span class="hljs-string">&quot;无法审批金额，流转下一个审批者&quot;</span>);<br>            handler.processorHandler(money);<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Main</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        Handler handlerA=<span class="hljs-keyword">new</span> <span class="hljs-title class_">ConcreteHandlerA</span>(<span class="hljs-string">&quot;主管&quot;</span>);<br>        Handler handlerB=<span class="hljs-keyword">new</span> <span class="hljs-title class_">ConcreteHandlerB</span>(<span class="hljs-string">&quot;经理&quot;</span>);<br>        Handler handlerC=<span class="hljs-keyword">new</span> <span class="hljs-title class_">ConcreteHandlerC</span>(<span class="hljs-string">&quot;董事长&quot;</span>);<br>        <span class="hljs-comment">//设置下一个处理者</span><br>        handlerA.setHandler(handlerB);<br>        handlerB.setHandler(handlerC);<br>        handlerA.processorHandler(<span class="hljs-number">30000</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="（4）总结-7"><a href="#（4）总结-7" class="headerlink" title="（4）总结"></a>（4）总结</h4><blockquote>
+<p>优点：</p>
+<ul>
+<li>发送者和接收者都没有对方的信息，只知道请求会被处理，降低系统耦合度；</li>
+<li>职责链的处理更加灵活，可以动态增加和删除处理者，来改变处理一个请求的职责；</li>
+<li>增加一个新的请求者无需修改原有代码，只需添加新连接即可，符合开闭原则；</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>请求没有明确接收者，可能导致请求走完职责链也并未被处理；</li>
+<li>请求处理需要多个对象进行处理，系统性能将受一定的影响；</li>
+<li>创建的连接不当，可能会造成系统死循环；</li>
+</ul>
+<p>使用场景：</p>
+<ul>
+<li>多个对象处理一个请求，请求需要等到运行时才能确定哪一个处理者处理；</li>
+<li>不明确处理者对象，向多个对象提交一个请求；</li>
+<li>指定一组对象进行处理，客户端可以动态添加处理对象，并且可以改变顺序；</li>
 </ul>
 </blockquote>
 
