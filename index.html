@@ -224,6 +224,39 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2023/07/08/dubbo/" target="_self">
+          dubbo
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/07/08/dubbo/" target="_self">
+        <div>
+          1、架构 Registry（注册中心）：负责服务地址的注册与查找，Provider和consumer只在启动时与Registry交互，当Provider宕机时，Registry会通知给对应的Consumer； Provider（服务提供者）：在启动时，会向注册中心进行注册，将自己的服务地址和相关配置封装成url注册到zookeeper中； Consumer（服务消费者）：在启动时，会向注册中心进行
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-07-08 16:20" pubdate>
+              2023-07-08
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2023/05/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" target="_self">
           设计模式
         </a>
@@ -265,7 +298,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2023/05/29/Zookeeper/" target="_self">
         <div>
-          
+          1、数据模型（1）节点类型和特性 以树状形式存储，以“&#x2F;”开始，只能使用绝对路径访问； 持久节点：一旦创建就会一直保存在zookeeper中，即时客户端与服务端会话结束，依旧存在，需要调用delete进行节点删除； 临时节点：节点的存活，随着客户端与服务端会话的关闭，节点会删除，我们可以在集群中使用临时节点，当机器下线时，会自动删除临时节点，可以根据节点数量统计集群运行清况； 有序节点：
         </div>
       </a>
 
@@ -279,6 +312,13 @@
           </div>
         
         
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/zookeeper%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">#zookeeper学习笔记</a>
+            
+          </div>
         
       </div>
     </article>
@@ -506,39 +546,6 @@
             <i class="iconfont icon-date"></i>
             <time datetime="2023-03-18 10:45" pubdate>
               2023-03-18
-            </time>
-          </div>
-        
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2023/03/17/hello-world/" target="_self">
-          Hello World
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/03/17/hello-world/" target="_self">
-        <div>
-          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-03-17 23:09" pubdate>
-              2023-03-17
             </time>
           </div>
         
