@@ -24,8 +24,13 @@
 <meta property="og:description" content="1、架构 Registry（注册中心）：负责服务地址的注册与查找，Provider和consumer只在启动时与Registry交互，当Provider宕机时，Registry会通知给对应的Consumer； Provider（服务提供者）：在启动时，会向注册中心进行注册，将自己的服务地址和相关配置封装成url注册到zookeeper中； Consumer（服务消费者）：在启动时，会向注册中心进行">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2023/07/08/dubbo/1.jpg">
+<meta property="og:image" content="http://example.com/2023/07/08/dubbo/2.jpg">
+<meta property="og:image" content="http://example.com/2023/07/08/dubbo/3.jpg">
+<meta property="og:image" content="http://example.com/2023/07/08/dubbo/4.jpg">
+<meta property="og:image" content="http://example.com/2023/07/08/dubbo/5.jpg">
+<meta property="og:image" content="http://example.com/2023/07/08/dubbo/6.jpg">
 <meta property="article:published_time" content="2023-07-08T08:20:32.000Z">
-<meta property="article:modified_time" content="2023-07-08T08:23:46.663Z">
+<meta property="article:modified_time" content="2023-07-12T14:48:21.555Z">
 <meta property="article:author" content="swt">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2023/07/08/dubbo/1.jpg">
@@ -221,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          477 字
+          3.8k 字
         
       </span>
     
@@ -232,7 +237,7 @@
         
         
         
-          4 分钟
+          32 分钟
         
       </span>
     
@@ -282,6 +287,87 @@
 <li>Monitor（监控中心）：用于统计服务的调用次数和调用时间，Provider和Consumer每分钟发送一次统计数据到监控中心中，监控中心宕机不影响服务使用；</li>
 </ul>
 <img src="/2023/07/08/dubbo/1.jpg" srcset="/img/loading.gif" lazyload class="" title="dubbo">
+
+<h3 id="2、URL"><a href="#2、URL" class="headerlink" title="2、URL"></a>2、URL</h3><ul>
+<li>Dubbo使用URL描述所有对象和配置信息，URL是Dubbo数据传输的规则；</li>
+<li>protocol：dubbo协议；</li>
+<li>username&#x2F;password：下面url没有用户名和密码；</li>
+<li>host:port：127.0.0.1:20880</li>
+<li>path（请求路径）：org.apache.dubbo.demo.DemoService</li>
+<li>parameters：？后面的都为参数键值对</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">dubbo:<span class="hljs-comment">//127.0.0.1:20880/org.apache.dubbo.demo.DemoService?anyhost=true</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="3、Dubbo-SPI"><a href="#3、Dubbo-SPI" class="headerlink" title="3、Dubbo SPI"></a>3、Dubbo SPI</h3><h4 id="（1）Duboo-SPI与JDK-SPI不同点"><a href="#（1）Duboo-SPI与JDK-SPI不同点" class="headerlink" title="（1）Duboo SPI与JDK SPI不同点"></a>（1）Duboo SPI与JDK SPI不同点</h4><ul>
+<li><p>JDK SPI机制缺点：JDK查找扩展接口实现类时，会创建所有实现类，会造成资源浪费；</p>
+</li>
+<li><p>Dubbo SPI分为三层目录：</p>
+</li>
+<li><ul>
+<li>META-INF&#x2F;services&#x2F;：该目录下用于兼容JDK SPI；</li>
+<li>META-INF&#x2F;dubbo&#x2F;：改目录用于存放用户自定义的SPI配置文件；</li>
+<li>META-INF&#x2F;dubbo&#x2F;internal&#x2F;：Dubbo内部使用的SPI配置文件；</li>
+</ul>
+</li>
+<li><p>SPI配置文件存储方式为KV形式，Key为扩展名，Value为实现类全限定类名，但我们查找SPI接口实现类时，可以指定扩展名，即使用对应扩展名对应的实现类；</p>
+</li>
+</ul>
+<img src="/2023/07/08/dubbo/2.jpg" srcset="/img/loading.gif" lazyload class="" title="dubbo">
+
+<ul>
+<li>@SPI(“value”)注解标注的接口即为扩展接口（通过SPI查找并实现的接口），value为默认的扩展名称（实现类对应的Key），若没有指定扩展名，则会采用value这个值对应的实现类；</li>
+</ul>
+<h4 id="（2）SPI查找以及相应扩展类实例化步骤"><a href="#（2）SPI查找以及相应扩展类实例化步骤" class="headerlink" title="（2）SPI查找以及相应扩展类实例化步骤"></a>（2）SPI查找以及相应扩展类实例化步骤</h4><ol>
+<li>根据扩展名从cacheClasses获取对应的扩展实现类名，若未查找到，则会通过扫描Dubbo SPI的三层目录中的SIP配置文件，并缓存到cacheClasses中；</li>
+<li>根据扩展类名，从EXTENSION_INSTANCE中获取实例对象，获取失败，通过反射创建实例对象；</li>
+<li>自动装配实例对象中的属性；</li>
+<li>自动包装扩展实现类，会封装多个实现类的公共逻辑；</li>
+<li>若实现LifeCycle接口，在initExtension方法中会调用initalize（）初始化方法；</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> T <span class="hljs-title function_">createExtension</span><span class="hljs-params">(String name, <span class="hljs-type">boolean</span> wrap)</span> &#123;<br>    Class&lt;?&gt; clazz = getExtensionClasses().get(name);<span class="hljs-comment">//获取扩展类名</span><br>    <span class="hljs-keyword">if</span> (clazz == <span class="hljs-literal">null</span> || unacceptableExceptions.contains(name)) &#123;<br>        <span class="hljs-keyword">throw</span> findException(name);<br>    &#125;<br>    <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-type">T</span> <span class="hljs-variable">instance</span> <span class="hljs-operator">=</span> (T) extensionInstances.get(clazz);<span class="hljs-comment">//获取扩展类实例对象</span><br>        <span class="hljs-keyword">if</span> (instance == <span class="hljs-literal">null</span>) &#123;<span class="hljs-comment">//获取不到，反射创建</span><br>            extensionInstances.putIfAbsent(clazz, createExtensionInstance(clazz));<br>            instance = (T) extensionInstances.get(clazz);<br>            instance = postProcessBeforeInitialization(instance, name);<br>            injectExtension(instance);<br>            instance = postProcessAfterInitialization(instance, name);<br>        &#125;<br><br>        <span class="hljs-keyword">if</span> (wrap) &#123;<br>            <span class="hljs-comment">//wrapper包装</span><br>        &#125;<br>    	<span class="hljs-comment">//实现lifeCycle接口，调用initalize（）方法</span><br>        initExtension(instance);<br>        <span class="hljs-keyword">return</span> instance;<br>    &#125; <span class="hljs-keyword">catch</span> (Throwable t) &#123;<br>        <span class="hljs-comment">//代码忽略</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="4、定时任务"><a href="#4、定时任务" class="headerlink" title="4、定时任务"></a>4、定时任务</h3><h4 id="（1）核心接口"><a href="#（1）核心接口" class="headerlink" title="（1）核心接口"></a>（1）核心接口</h4><ul>
+<li>TimeTask：定义一个run（）方法，dubbo中所有定时任务继承该接口，run方法中为定时任务执行的逻辑；</li>
+<li>Timeout：与一个TImeTask关联，通过Timeout可以查询TImeTask的状态信息，以及操作TImeTask；</li>
+</ul>
+<img src="/2023/07/08/dubbo/3.jpg" srcset="/img/loading.gif" lazyload class="" title="dubbo">
+
+<ul>
+<li>Timer：定义一个定时器的基本行为，newTimeout（）方法为提交一个定时任务（TimeTask），并放回一个TImeout；</li>
+</ul>
+<img src="/2023/07/08/dubbo/4.jpg" srcset="/img/loading.gif" lazyload class="" title="dubbo">
+
+<h4 id="（2）核心类"><a href="#（2）核心类" class="headerlink" title="（2）核心类"></a>（2）核心类</h4><ul>
+<li><p>HashedWheelTimeout：</p>
+</li>
+<li><ul>
+<li>Timeout接口的唯一实现类，是一个双向链表中的节点，封装TimeTask的容器；</li>
+<li>定时任务TimeTask提交到HashedWheelTimer中返回的处理器，可以查看定时任务的状态和操作定时任务；</li>
+</ul>
+</li>
+<li><p>HashedWheelBucket：定时任务时间轮中的一个元素（即数组的一格），每一个元素对应一个双向链表，每个双向链表的节点是HashedWheelTimeout，持有双向链表的head和tail；</p>
+</li>
+<li><p>HashedWheelTImer：Timer接口的实现类，通过时间轮算法实现一个定时器，HashedWheelTimer会根据当前时间轮指定的元素（HashedWheelBucket），遍历该元素的双向链表的每一个节点（HashWheelTimeout）进行计算，若为当前时间，则取出，否则时间周期减1；</p>
+</li>
+</ul>
+<img src="/2023/07/08/dubbo/5.jpg" srcset="/img/loading.gif" lazyload class="" title="dubbo">
+
+<h4 id="（3）定时任务时间轮转动一次过程"><a href="#（3）定时任务时间轮转动一次过程" class="headerlink" title="（3）定时任务时间轮转动一次过程"></a>（3）定时任务时间轮转动一次过程</h4><ol>
+<li>清理过期的定时任务，过期定时任务存放在cancelledTImeouts队列中；</li>
+<li>将缓存在timeouts队列（存放外部刚提交的定时任务）中的定时任务，添加到时间轮中对应槽位的双向链表中；</li>
+<li>处理时间轮对应槽位双向链表中的每一个定时任务；</li>
+<li>如果任然处于运行状态，继续步骤1，2，3，否则执行以下步骤；</li>
+<li>将槽位中未被执行的定时任务和timeouts中未被执行的定时任务添加到unprocessedTimeouts队列中；</li>
+<li>最后再次清理取消的定时任务；</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-comment">//代码忽略</span><br><br>    <span class="hljs-keyword">do</span> &#123;<br>        <span class="hljs-keyword">final</span> <span class="hljs-type">long</span> <span class="hljs-variable">deadline</span> <span class="hljs-operator">=</span> waitForNextTick();<br>        <span class="hljs-keyword">if</span> (deadline &gt; <span class="hljs-number">0</span>) &#123;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">idx</span> <span class="hljs-operator">=</span> (<span class="hljs-type">int</span>) (tick &amp; mask);<br>            processCancelledTasks();<span class="hljs-comment">//清理过期定时任务</span><br>            <span class="hljs-type">HashedWheelBucket</span> <span class="hljs-variable">bucket</span> <span class="hljs-operator">=</span> wheel[idx];<br>            transferTimeoutsToBuckets();<span class="hljs-comment">//添加外部定时任务到槽位</span><br>            bucket.expireTimeouts(deadline);<span class="hljs-comment">//执行定时任务</span><br>            tick++;<br>        &#125;<br>    &#125; <span class="hljs-keyword">while</span> (WORKER_STATE_UPDATER.get(HashedWheelTimer.<span class="hljs-built_in">this</span>) == WORKER_STATE_STARTED);<br><br>    <span class="hljs-keyword">for</span> (HashedWheelBucket bucket : wheel) &#123;<br>        bucket.clearTimeouts(unprocessedTimeouts);<span class="hljs-comment">//添加未被执行的定时任务</span><br>    &#125;<br>    <span class="hljs-keyword">for</span> (; ; ) &#123;<br>        <span class="hljs-type">HashedWheelTimeout</span> <span class="hljs-variable">timeout</span> <span class="hljs-operator">=</span> timeouts.poll();<br>        <span class="hljs-keyword">if</span> (timeout == <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (!timeout.isCancelled()) &#123;<br>            unprocessedTimeouts.add(timeout);<span class="hljs-comment">//添加未被执行的定时任务</span><br>        &#125;<br>    &#125;<br>    processCancelledTasks();<span class="hljs-comment">//清理取消的定时任务</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="（4）Duboo中的应用"><a href="#（4）Duboo中的应用" class="headerlink" title="（4）Duboo中的应用"></a>（4）Duboo中的应用</h4><ul>
+<li>dubbo是在每一次执行完定时任务时，调用newTImeout（）方法再次提交任务，这样便会在下一个周期执行；</li>
+<li>任务即使发送阻塞，也不会导致系统发送阻塞，因为下一个任务需要等该任务执行完才可以添加进来；</li>
+<li>具体应用：provider向注册中心注册时失败，不断发起重试机制、心跳机制、请求超时处理；</li>
+</ul>
+<img src="/2023/07/08/dubbo/6.jpg" srcset="/img/loading.gif" lazyload class="" title="dubbo">
 
                 
               </div>
