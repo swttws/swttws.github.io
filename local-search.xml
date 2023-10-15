@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>Hadoop</title>
+    <link href="/2023/10/15/Hadoop/"/>
+    <url>/2023/10/15/Hadoop/</url>
+    
+    <content type="html"><![CDATA[<h3 id="1、分布式文件系统HDFS"><a href="#1、分布式文件系统HDFS" class="headerlink" title="1、分布式文件系统HDFS"></a>1、分布式文件系统HDFS</h3><h4 id="（1）架构设计"><a href="#（1）架构设计" class="headerlink" title="（1）架构设计"></a>（1）架构设计</h4><ul><li>NameNode：管理DataNode节点，维护文件系统名称空间（记录名称空间的任何修改），存储元数据信息（存储在内存中），如块的位置信息，副本信息，同时会在磁盘存储一份镜像信息；</li><li>DataNode：存储实际业务信息，会定期发送心跳信息给NameNode节点；</li><li>块：Hadoop文件存储的最小单位，默认大小为128MB，会根据实际文件的大小，来调整块的大小；</li><li>副本机制：提供数据容错特性，每个数据会存储三个块，且存储在不同的DataNode上。NameNode定期接收DataNode上的块信息来维护副本，当副本数量大于副本因子，NameNode会定期删除多出的块副本，反之则增加块副本；</li></ul><img src="/2023/10/15/Hadoop/1.jpg" class="" title="Hadoop"><h4 id="（2）写数据原理"><a href="#（2）写数据原理" class="headerlink" title="（2）写数据原理"></a>（2）写数据原理</h4><ul><li>客户端接收到写文件请求，将文件按照128MB大小的块进行拆分；</li><li>对NameNode发起写入三备份副本请求，NameNode返回写入DataNode的信息（根据距离升序排序）；</li><li>客户端将文件写入最近的DataNode，对应DataNode依次将文件信息同步给后面的DataNode；</li><li>DataNode写完文件信息后，通知NameNode，NameNode保存元素据信息到磁盘中；</li></ul><img src="/2023/10/15/Hadoop/2.jpg" class="" title="Hadoop"><h4 id="（3）读数据原理"><a href="#（3）读数据原理" class="headerlink" title="（3）读数据原理"></a>（3）读数据原理</h4><ul><li>客户端向NameNode节点获取文件信息；</li><li>NameNode获取该文件的所有块信息，并获取每个块对应的DataNode节点，根据距离升序排序；</li><li>客户端根据距离，下载每一个块；</li></ul><img src="/2023/10/15/Hadoop/3.jpg" class="" title="Hadoop"><h4 id="（4）故障检测方法"><a href="#（4）故障检测方法" class="headerlink" title="（4）故障检测方法"></a>（4）故障检测方法</h4><h5 id="①故障检测方法"><a href="#①故障检测方法" class="headerlink" title="①故障检测方法"></a>①故障检测方法</h5><img src="/2023/10/15/Hadoop/4.jpg" class="" title="Hadoop"><h5 id="②读写故障处理"><a href="#②读写故障处理" class="headerlink" title="②读写故障处理"></a>②读写故障处理</h5><img src="/2023/10/15/Hadoop/5.jpg" class="" title="Hadoop"><h5 id="③DataNode故障处理"><a href="#③DataNode故障处理" class="headerlink" title="③DataNode故障处理"></a>③DataNode故障处理</h5><img src="/2023/10/15/Hadoop/6.jpg" class="" title="Hadoop">]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>dubbo</title>
     <link href="/2023/07/08/dubbo/"/>
     <url>/2023/07/08/dubbo/</url>
